@@ -1,0 +1,12 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#set ($childStructures = $puppetModules)
+
+#foreach ($machineName in $childStructures.keySet())
+	node "$machineName" {
+		#foreach($moduleName in $childStructures.get($machineName))
+			include $moduleName
+		#end
+	}
+#end	
+

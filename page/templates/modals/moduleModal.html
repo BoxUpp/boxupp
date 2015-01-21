@@ -1,0 +1,86 @@
+<div class="modal fade" id="moduleModal" data-backdrop="static" tabindex="-3" role="dialog" aria-labelledby="moduleLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		    	<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Search for a module</h4>
+		        </div>
+		        <div class="modal-body">
+					<div id="moduleConfigContent" class="tab-content" style="position:relative;">
+					<form ng-submit="searchNewModule(moduleSearchText)">
+						<div class="container-fluid">
+							<div class="moduleConfig"> <span class="moduleConfigTitles" >Search for a module:<sup>*</sup></span>
+				              <input type="text"
+							   ng-model="moduleSearchText" placeholder="Enter Your Search Query Here"
+							   class="form-control" 
+							   />
+				            </div>
+						</div>
+						</form>
+					</div>
+					<div id="moduleSearchResultsLoader" ng-class="{'expanded' : searchingModules, 'collapsed' : !searchingModules}">
+						
+							<div class="col-md-12 text-center">
+								<span class="searchLoader">
+									<i class="fa fa-refresh fa-spin"></i>
+								</span>
+							</div>
+						
+					</div>
+					<div id="moduleSearchResults" ng-class="{'collapsed' : searchingModules, 'expanded' : !searchingModules}">
+						<div class="container-fluid">
+							<div ng-repeat="module in moduleResults">
+								
+									<div class="moduleContent">
+										<div class="moduleMetaData">
+											<div class="moduleName col-md-2 pull-left">{{module.name}}</div>	
+											<div class="moduleCurrentReleaseVer col-md-2">
+												<span class="moduleCurrentVersion">
+													<i class="fa fa-file-o"></i>
+												</span> {{module.current_release.version}}
+											</div>
+											<div class="moduleSupport col-md-3">
+												<span class="moduleOfficialSupport">
+													officialy supported - 
+													<i ng-class="{'fa fa-check':module.supported, 'fa fa-close':!module.supported}"></i>
+												</span>
+											</div>
+											<div class="moduleOwnerDescription col-md-offset-3 col-md-1">
+												<div class="moduleOwnerGravatar"><img ng-src="http://www.gravatar.com/avatar/{{module.owner.gravatar_id}}"></div>
+												<div class="moduleOwnerName">{{module.owner.username}}</div>						
+											</div>											
+										</div>
+										<!--<hr>-->
+										
+										<div class="moduleDescription">
+											<!--<a class="btn btn-info" ng-click="downloadNewModule(module)" ng-disabled="module.downloading" ng-init="module.downloadButtonText = 'Download'">
+												{{module.downloadButtonText}}
+											</a>-->
+											<div class="moduleSummary col-md-10">
+												<span ng-bind="module.current_release.metadata.summary"></span>
+											</div>
+											<div class="moduleDownload col-md-1">
+												<a class="btn btn-success" ng-click="downloadNewModule(module)" ng-disabled="module.downloading" ng-init="module.downloadButtonText = 'Download'"><i class="fa fa-download"></i> {{module.downloadButtonText}}</a>
+											</div>
+										</div>
+										<div class="moduleSearchDataFooter">
+											
+												<div class="moduleDownloads col-md-4">
+													<span class="totalModuleDownloads">
+														<i class="fa fa-download"></i>
+													</span>	{{module.downloads}}  downloads so far
+												</div>
+											
+										</div>
+									</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" ng-click="searchNewModule(moduleSearchText)">Search</button>
+				</div>
+			</div>
+		</div>
+	</div>

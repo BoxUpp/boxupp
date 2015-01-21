@@ -1,0 +1,24 @@
+<div class="col-md-2" id="sidebar"style="background:grey; position:fixed;left:0;bottom:0;top:51px; padding-top:20px;">
+					  		
+	<div class="panel panel-default nodesPanel">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Boxes</h3>
+	  </div>
+	  <div class="panel-body">
+	    <p><a href="#" ng-click="addNewVM()">Add node</a></p>
+	    <ul class="list-group nodesList">
+		    <li ng-repeat="box in boxesData" class="boxes list-group-item">
+				<input id="{{'box'+ $index}}" name="{{'box'+$index}}" type="radio" ng-model="$parent.nodeSelected" ng-value="$index" ng-change="selectNode($index)">
+				<label for="{{'box' + $index}}"><span class="icon-desktop"></span>{{box.vagrantID}}</label>
+				<div id="contextMenu">
+					<button type="button" name="clone" class="nodeActions" title="Clone Node" ng-click="cloneVM($index)"><i class="clone-icon"></i></button>
+					<button type="button" name="delete" class="nodeActions" title="Delete Node"ng-click="removeVM($index)"><i class="delete-icon"></i></button>
+				</div>
+				<span ng-show="!box.isValid" id="boxValidStatus">
+					<i class="icon-exclamation"></i>
+				</span>
+			</li>
+		</ul>
+	  </div>
+	</div>
+</div>

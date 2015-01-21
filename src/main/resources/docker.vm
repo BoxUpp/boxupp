@@ -1,0 +1,91 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+	#set ($counter = 1)
+	#set ($hostnameMarker = ".vm.hostname")
+	#set ($boxMarker = ".vm.box")
+	#set ($boxURLMarker = ".vm.box_url")
+	#set ($bootTimeoutMarker = ".vm.boot_timeout")
+	#set ($sshUsernameMarker = ".ssh.username")
+	#set ($sshPasswordMarker = ".ssh.password")
+	#set ($networkIPMarker = ".vm.network")
+	#set ($syncFolderMarker = ".vm.synced_folder")
+	#set ($manifestsPathMarker = ".manifests_path")
+	#set ($manifestFilePathMarker = ".manifest_file")
+	#set ($modulePathMarker = ".module_path")
+	#set ($portForwardMarker = ".vm.network")
+	#set ($providerMarker = ".vm.provider")
+	#set ($shellProvisionMarker = ".vm.provision")
+	#set ($childStructures = $boxuppConfig)
+
+	#foreach ($childBean in $childStructures)
+		#set($ports = [])
+		#set ($folderMappings = $childBean.getSyncFolders())
+		#set ($portMappings = $childBean.getPortMappings())	
+		#set($dockerLinkContainers = $childBean.getOrmDockerLinks())
+		#if($childBean.isPuppetMaster())
+		#set($identifier="master")
+		#{else}
+		#set($identifier=$childBean.vagrantID)
+		#end 
+	
+		config.vm.define "$childBean.vagrantID" do |$identifier|
+			$identifier$providerMarker "$childBean.providerType" do |d|
+				d.image = "$childBean.dockerImage"
+				d.name = "$identifier"
+				d.has_ssh= true
+				d.volumes << '/var/lib/docker'
+				d.vagrant_vagrantfile = "./docker/Vagrantfile"
+				#foreach($portMapping in $portMappings)
+				#if(!($portMapping.hostPort.isEmpty() && $portMapping.vmPort.isEmpty()))
+				#set($localVar = $ports.add("""$portMapping.hostPort : $portMapping.vmPort"""))
+				#end	
+				#end
+				#if(!$portMappings.isEmpty())
+				d.ports=$ports
+				#end
+				#foreach ($dockerLinkContainer in $dockerLinkContainers)#foreach($box in $childStructures)#if( $dockerLinkContainer.linkedMachineID == $box.machineID)
+							d.link("$box.vagrantID : $box.hostName")
+						#end	
+					#end
+				#end
+			end
+			
+			$identifier$hostnameMarker = "$childBean.hostName"
+			$identifier$sshUsernameMarker = "root"
+			$identifier$sshPasswordMarker = "root123"
+			
+			
+			#foreach ($syncMapping in $folderMappings)
+				#if(!($syncMapping.hostFolder.isEmpty() && $syncMapping.vmFolder.isEmpty()))
+				$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
+				#end
+			#end
+		
+			
+				$identifier$shellProvisionMarker "puppet" do |$identifier|
+					$identifier$manifestsPathMarker = "../manifests"
+					$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+					$identifier$modulePathMarker = "../modules"
+				end		
+				
+	
+				#foreach ($scriptMapping in $scriptMappings)
+				#if($scriptMapping.machineConfig.vagrantID == $identifier)
+				#foreach($script in $scripts)
+				#if($script.scriptName == $scriptMapping.script.scriptName)
+				$identifier$shellProvisionMarker "shell", path: "./scripts/$script.scriptName", privileged:"true"
+				#end
+				#end
+				#end
+				#end
+				
+		#set ($counter = $counter + 1)
+		end
+	#end
+end
+#*
+'$MARKER_NAME are used to set LHS Markers in the vm configuration for setting up
+properties like hostname, box, boxURL, network IP etc because Velocity
+internally uses the 'dot' notation for referencing attributes
+*#

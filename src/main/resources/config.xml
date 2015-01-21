@@ -1,0 +1,11 @@
+	<config>
+			<provider>
+				<name> docker</name>
+			</provider>
+			<provider>
+				<name>virtualBox</name>
+			</provider>
+			<setting>
+				<portNumber>8585</portNumber>		
+			</setting>
+	</config>

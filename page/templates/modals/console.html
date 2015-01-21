@@ -1,0 +1,24 @@
+<div class="modal fade" id="console" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" >
+      
+      <div class="modal-header">
+        
+        <h4 class="modal-title">Output Console</h4>
+      </div>
+      <div class="modal-body" style="padding: 0px;">
+          <div id="consoleOutput">
+            {{consoleTrial}} - {{vagrantOutput.length}}
+              <span class="vagrantOutputStream" ng-repeat="outputSnippet in vagrantOutput track by $index">
+                <span ng-class="{'normal':outputSnippet.type === 'normal','error':outputSnippet.type === 'error'}" style="display:block;">{{outputSnippet.output}}</span>
+              </span>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>

@@ -1,0 +1,77 @@
+div.errorMessage{
+	font-size: 11px;
+	position: absolute;
+	top: 30px;
+	right: 20px;
+	color: #ED7A33;
+}
+
+div#box-quick,div#box-clone{
+	div.boxConfig{
+		span.boxConfigTitles{
+			color:#E5E5E5;
+		}
+	}
+}
+div#ctrlBarPlayArea{
+
+	ul.ctrl-bar-sec-list, ul.ctrl-bar-main-list{
+		li{
+			overflow:auto;
+			a{
+				color:#E5E5E5;
+				font-size:26px;
+				border-radius : 0px;
+				height:50px;
+				cursor:pointer;
+			}
+			a:hover{
+				background-color: #46505C;
+				height:50px;
+			}
+		}
+		li.active{
+			a{
+				background-color: #46505C;	
+			}			
+		}
+	}
+	div.sub-section-header{
+		@include sub-section-header-styling();
+	}
+	div.ctrl-bar-sec-nav, div.ctrl-bar-main-nav{
+		height:165px;
+		border-right:1px dashed #eee;
+	}
+	div#ctrl-bar-box-play-area, div#ctrl-bar-script-play-area, div#ctrl-bar-module-play-area{
+		span.boxConfigTitles{
+			@include box-config-titles();
+		}
+		div.boxConfig{
+			margin-bottom:10px; 
+
+			input{
+				-webkit-border-radius : 0px;
+				border-radius : 0px;
+				background:none;
+				color:#FFF;
+				font-family: 'Open Sans', sans-serif;
+				font-weight: 200;
+				font-size: 12px;
+			}
+			select{
+				-webkit-border-radius : 0px;
+				border-radius : 0px;
+			}
+		}
+	}
+	div.main-nav-label{
+		@include nav-label-styling();
+		position:absolute;
+		top:20px;
+		left: 54px;
+	}
+	div.main-nav-icon{
+		float:left;
+	}
+}

@@ -1,0 +1,79 @@
+<div class="row" ng-controller="puppetController">
+	
+		<div class="boxesProvisionList col-md-5 col-md-offset-1">
+			<div class="mainBox">
+				<div class="sectionTitle text-center" style="">
+					Choose a machine 
+				</div>
+				<div style="" class="spacer-left">
+
+				</div>
+				<div class="searchBox" style="margin:20px 0px; position:relative;">
+					<input type="text" class="form-control" ng-model="puppetProvBoxSearch">
+					<span class="searchGlass">
+						<i class="fa fa-search"></i>
+					</span>
+				</div>
+				<div class="boxEntries">
+					<ul class="nav nav-pills" role="tablist">
+						<li ng-repeat="box in boxesData | filter:puppetProvBoxSearch" class="col-md-3" role="presentation" style="margin-bottom:5px; padding:0px 5px 0px 0px;">
+
+							<a role="tab" data-toggle="tab" ng-click="$parent.selectedProvMachine = box">
+								<input type="radio" ng-value="box" ng-model="$parent.selectedProvMachine" style="display:none;"/>
+								<div class="boxEntry text-center">
+									<div class="boxLogo">
+										<span><i class="fa fa-cube"></i></span>
+									</div>
+									<div class="boxTitle">
+										<span ng-bind="box.vagrantID"></span>
+									</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	<!-- BOXES LIST -->
+
+	<!-- MODULES LIST -->
+	<div class="modulesProvisionList col-md-5" style="border-left:0px;">
+		
+		<div class="mainBox">
+			<div class="sectionTitle text-center">
+				Choose from your modules
+			</div>
+			<div style="" class="spacer-right">
+
+			</div>
+			
+			<div class="searchBox col-md-12">
+				<input type="text" class="form-control" ng-model="puppetProvModuleSearch">
+				<span class="searchGlass">
+					<i class="fa fa-search"></i>
+				</span>
+			</div>
+
+
+			<ul class="modulesList col-md-12">
+				<li ng-repeat="module in projectData.modules | filter:puppetProvModuleSearch" class="col-md-12" ng-class-even="'even'" ng-class-odd="'odd'">
+					<div class="modulesSelector col-md-1">
+						<input type="checkbox" ng-model="module.moduleProvChecked" ng-change="updateModuleProvMapping($parent.selectedProvMachine)" />
+					</div>
+					<!--<div class="shellScriptEntryLogo col-md-1">
+						<span class="codeLogo"><i class="fa fa-code"></i></span>
+					</div>-->
+					<div class="moduleEntryName col-md-10">
+						<span class="moduleName"><b>{{module.moduleName}}</b></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+	<!-- SCRIPTS LIST -->	
+
+	<div class="moduleProvisionControls col-md-12 text-center" style="margin-top:40px;">
+		<a class="btn btn-success" ng-disabled="checkProvState()" ng-click="commitModulesProvisioning()">APPLY</a>
+	</div>
+</div>

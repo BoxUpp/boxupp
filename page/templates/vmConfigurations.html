@@ -1,0 +1,92 @@
+<div ng-show="boxesData.length == 0">
+	<span class="messageTitle">No Boxes found</span>
+</div>
+<div ng-show="boxesData.length >0 && activeVM === null">
+	<span class="messageTitle">Select a box to manage</span>
+</div>
+
+<div class="boxDetails" ng-show="boxesData.length>0 && activeVM !== null">
+	<table class="table table-striped configurations" style="table-layout:fixed;">
+		<thead>
+			<tr>
+				<td>VagrantID</td>
+				<td>Box Type</td>
+				<td>CPU Allocated</td>
+				<td>RAM Allocated</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeVM.vagrantID"></span></td>
+				<td><span ng-bind="activeVM.boxType"></span></td>
+				<td><span ng-bind="activeVM.cpuExecCap"></span></td>
+				<td><span ng-bind="activeVM.memory"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-striped configurations">
+		<thead>
+			<tr>
+				<td>NetworkIP</td>
+				<td>Provider</td>
+				<td>Boot Timeout</td>
+				<td>HostName</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeVM.networkIP"></span></td>
+				<td><span ng-bind="activeVM.providerType"></span></td>
+				<td><span ng-bind="activeVM.bootTimeout"></span></td>
+				<td><span ng-bind="activeVM.hostName"></span></td>
+			</tr>
+		</tbody>
+	</table>
+
+	
+	<table class="table table-striped mappings configurations" >
+		<thead>
+			<tr>
+				<td class="col-md-2">Scripts Mapped</td>
+			</tr>
+		</thead>
+		<tbody ng-show="checkScriptMappings(activeVM)">
+			<tr ng-repeat="scriptName in fetchMappedScriptNames(activeVM)">
+				<td class="col-md-2"><span ng-bind="scriptName"></span></td>
+			</tr>
+		</tbody>
+		<tbody ng-hide="checkScriptMappings(activeVM)">
+			<tr>
+				<td class="col-md-2"><span>-</span></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-striped mappings configurations" >
+		<thead>
+			<tr>
+				<td class="col-md-2">Modules Mapped</td>
+			</tr>
+		</thead>
+		<tbody ng-show="checkModuleMappings(activeVM)">
+			<tr ng-repeat="moduleName in fetchMappedModuleNames(activeVM)">
+				<td class="col-md-2"><span ng-bind="moduleName"></span></td>
+			</tr>
+		</tbody>
+		<tbody ng-hide="checkModuleMappings(activeVM)">
+			<tr>
+				<td class="col-md-2"><span>-</span></td>
+			</tr>
+		</tbody>
+	</table>
+	
+
+	<!--Config Change flag - {{activeVM.configChangeFlag}}
+	Script change flag - {{activeVM.scriptChangeFlag}}
+	Puppet Change flag - {{activeVM.moduleChangeFlag}}-->
+	<div style="clear:both;">
+		<a class="btn btn-info" ng-click="deployBox(activeVM)" ng-disabled="activeVM.underExecution" ng-show="checkMachineFlags(activeVM)" ><i class="fa fa-external-link-square"></i> Commit changes</a>
+		<!-- <a class="btn btn-info" ng-click="stopBox(activeVM)" ng-disabled="activeVM.underExecution"  ><i class="fa fa-external-link-square"></i> Stop</a>
+		<a class="btn btn-info" ng-click="reloadBox(activeVM)" ng-disabled="activeVM.underExecution"  ><i class="fa fa-external-link-square"></i> Reload</a> -->
+	</div>
+</div>

@@ -1,0 +1,86 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+#set ($counter = 1)
+#set ($hostnameMarker = ".vm.hostname")
+#set ($boxMarker = ".vm.box")
+#set ($boxURLMarker = ".vm.box_url")
+#set ($bootTimeoutMarker = ".vm.boot_timeout")
+#set ($sshUsernameMarker = ".ssh.username")
+#set ($sshPasswordMarker = ".ssh.password")
+#set ($networkIPMarker = ".vm.network")
+#set ($syncFolderMarker = ".vm.synced_folder")
+#set ($manifestsPathMarker = ".manifests_path")
+#set ($manifestFilePathMarker = ".manifest_file")
+#set ($modulePathMarker = ".module_path")
+#set ($portForwardMarker = ".vm.network")
+#set ($providerMarker = ".vm.provider")
+#set ($shellProvisionMarker = ".vm.provision")
+#set ($childStructures = $boxuppConfig)
+
+#foreach ($childBean in $childStructures)
+	#set ($folderMappings = $childBean.getSyncFolders())
+	#set ($portMappings = $childBean.getPortMappings())	
+	#if($childBean.isPuppetMaster())#set($identifier="master")
+	#{else}
+	#set($identifier=$childBean.vagrantID)
+	#end 
+	
+	config.vm.define :$childBean.vagrantID do |$identifier|
+		$identifier$hostnameMarker = "$childBean.hostName"
+		$identifier$boxMarker = "$childBean.boxType"
+		$identifier$boxURLMarker = "$childBean.boxUrl"
+		#if($childBean.bootTimeout)$identifier$bootTimeoutMarker = $childBean.bootTimeout
+		#end
+				
+		$identifier$networkIPMarker :private_network, ip: "$childBean.networkIP"
+		#foreach ($portMapping in $portMappings)#if(!($portMapping.hostPort.isEmpty() && $portMapping.vmPort.isEmpty()))
+		$identifier$portForwardMarker "forwarded_port", guest: $portMapping.hostPort, host: $portMapping.vmPort,auto_correct: true
+		#end
+		#end
+		#foreach ($syncMapping in $folderMappings)
+		#if(!($syncMapping.hostFolder.isEmpty() && $syncMapping.vmFolder.isEmpty()))
+		$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
+		#end
+		#end
+		
+		$identifier$shellProvisionMarker "puppet" do |$identifier|
+		$identifier$manifestsPathMarker = "../manifests"
+		$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+		$identifier$modulePathMarker = "../modules"
+		end		
+		
+		#foreach ($scriptMapping in $scriptMappings)
+		#if($scriptMapping.machineConfig.vagrantID == $identifier)
+		#foreach($script in $scripts)
+		#if($script.scriptName == $scriptMapping.script.scriptName)
+		$identifier$shellProvisionMarker "shell", path: "./scripts/$script.scriptName", privileged:"true"
+		#end
+		#end
+		#end
+		#end
+	
+		#if(!$childBean.memory.isEmpty() || !$childBean.cpuExecCap.isEmpty() || $childBean.guiMode || !$childBean.provisionerName.isEmpty())
+		
+		$identifier$providerMarker "$childBean.providerType" do |prov|
+		#if($childBean.memory)			
+		prov.customize ["modifyvm", :id, "--memory", "$childBean.memory"]
+		#end
+		#if($childBean.cpuExecCap)prov.customize ["modifyvm", :id, "--cpuexecutioncap", "$childBean.cpuExecCap"]
+		#end
+		#if($childBean.guiMode)prov.gui=true
+		#end
+		#if($childBean.provisionerName)prov.name="$childBean.provisionerName"
+		#end
+	end
+	#end
+	#set ($counter = $counter + 1)
+
+end
+#end
+end
+#*
+'$MARKER_NAME are used to set LHS Markers in the vm configuration for setting up
+properties like hostname, box, boxURL, network IP etc because Velocity
+internally uses the 'dot' notation for referencing attributes
+*#

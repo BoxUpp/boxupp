@@ -1,0 +1,77 @@
+<div class="sectionContainer">
+	<div class="section">
+		<div class="sectionTitle">
+			<span class="messageTitle">Logs</span>
+			 <form class="form-horizontal datePicker" >
+			 <div class="col-sm-12">
+			 	<div class="col-sm-4">
+			 		<div class="col-xs-2">
+               			<label> From </label>
+               		</div>
+               		<div class="col-xs-10">
+               			<input  id="daterange2" class="form-control " type="date" name="date" value="{{fromDate}}" ng-model="fromDate"  required/>
+               		</div>
+                </div>
+                <div class="col-sm-4">
+               		<div class="col-xs-2">
+               			<label> To </label>
+               		</div>
+               		<div class="col-xs-10">
+               			<input  id="daterange2" class="form-control" type="date" name="date" value="{{toDate}}" ng-model="toDate" required/>
+               		</div>
+                </div>
+                <div class="col-sm-2">
+                    <input type="submit" ng-click="getLogFiles(fromDate, toDate);"/>
+                    	</div>
+               </div>
+              </form>
+        </div>
+
+
+		<div class="sectionContent">
+			 
+			<div ng-show="logFiles.length == 0">
+				<span class="infoMessage">No Log files present !</span>
+			</div>
+			<div  ng-hide="logFiles.length == 0" class="panel-group accordionStyle " id="accordion" role="tablist" aria-multiselectable="true">
+			
+
+			<div class="row loggerTitleBar" >
+  					<div class="col-md-2">#</div>
+  					<div class="col-md-2">VagrantID</div>
+  					<div class="col-md-4">FileName</div>
+  					<div class="col-md-2">Satus</div>
+ 					<div class="col-md-2">Creation Time</div>
+ 				 </div>
+  				<div class="panel panel-default" ng-repeat="logFile in logFiles" ng-click="getLogFileContent(logFile.filename)" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="#{{$index}}">
+    				<div class="panel-heading" role="tab" id="headingOne">
+      					<h4 class="panel-title" >
+      					<div class="row">
+  							<div class="col-md-2">{{$index + 1}}</div>
+  							<div class="col-md-2">{{logFile.vagrantID}}</div>
+  							<div class="col-md-4">{{logFile.filename}}</div>
+  							<div class="col-md-2">{{logFile.status}}</div>
+ 							<div class="col-md-2">{{logFile.time}}</div> </div>
+        				</h4>
+    				</div>
+    				<div id="{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      					<div class="panel-body">
+        					{{logFileContent}}
+     					</div>
+    				</div>
+  				</div>
+  			</div>
+			
+			
+		</div>
+	</div>
+</div>
+
+
+
+<!--<div ng-show="projectData.modules.length == 0">
+	<span class="messageTitle">No Modules found</span>
+</div>
+<div ng-show="projectData.modules.length >0 && projectData.activeModule === null">
+	<span class="messageTitle">Select a module to manage</span>
+</div>-->

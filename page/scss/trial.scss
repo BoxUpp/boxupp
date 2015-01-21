@@ -1,0 +1,441 @@
+
+body{
+	background : #444546;
+	button{
+		border-radius : 0px !important;
+	}
+	a.btn{
+		border-radius : 0px;
+	}
+}
+body.dashBoardStyling{
+	background : #FFF;
+}
+
+.navbar-inverse{
+	.navbar-nav {
+		li{
+			cursor : pointer;
+			a{
+				color : #E5E5E5;
+			}
+		}
+		li.dropdown{
+			ul.dropdown-menu{
+				li{
+					a{
+						color : black;
+					}
+				}
+			}
+			a{
+				color:#E5E5E5;
+			}
+		}
+	}
+}
+
+.dropdown-menu{
+	li{
+		a{
+			color:black;
+		}
+	}
+}
+
+
+li.toolLogo{
+	height : 50px;
+	a{
+		background:none !important;
+	}
+	a:focus{
+		background:none !important;	
+	}
+}
+
+div.modalClose{
+	a{
+		text-decoration: none;
+		cursor: pointer;
+		color: #FFF;
+		margin-right: 20px;
+	}
+
+}
+$mainNavBackground : #2b5464;
+$mainNavHoverBackground : #71B1D1;
+
+div.ng-leave {
+	opacity : 0;
+}
+
+div.ng-enter{
+	opacity : 1;
+}
+/*
+div{
+	
+	transition-property: all;
+    transition-duration: 1.0s;
+     -webkit-transition-property: all; 
+    -webkit-transition-duration: 0.5s; 
+}*/
+
+.secondaryNavExpanded {
+	//width : 150px;
+}
+
+.secondaryNavClosed {
+	width : 0px;
+	padding : 0px;
+	
+}
+ 
+/*.playAreaExpanded {
+	margin-left: 315px;
+}
+
+.playAreaNormal{
+	margin-left: 315px;	
+}*/
+
+@mixin nav-label-styling {
+	font-family: 'Open Sans', sans-serif;
+	
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 11px;
+	line-height: 11px;	
+}
+
+@mixin sub-section-header-styling{
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 100;
+	font-size: 22px;
+	line-height: 11px;	
+	margin-bottom:30px;
+}
+
+@mixin box-config-titles{
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 11px;
+}
+
+a.navbar-brand{
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 11px;	
+}
+
+header#topNavBar {
+	background : #3c454f;
+}
+
+
+div.mainNavElements{
+	background : $mainNavBackground;
+	/*padding-top: 20px;*/
+	overflow-y : auto;
+	overflow-x : hidden;
+
+	div.panel{
+		border-radius : 0px;
+		div.panel-heading{
+			border-radius : 0px;
+			a{
+				cursor : pointer;
+				div.main-nav-icon{
+					font-size:26px;
+					position:relative;
+					left:0px;
+				}
+				div.main-nav-label{
+					@include nav-label-styling();
+					position: absolute;
+					top: 38px;
+					left: 68px;
+				}
+			}
+		}
+	} 
+
+	.mainNavList{
+			
+			margin-left: -15px;
+			margin-right: -15px;
+
+			li.sectionTitle {
+				border-bottom: 1px solid rgba(255, 255, 255, 0.40);
+
+				div.sectionTitleText {
+					color : rgba(255, 255, 255, 0.62);
+					font-family: 'Open Sans', sans-serif;
+					text-transform: uppercase;
+					font-weight: 400;
+					font-size: 13px;
+					line-height: 11px;	
+					margin: 16px 10px 10px 10px;
+				}
+			}
+
+			li.active{
+				a{
+					background:#71B1D1;
+					color:#FFFFFF;
+
+					.main-nav-icon i{
+						color:#FFFFFF;
+					}
+				}
+				a:hover{
+					background:#71B1D1;
+					color : #FFFFFF;
+				}
+			}
+
+			li{
+				
+
+				a{
+					border-radius : 0px;
+					color:#E5E5E5;
+					
+					transition-property : background;
+					transition-duration : 0.4s;
+					.main-nav-icon i {
+						font-size:23px;
+						position:relative;
+						left:4px;
+						color : #E5E5E5;
+					}
+
+					.main-nav-label{
+						@include nav-label-styling();
+						position: absolute;
+						top: 16px;
+						left: 60px;
+					}														
+				}
+				a:hover{
+
+					background : #3e6675;
+					cursor : pointer;
+					color : #FFFFFF;
+					.main-nav-icon i {
+						color : inherit;
+					}
+				}
+			}		
+	}
+}
+
+div.secondaryNavElements {
+	background : grey;
+	position:absolute;
+	top:51px;
+	bottom:0px;
+	overflow-x:hidden;
+	overflow-y:auto;
+
+	div.sadFace{
+		i{
+			font-size:145px;
+			color:#777777;
+		}
+	}
+
+	.secondaryNavList{
+
+		li.active{
+				a{
+					background:grey;
+					color:#FFF;
+				}
+				a:hover{
+					background:grey;
+				}
+				div.arrow{
+					display: block;
+					width: 0;
+					height: 0;
+					border-right: 12px solid white;
+					border-left: 12px solid transparent;
+					border-top: 12px solid transparent;
+					border-bottom: 12px solid transparent;
+					position: absolute;
+					right: -15px;
+					top: 8px;
+					z-index: 1;
+				}
+		}
+		li{
+				
+
+				a{
+					border-radius : 0px;
+					color:#FFFFFF;
+					
+					.main-nav-icon i {
+						font-size:25px;
+						position:relative;
+						left:4px;
+					}
+
+					.main-nav-label{
+						@include nav-label-styling();
+						font-weight : 500;
+						position: absolute;
+						top: 16px;
+						left: 60px;
+					}														
+				}
+				a:hover{
+					background : grey;
+					cursor : pointer;
+				}
+				div.arrow{
+					display:none;
+				}
+		}
+	}
+}
+
+div.boxConfigs {
+	margin-left:20px;
+	margin-top:20px;
+
+	ul{
+		li.active a{
+			border-radius : 0px;
+			-webkit-border-radius : 0px;
+		}
+		li {
+			a{
+				border-radius : 0px;
+				-webkit-border-radius :0px;
+				background : #71B1D1;
+				color: #FFF;
+				cursor : pointer;
+			}
+			a:hover{
+				background:grey;
+			}
+		}
+	}
+
+	div#gitConfigContent{
+
+		span.boxConfigTitles{
+			@include box-config-titles();
+		}
+
+		input{
+				border-radius : 0px;
+				-webkit-border-radius : 0px;
+		}
+
+		div.boxConfig{
+			margin-top:15px;
+		}
+	}
+	div#boxConfigContent {
+		border : 1px solid #ddd;
+		border-top : none;
+
+		span.boxConfigTitles {
+			@include box-config-titles();
+		}
+
+		input{
+				border-radius : 0px;
+				-webkit-border-radius : 0px;
+		}
+
+		div.boxConfig{
+			margin-top:15px;
+		}
+		div.tab-pane{
+			min-height:320px;
+		}
+
+		div.boxConfigFxdTop{
+			max-height : 290px;
+			overflow-x : hidden;
+			overflow-y : auto;
+		}
+
+		div.boxConfigFxdBtm{
+			position: absolute;
+			cursor: pointer;
+			bottom:10px;
+		}
+	}
+}
+
+div.panel {
+	background : none;
+}
+
+div#controlBar{
+	ul.controlBarList{
+		li{
+			a.controlBarBtns{
+				color:#FFF;
+				width:100%;
+				cursor:pointer;
+			}
+			a.controlBarBtns:hover{
+				background:#FFF;
+			}
+		}
+	}
+	div.trashIcon, div.editIcon{
+		a{
+			font-size:26px; 
+			color:#FFF;
+		}
+	}
+
+	transition-property : all;
+	transition-duration : 0.5s;
+	-webkit-transition-property: all;
+	-webkit-transition-duration: 0.5s;
+}
+
+div{
+	.collapseCtrlBar{
+		height:0px;
+	}
+	.normalCtrlBar{
+		height:30px;
+	}
+	.expandCtrlBar{
+		height:400px;
+	}
+}
+input[type="text"].ng-invalid-pattern, input[type="text"].ng-invalid-maxlength {
+		border-color: #F7404F !important;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(236, 51, 51, 0.6) !important;
+		box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(212, 44, 30, 0.6) !important;
+}
+/*
+div.collapseCtrlBar{
+	height:0px;
+}
+
+div.expandCtrlBar{
+	height:30px;
+}*/
+
+@import './partials/login';
+@import './partials/projects';
+@import './partials/modals';
+@import './partials/playArea';
+@import './partials/controlBar';
+

@@ -1,0 +1,39 @@
+<div class="modal fade" id="scriptModal" data-backdrop="static" tabindex="-2" role="dialog" aria-labelledby="scriptLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		    	<div class="modal-header">
+					<!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
+					<h4 class="modal-title">Create/update your scripts</h4>
+		        </div>
+		        <div class="modal-body">
+					<div id="boxConfigContent" class="tab-content" style="position:relative;">
+						<div class="tab-pane fade active in container-fluid" id="machine">
+							<form name="rawScriptForm">
+								<div class="boxConfig"> <span class="boxConfigTitles" >Script Name<sup>*</sup></span>
+					              <input type="text"
+								   		 ng-model="rawScript.scriptName" 
+								   		 class="form-control" 
+								   		 name="shellScriptName"
+								   		 ng-change="checkValidity.scriptName(rawScriptForm)"
+								   		 ng-disabled="projectData.scriptsState.update"
+								   		 required/>
+						   		 	<div ng-messages="rawScriptForm.shellScriptName.$error">
+					            		<div ng-message="alreadyExists" class="errorMessage">This script name is already in use</div>
+					            	</div>
+					            </div>
+					            <div class="boxConfig"><span class="boxConfigTitles">Script Source<sup>*</sup></span>
+					            	<div class="form-control editor" id="scriptSource" ui-ace="{ mode: 'javascript', theme: 'monokai' }" ng-model="rawScript.scriptContent" style="height:200px;"></div>
+					            </div>
+				        	</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-link" ng-click="modals.close.script(rawScriptForm)" >Close</button>
+					<button class="btn btn-success" ng-disabled="rawScriptForm.$invalid" ng-click="saveNewScript(rawScript)" ng-hide="projectData.scriptsState.update">Create</button>
+					<!--<button class="btn btn-success" ng-disabled="checkFormStates.vmRawScript(rawScriptForm)" ng-click="saveNewScript(rawScript)" ng-hide="projectData.scriptsState.update">Create</button>-->
+					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawScriptUpdate()" ng-click="updateScript()" ng-show="projectData.scriptsState.update">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>

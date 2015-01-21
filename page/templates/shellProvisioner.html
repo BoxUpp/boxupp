@@ -1,0 +1,76 @@
+<!--<div ng-controller="shellController" class="row">
+	<div class="col-sm-12">
+		<a data-target="#" ng-click="invokeShellConsole()" class="btn btn-sm btn-info col-sm-offset-1 ">Script Editor</a>
+	</div>
+	<div class="col-sm-offset-1 col-sm-5">
+		<div id="scriptsConsole" class="panel panel-default">
+			<div class="panel-heading">
+				<span>
+					Shell Scripts
+				</span>
+				<span class="pull-right">
+					Add Script
+				</span>
+			</div>
+			<div class="panel-body">
+		    	
+		  	</div>
+		</div>
+	</div>
+	<div class="col-sm-offset-1 col-sm-5">
+		<div id="boxesConsole" class="panel panel-default">
+			<div class="panel-heading">
+				Boxes
+			</div>
+			<div class="panel-body">
+				<ul class="boxesList">
+					<li ng-repeat="box in boxesData">
+						<input type="checkbox" 
+							   id="{{'node'+$index}}"
+							   name="{{'node'+$index}}"
+							   ng-checked="boxesData[$index].linkedScripts.indexOf(activeScript.scriptName) > -1" 
+							   ng-click="toggleScriptSelection($index)"
+							   ng-disabled="nodeSelectionDisabled">
+						<label for="{{'node'+$index}}"><span class="icon-desktop"></span>{{box.vagrantID}}<a class="nodeStatus"></a></label>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12" style="position:fixed;top:70px; bottom:20px;" ng-show="showShellEditor" ng-init="showShellEditor=false">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span>Script Editor</span>
+				<span class="pull-right">
+					Close
+				</span>
+			</div>
+			<div class="panel-body">
+				<div class="editing-section">
+					<div>
+						Shell Script Name
+					</div>
+					<div>
+						<input type="text" id="shellScriptName" 
+							   ng-model="activeScript.scriptName" 
+							   ng-class="{errorFocus:activeScript.scriptName.length == 0}"
+							   class="form-control" 
+							   maxlength="15" 
+							   name="shellScriptName"/>
+					</div>
+					<div class="form-control" 
+							id="scriptSource" 
+							ng-model="activeScript.scriptSource"
+							ui-codemirror="scriptEditorOptions"
+							ng-disabled="activeScript === null">
+					</div>
+				</div>									
+			</div>
+			<div class="panel-footer">
+				<a data-target="#" class="btn btn-primary" ng-hide="!nodeSelectionDisabled"
+					ng-click="pushNewScript(activeScript.scriptName,activeScript.scriptSource)">Save</a>
+			</div>
+		</div>
+	</div> 
+</div>
+-->

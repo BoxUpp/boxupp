@@ -1,0 +1,8 @@
+VARANTFILE_API_VERSION ="2"
+     Vagrant.configure("2") do|config|
+     config.vm.box = "precise64"
+	 config.vm.box_url = "https://vagrantcloud.com/hashicorp/boxes/precise64/versions/1.1.0/providers/virtualbox.box"
+     config.vm.provision "docker"
+     config.vm.provision "shell" , inline: 
+     "ps aux| grep 'sshd:' | awk '{print $2}' | xargs kill"
+ end 

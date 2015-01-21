@@ -1,0 +1,95 @@
+<!-- <script type="text/javascript-lazy" src="js/projectController.js"></script> -->
+<div class="container-fluid">
+	<div class="project-container col-md-12">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10 text-center">
+				<h2 class="projectsTitle">
+					<span class="titleText loginInput">
+						<span ng-hide="projects.length === 0">Select a workspace below or </span>
+						<span ng-show="projects.length === 0">Looks like you have not added any workspaces yet !</span>
+					</span>
+					<strong>
+						<a data-toggle="modal" data-target="#newMachineModal" style="cursor:pointer;" class="titleTextAction">
+							Create a new one
+						</a>
+					</strong>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			
+
+			<!-- New Machine Modal -->
+			<div class="modal fade" id="newMachineModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg">
+			    <div class="modal-content">
+			    	<div class="modal-header">
+						
+						<h4 class="modal-title">Create your new workspace</h4>
+			        </div>
+			        <div class="modal-body">
+			        	<form name="newProjectData">
+			        		<div class="container-fluid">
+			        			<div class="row">
+			        				<div class="projectLogo col-sm-2">
+										<i class="glyphicon glyphicon-folder-open"></i>
+									</div>
+			        				<div class="boxConfig col-sm-10"> 
+			        					<div class="boxConfigTitles">Enter workspace name<sup>*</sup></div>
+						            	<input name="projectTitle" type="text" ng-model="newProject.name" class="form-control">
+					            	</div>
+					            	<div class="boxConfig col-sm-10"> 
+					            		<div class="boxConfigTitles">Enter workspace description <sup>*</sup></div>
+						            	<input name="projectDesc"type="text" ng-model="newProject.description" class="form-control">
+					            	</div>
+					            	<div class="boxConfig col-sm-10"> 
+					            		<div class="boxConfigTitles">Select a provider type for your workspace<sup>*</sup></div>
+						            	<select name="providerNames" ng-model="newProject.providerType" ng-options="provider.providerID as provider.name for provider in providers" class="form-control">
+		    								<option value="" >Select a provider</option>
+										</select>
+					            	</div>
+			        			</div>
+			        		</div>
+						</form>
+			        </div>
+			        <div class="modal-footer">
+			        	<div class="row">
+			        		<div class="col-md-8 statusMessage" >
+			        			<div ng-if="newProjectCreated" style="transition-property:all; transition-duration:2.0s"ng-init="newProjectCreated = false">
+			        				<span><i class="fa fa-thumbs-up"></i> Your new workspace has been created!</span>
+			        			</div>
+			        		</div>
+				        	<!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
+				        	<div class="modalClose col-md-4">
+				        		<a data-dismiss="modal" >Close</a>
+				        		<button class="btn btn-success" ng-click="submitNewProjectData()" ng-disabled="checkProjectInput()">Create</button>
+				        	</div>
+				        	
+			        	</div>
+			        </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<div class="col-md-offset-1 col-md-10" >
+				<div class="projects">
+					<ul class="projectsList">
+						<li class="col-md-4" ng-repeat="project in projects">
+							<a ng-click="selectProject(project)">
+								<div class="projectLogo">
+									<i class="glyphicon glyphicon-folder-open"></i>
+								</div>
+								<div class="projectTitle" >
+									<strong><span ng-bind="project.name"></span></strong>
+								</div>
+								<div class="projectDesc">
+									<span ng-bind="project.description"></span>
+								</div>
+							</a>
+						</li>						
+					</ul>
+				</div>	    		
+			</div>
+		</div>
+	</div>
+</div>

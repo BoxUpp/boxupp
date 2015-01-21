@@ -1,0 +1,57 @@
+<div ng-include="'templates/nav.html'"></div>
+	
+<div id="dashboard">
+	<div class="container-fluid">
+		<!--<div class="row">-->
+		<div style="margin-top:71px;" ng-init="collapseSecNav = true" class="row">
+			<!--MainNavBarVertical v0.0.1-->
+		  	<div ng-include="'templates/mainNav.html'"></div>
+		  	<!--MainNavBarVertical v0.0.1-->
+
+		  	<div ng-include="'templates/modals/console.html'"></div>
+		  	<!--SecondaryNavBarVertical v0.0.1-->
+		  	<div ng-include="'templates/secondaryNav.html'"></div>
+		  	<!--SecondaryNavBarVertical v0.0.1-->
+
+		  	<!--<div class="tab-content " id="playArea" style="position:absolute; top:51px; bottom:30px;">-->
+			<div class="tab-content " id="playArea" style="top:51px; bottom:30px;">
+				
+				<div class="tab-pane fade col-md-10 col-md-offset-2 active in secPlayArea" id="dashboardPlayArea">
+					<div ng-include="'templates/containerDashboard.html'"></div>
+				</div>
+				<div class="tab-pane fade col-md-8 col-md-offset-4 secPlayArea" id="boxesPlayArea">
+				  	<div ng-include="'templates/containerConfigurations.html'"></div>
+		  		</div>
+		  		<div class="tab-pane fade col-md-8 col-md-offset-4 secPlayArea" id="scriptsPlayArea">
+		  			<div ng-include="'templates/scripts/scriptConfigurations.html'"></div>
+		  		</div>
+		  		<div class="tab-pane fade col-md-8 col-md-offset-4 secPlayArea" id="modulesPlayArea">
+		  			<div ng-include="'templates/modules/moduleConfigurations.html'"></div>
+		  		</div>
+		  		<div class="tab-pane fade col-md-10 col-md-offset-2 secPlayArea" id="shellProvPlayArea">
+		  			<div ng-include="'templates/provisioners/shellProvisioner.html'"></div>
+		  		</div>
+		  		<div class="tab-pane fade col-md-10 col-md-offset-2 secPlayArea" id="puppetProvPlayArea">
+		  			<div ng-include="'templates/provisioners/puppetProvisioner.html'"></div>
+		  		</div>
+		  		<div class="tab-pane fade col-md-10 col-md-offset-2  secPlayArea" id="logPlayArea">
+					<div ng-include="'templates/logDashBoard.html'"></div>
+				</div>
+		  	</div>
+			<div class="gitModal">
+					<div ng-include="'templates/shareRepo/gitModal.html'"></div>
+				</div>
+			<div id="controlBar">
+				<div ng-include="'templates/dockerControlBar.html'"></div>
+			</div>			
+		</div>
+
+	</div>
+</div>
+			<!-- <div id="controlBar">
+				<div ng-include="'templates/dockerControlBar.html'"></div>
+			</div>			
+		</div>
+
+	</div>
+</div> -->

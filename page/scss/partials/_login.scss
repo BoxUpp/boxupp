@@ -1,0 +1,58 @@
+div.logo{
+	img{
+		width : 150px;
+	}
+}
+
+div.login-container, div.registration-container{
+	
+	background : #444546;
+	position:absolute;
+	top:100px;
+	padding: 20px 15px 20px 15px;
+	color: white;
+
+	div.message-container{
+		position : relative;
+		top : 50px;
+	}
+
+	div.form-field{
+		margin-top:15px;
+		width:100%;
+		float:left;
+		
+		span.loginSpinner , span.newRegLoader{
+			position:absolute;
+			top : 2px;
+			right : 20px;			
+		}
+
+		div.fieldIcon{
+			font-size : 24px;
+
+			a{
+				width:100%;
+				border-radius : 0px;
+				-webkit-border-radius : 0px;
+			}
+			
+		}
+		input{
+			background:none;
+			border-radius : 0px;
+			-webkit-border-radius : 0px;
+			color: #FFF;
+		}
+		input[type='button']{
+			background:grey;
+		}
+	}
+	
+	div.registrationAction{
+		a{
+			cursor : pointer;
+		}
+	}
+	
+} 

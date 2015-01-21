@@ -1,0 +1,171 @@
+<div class="modal fade" id="boxModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+		   	<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Create/update your box configurations</h4>
+		    </div>
+		    <div class="modal-body">
+
+				<div class="boxConfigs">
+
+					<ul id="boxConfigTabs" class="nav nav-tabs" role="tablist">
+					    <li class="active"><a data-target="#machine" role="tab" data-toggle="tab">Box Settings</a></li>
+						<li class=""><a data-target="#networking" role="tab" data-toggle="tab">Networking</a></li>
+						<li class=""><a data-target="#folders" role="tab" data-toggle="tab">Folders</a></li>
+						<!-- <li class=""><a data-target="#misc" role="tab" data-toggle="tab">Authentication</a></li> -->
+					</ul>
+					<div id="boxConfigContent" class="tab-content" style="position:relative;">
+					    <div class="tab-pane fade active in container-fluid" id="machine">
+					    	<form name="containerRawBoxForm.basicSettings">
+								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
+					            	<input name="vagrantID" id="vagrantID" 
+									ng-model="rawBox.vagrantID"
+									ng-pattern="/^[a-z]{1,8}$/"
+									type="text" 
+									class="form-control"
+									ng-disabled="projectData.boxesState.update"
+									ng-change="checkValidity.vagrantID(containerRawBoxForm.basicSettings)"
+									required>
+									<div ng-messages="containerRawBoxForm.basicSettings.$error" >
+								        <div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+								        <div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+								        <div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
+						            </div>
+					        	</div>
+						  		<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
+					           		<input name="hostName" id="hostName" type="text" data-placement="right" 
+									ng-model="rawBox.hostName"
+									class="form-control"
+									title="The hostname the machine should have"
+									required>
+					        	</div>
+					       	 	<div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
+     								<select name="imageName" ng-model="rawBox.dockerImage" ng-options="image.path as image.path for image in listOfSSHImages" class="form-control" required>
+										<option value="">Select an image</option>
+									</select>
+									<ul style="list-style:none; margin-left:-15px; margin-top:10px;" class="col-md-12">
+										<li ng-repeat="image in listOfSSHImages" style="float:left; margin-right:10px;">
+											<a ng-href="" ng-click="rawBox.dockerImage = image.path">
+												<img ng-src="{{image.iconSrc}}"/>
+											</a>
+										</li>
+									</ul>
+            						
+          						</div>
+          					</form>
+						</div>
+						<div class="tab-pane fade container-fluid" id="networking">
+							
+								<div class="boxConfigFxdTop">
+						  			<div class="row">
+				  						<div class="boxConfig col-sm-8"> <span class="boxConfigTitles">Docker Link</span>
+				  							<span class="infoMessage" ng-show="boxesData.length === 0">
+			            						No Boxes exist in your project yet !
+			            					</span>
+											<select multiple ng-model="rawBox.dockerLinks"
+												ng-options="box.machineID as box.vagrantID for box in boxesData" class="form-control " ng-hide="boxesData.length === 0">
+            								</select>
+            								
+				  						</div>
+       								</div>
+					  	  			<div ng-repeat="mapping in rawBox.portMappings">
+					  	  				<div class="row">
+					  	  					<div class="boxConfig col-sm-6">
+						  						<span class="boxConfigTitles">Host Port<sup>*</sup></span>
+						  					</div>	
+						  					<div class="boxConfig col-sm-6">
+						  						<span class="boxConfigTitles pull-right">VM Port<sup>*</sup></span>
+						  					</div>	
+					  	  				</div>
+						  				<div class="row">
+						  					<div class="col-sm-4 ">
+							  					<input name="hostPort" id="hostPort" type="text"
+												ng-model="mapping.hostPort" class="form-control"
+												ng-pattern="/^(6553[0-6]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[2-5]\d{3,4}|102[4-9]|10[3-9]\d|[2-9]\d{3}|1[1-9]\d{2,3}|1[0-0]\d{3})$/"/>
+						  					</div>	
+						  					<div class="col-sm-4  text-center">
+						  						<div>
+							  						<button type="button" ng-click="deletePortMapping($index)">
+  														<i class="fa fa-close"></i>
+													</button>
+						  						</div>
+						  					</div>
+						  					<div class="col-sm-4 ">
+							  					<input name="vmPort" id="vmPort" type="text"
+												ng-model="mapping.vmPort" class="form-control"
+												ng-pattern="/^(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|)$/"/>
+						  					</div>
+						  				</div>
+						  			</div>
+					  			</div>
+					  			<div class="boxConfigFxdBtm">
+									<a data-target="#" ng-click="addPortMapping()">
+										<span> <i class="fa fa-exchange"></i> Add Port Mapping </span>
+									</a>
+						  		</div>
+						 
+
+						  		<!--<span>
+						  		<div class="boxConfigFxdBtm">
+
+									<a data-target="#" ng-click="addDockerLink()">
+										<span> <i class="fa fa-exchange"></i> Add dockerLink </span>
+									</a>
+						  		</div>
+						  		</span>-->
+						</div>
+						<div class="tab-pane fade container-fluid" id="folders">
+							<div class="boxConfigFxdTop">
+								<div ng-repeat="mapping in rawBox.syncFolders">
+						  			<div class="row">
+						  				<div class="boxConfig col-sm-6">
+						  					<span class="boxConfigTitles">Host Folder<sup>*</sup></span>
+						  				</div>	
+						  				<div class="boxConfig col-sm-6">
+							  				<span class="boxConfigTitles pull-right">VM Folder<sup>*</sup></span>
+							  			</div>	
+						  	  		</div>
+							  		<div class="row">
+							  			<div class="col-sm-4 ">
+								  			<input name="hostFolder" id="hostFolder" type="text" ng-model="mapping.hostFolder" class="form-control" />
+							  			</div>	
+							  			<div class="col-sm-4  text-center">
+							  			    <div>
+								  				<button type="button" ng-click="deleteFolderMapping($index)">
+													<i class="fa fa-close"></i>
+												</button>
+							  				</div>
+							  			</div>
+							  			<div class="col-sm-4 ">
+								  			<input name="syncFolder" id="syncFolder" type="text" ng-model="mapping.vmFolder" class="form-control" />
+							  			</div>
+							  		</div>
+							  	</div>
+						  	</div>
+						  	<div class="boxConfigFxdBtm">
+						  		<a data-target="#" ng-click="addSyncFolderMapping()">
+									<span> <i class="fa fa-exchange"></i> Add Folder Mapping </span>
+								</a>
+							</div>
+						</div>
+						 <div class="tab-pane fade container-fluid" id="misc">
+							<div class="boxConfig"> <span class="boxConfigTitles" >UserName</span>
+					           <input name="username" id="username" ng-model="rawBox.username" data-placement="bottom" title="User name For Docker Image" type="text" class="form-control">
+					    </div>
+					    <div class="boxConfig"> <span class="boxConfigTitles" >Password</span>
+					        <input name="password"  id="password" 
+							ng-model="rawBox.password"  type="text" 
+							data-placement="bottom" title="Password For Docker Image" class="form-control"/>
+					    </div> 
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success" ng-click="modals.close.containerBox()">Close</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.containerRawBox()" ng-click="createContainerBoxes(rawBox)" ng-hide="projectData.boxesState.update">Create</button>
+					<!-- <button class="btn btn-success" ng-disabled="checkFormStates.containerRawBoxUpdate()" ng-click="updateContainerBox()" ng-show="projectData.boxesState.update">Update</button> -->
+		</div>
+	</div>
+</div>

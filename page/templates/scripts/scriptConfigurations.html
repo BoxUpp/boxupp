@@ -1,0 +1,42 @@
+<div ng-show="shellScripts.length == 0">
+	<span class="messageTitle">No Scripts found</span>
+</div>
+<div ng-show="shellScripts.length >0 && activeScript === null">
+	<span class="messageTitle">Select a script to manage</span>
+</div>
+<div class="scriptDetails" ng-show="shellScripts.length>0 && activeScript !== null">
+	<div class="row">
+		<div class="col-md-10">
+			<table class="table table-striped mappings" >
+				<thead>
+					<tr>
+						<td class="col-md-2">Script Name</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="col-md-2"><span ng-bind="activeScript.scriptName"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-striped mappings" >
+				<thead>
+					<tr>
+						<td class="col-md-2">Created on</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="col-md-2"><span ng-bind="activeScript.creationTime"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	<div id="scriptMapping"></div>
+
+	</div>
+	
+</div>
+
+

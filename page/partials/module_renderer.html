@@ -1,0 +1,88 @@
+<span class="moduleFolder">
+																<span class="folderExpand">
+																	<a data-toggle="collapse" ng-click="moFolder.expanded = !moFolder.expanded" 
+																		ng-init="moFolder.expanded = true" 
+																		class="moduleFolderViewControl">
+																		<i ng-class="{'icon-folder-close-alt':moFolder.expanded,'icon-folder-open-alt':!moFolder.expanded}" ></i> 
+																	</a>
+																</span>
+																			<span class="moduleFolderName">
+																				<label ng-bind="moFolder.moFolderName" 
+																					ng-hide="moFolder.editName"
+																					ng-dblclick="startEditing(moFolder)"
+																					
+																					class="folderNames"></label>
+																				<form ng-submit="doneEditing(moFolder)" ng-show="moFolder.editName">
+																					<input ng-model="moFolder.moFolderName" 
+																							ng-blur="doneEditing(moFolder)" 
+																							ng-dbl-click-focus="moFolder == editedItem"
+																							ng-show="moFolder.editName"
+																							ng-class="{errorFocus:moFolder.moFolderName.length == 0}"
+																							name="folderName"
+																							class="moduleFolderNames">
+																				</form>
+																				
+																			</span>
+																			
+																			<div class="btn-group moduleControls">
+																				<button type="button" 
+																						ng-show="checkVisibility(moFolder.moFolderName)" 
+																						title="click to upload files" 
+																						class="btn btn-default moduleOperations"
+																						ng-click="setUploadSettings('modules',module)">
+																				  <i class="icon-upload"></i>
+																				</button>
+																				<button type="button" 
+																						ng-click="addChildFolder(moFolder)" 
+																						title="click to add a new folder within module" 
+																						class="btn btn-default moduleOperations"
+																						ng-hide="checkVisibility(moFolder.moFolderName)">
+																				  <i class="icon-folder"></i>
+																				</button>
+																				<button type="button" 
+																						ng-click="addModuleFolderFile(moFolder)" 
+																						title="click to add a new file within module folder" 
+																						class="btn btn-default moduleOperations">
+																				  <i class="icon-file"></i>
+																				</button>
+																				<button type="button" 
+																						ng-click="removeModuleFolder($parent.$parent.moFolder,$parent.$parent.module,$index)" 
+																						class="btn btn-default moduleOperations"
+																						title="Click to remove module folder"
+																						ng-hide="allowDeletion(moFolder.moFolderName)">
+																				  <i class="delete-icon"></i>
+																				</button>
+																			</div>
+																			<span ng-hide="moFolder.expanded">
+																				<span ng-hide="moFolder.expanded" 
+																					ng-repeat="moFolderFile in moFolder.moFolderFiles">
+																					<span  class="moduleFolderFileName" ng-class-odd="'odd'" ng-class-even="'even'">
+																						
+																					<a class="fileIcon">
+																						<i class="icon-file"></i>
+																					</a>
+																					<label ng-bind="moFolderFile.moFileName" 
+																						ng-hide="moFolderFile.editName"
+																						ng-dblclick="startEditing(moFolderFile)"
+																						ng-click="selectModuleFile(moFolderFile)"
+																						class="fileNames"></label>
+																					<form ng-submit="doneEditing(moFolderFile)" ng-show="moFolderFile.editName">
+																						<input ng-model="moFolderFile.moFileName" 
+																								ng-blur="doneEditing(moFolderFile)" 
+																								ng-dbl-click-focus="moFolderFile == editedItem"
+																								ng-show="moFolderFile.editName"
+																								ng-class="{errorFocus:moFolderFile.moFileName.length == 0}"
+																								name="fileName"
+																								class="moduleFolderFileNames">
+																					</form>
+																						<a ng-click="removeModuleFile(moFolder.moFolderFiles,$index)" class="moduleFileOperations">
+																							<i class="delete-icon"></i>
+																						</a>
+																				</span>
+																																																									
+																			</span>
+																				<span class="childFolder" ng-repeat="moFolder in moFolder.moFolders" ng-include="'partials/module_renderer.html'">
+															
+																				</span>
+																		</span>
+															</span>

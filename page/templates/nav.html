@@ -1,0 +1,96 @@
+<header  class="navbar navbar-inverse navbar-fixed-top" id="topNavBar" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		</div>
+		<div class="navbar-collapse collapse">
+
+			<ul class="nav navbar-nav navbar-left">
+				<li>
+					<a class="dropdown-toggle" data-toggle="dropdown" data-target="#" style="padding-bottom:-15px; padding-top:-15px;">
+						<img src="../img/boxupp-icon.png" alt="Boxupp Tool logo" style="width: 30px;height: 30px;position: absolute;top: 10px; left:1px;">
+					</a>
+					<!--<ul class="dropdown-menu" role="menu">
+						
+					</ul>-->
+				</li>
+				<!--<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+					   <span class="divider">
+					   		<i class="fa fa-chevron-down"></i>
+					   	</span>
+					</a>
+					
+					<ul class="dropdown-menu" role="menu">
+						<li> <a data-target="#/projects/">Switch Workspace</a></li>
+						<li class="divider"></li>
+						<li> <a data-target="#">Workspace settings</a></li>
+					</ul>
+				</li>-->
+				<!--<li class="active"><a data-target="#nodes" role="tab" data-toggle="tab">Boxes</a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">Provisioners <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+					  <li class=""><a data-target="#shell" tabindex="-1" role="tab" data-toggle="tab">Shell</a></li>
+					  <li class=""><a data-target="#puppet" tabindex="-1" role="tab" data-toggle="tab">Puppet</a></li>
+					</ul>
+				</li>-->
+
+			</ul>
+		 	<div class="currentWorkspace">{{selectedProject.name}}</div>
+			<ul class="nav navbar-nav navbar-right">
+				<!--<li>
+					<button class="btn navbar-btn btn-sm btn-danger" ng-click="createVagrantFile();">Vagrant File</button>
+				</li>-->
+				<!--<li>
+					<button class="btn navbar-btn btn-sm" data-toggle="modal" data-target="#console">Console</button>
+				</li>-->
+				<li>
+				<!--<a data-toggle="modal" data-target="#console">CONSOLE</a>-->
+					<!-- <button class="btn navbar-btn btn-sm btn-success" ng-click="deployEnvironment();"><i class="fa fa-rocket" style="margin-right: 5px; font-size: 15px;"></i>DEPLOY ALL</button> -->
+				</li>
+				<li>
+					<button class="btn navbar-btn btn-sm btn-success" ng-click="deployEnvironment();"><i class="fa fa-rocket" style="margin-right: 5px; font-size: 15px;"></i>DEPLOY ALL</button>
+				</li>
+				<li> 
+					<a ng-click="switchWorkspace()">Switch Workspace</a>
+				</li>
+				<!--<li>
+					<a id="vagrantIcon" data-toggle="modal" data-target="#vagrantFileModal">Config</a>
+				</li>
+				<li class="dropdown">
+					<a data-target="#" data-toggle="dropdown" class="dropdown-toggle">Share<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a data-target="#gitModal" data-toggle="modal">Github</a>
+						</li>
+					</ul>
+				</li>-->
+				<!--<li class="dropdown">
+					<a target="#" data-toggle="dropdown" class="dropdown-toggle">Help<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ng-click="settingsExec(0)">Take A Tour</a>
+						</li>
+						<li>
+							<a data-target="http://www.boxupp.com/data/Boxupp_User_Manual_v0.0.3.pdf" target="_blank">Product Manual</a>
+						</li>
+					</ul>
+				</li>-->
+				<li class="dropdown">
+					<a data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-gear"></i><b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="helpNav" ng-click="userSignout()"><i class="fa fa-sign-out"></i>Signout</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</header>

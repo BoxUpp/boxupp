@@ -1,0 +1,301 @@
+<div class="provisioningConsole">
+					<div class="provisioningConsoleSection" ng-controller="shellController" style="display:block">
+						<div id="shellProvisioning">
+							<div id="scriptsSection" data-intro="Manage your shell scripts on the left and apply them to appropriate machines on the right" data-step="6" data-position="bottom">
+								<div class="sBoxHeading">
+                                	<div class="sBoxTitle">Shell Scripts</div>
+                                </div>
+								<input type="hidden" name="scriptsNumber" id="scriptsNumber" value="0">
+								
+								<div id="scriptsSelector">
+									<div id="shellScripts">
+										<ul class="scriptsList">
+											<li ng-repeat="script in shellScripts">
+													<input type="radio" name="{{'script'+$index}}" ng-model="$parent.scriptSelected" ng-init="-1" ng-value="$index" ng-change="selectScript($index)" id="{{'script' + $index}}">
+													<span><img src="./img/shell-icon.png"></img></span>
+													<label class="scriptLabels" for="{{'script' + $index}}" ng-bind="script.scriptName"></label>
+													<textarea style="display:none" class="scriptSource" ng-model="script.scriptSource" ng-trim="false"></textarea>
+													<div id="scriptActionsMenu">
+														<button type="button" name="edit" id="{{'editScript' + $index}}" class="scriptActions" title="Edit Script" ng-click="editScript($index)"><i class="edit-icon"></i></button>
+														<button type="button" name="delete" class="scriptActions" title="Delete Script" ng-click="deleteScript($index)"><i class="delete-icon"></i></button>
+													</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div id="scriptsControl">
+									<span class="add-arrow"></span>
+									<button type="button" id="invokeShellConsole" class="scriptControls" ng-click="invokeShellConsole()">
+										<i class="icon-plus-sign-alt"></i> 
+									</button>
+								</div>
+							</div>
+							<div id="nodesSection">
+							
+								<div class="sBoxHeading">
+                                	<div class="sBoxTitle">Nodes</div>
+                                </div>
+								<ul class="nodesList">
+									<li ng-repeat="box in boxesData">
+										<input type="checkbox" 
+											   id="{{'node'+$index}}"
+											   name="{{'node'+$index}}"
+											   ng-checked="boxesData[$index].linkedScripts.indexOf(activeScript.scriptName) > -1" 
+											   ng-click="toggleScriptSelection($index)"
+											   ng-disabled="nodeSelectionDisabled">
+										<label for="{{'node'+$index}}"><span class="icon-desktop"></span>{{box.vagrantID}}<a class="nodeStatus"></a></label>
+									</li>
+								</ul>
+								<div id="nodesListOverlay">
+								</div>
+							</div>
+							<div id="shellScriptEditor">
+                            	<a href="#" id="staticSection"><span class="closed"></span></a>
+                                <div class="consoleContent">
+										<div class="editing-section">
+											<div class="input-group">Shell Script Name</div>
+											<div class="input-group">
+												<input type="text" id="shellScriptName" 
+													   ng-model="activeScript.scriptName" 
+													   ng-class="{errorFocus:activeScript.scriptName.length == 0}"
+													   class="form-control" 
+													   maxlength="15" 
+													   name="shellScriptName"/>
+											</div>
+											<div class="input-group">Write Script Here</div>
+											<div class="input-group">
+												<div class="form-control" 
+													id="scriptSource" 
+													ng-model="activeScript.scriptSource"
+													ui-codemirror="scriptEditorOptions"
+													ng-disabled="activeScript === null"
+												></div>
+											</div>
+										</div>
+										<div class="footer-section">
+											<button type="button" class="btn btn-default btn-sm shellConsoleClose" ng-hide="true" >Close</button>
+											<button type="button" class="btn btn-primary shellScriptSave btn-sm" 
+													ng-hide="!nodeSelectionDisabled"
+													ng-click="pushNewScript(activeScript.scriptName,activeScript.scriptSource)">Save</button>
+										</div>
+								</div>
+							</div>
+							<div class="graph-arrow"><img src="img/graph-arrow.png" alt="" border="0"/></div>
+						</div>
+					</div>
+					<div class="provisioningConsoleSection" ng-controller="puppetController" style="display:none">
+						<div id="puppetProvisioning">
+							<div id="modulesSection">
+								<div class="sBoxHeading">
+									<ul id="puppetTabs" class="nav nav-tabs">
+									  <li class="active"><a href="#modules" data-toggle="tab">Modules</a></li>
+									  <li class=""><a href="#manifests" data-toggle="tab">Manifests</a></li>
+									  <li class=""><a href="#files" data-toggle="tab">Files</a></li>
+									</ul>
+								</div>
+							
+                            <div class="commen-box">	<div id="puppetTabsContent" class="tab-content">
+									<div class="tab-pane fade active in" id="modules">
+												<div id="modulesSelector">
+												<div id="modules">
+													<!--<script type="text/ng-template"  id="module_renderer.html">
+														
+													</script>-->
+													<div class="panel-group" id="modulesAccord">
+														<div class="panel panel-default" ng-repeat="module in puppet.modules">
+																<div class="panel-heading moduleHeader">
+																  <h4 class="panel-title">
+																	<!--Add data-parent="#modulesAccord" to group all accordions to a parent-->
+																	<a data-toggle="collapse" ng-click="module.expanded = !module.expanded" 
+																		ng-init="module.expanded = true" 
+																		href="{{'#module'+$index}}" 
+																		class="moduleViewControl"
+																		id="{{module.moName}}">
+																		<i ng-class="{'icon-caret-right':module.expanded,'icon-caret-down':!module.expanded}" ></i>
+																	</a>		
+																	<span class="moduleName">
+																		<label ng-bind="module.moName" 
+																				ng-hide="module.editName"
+																				ng-dblclick="startEditing(module)"
+																				class="moduleNames"></label>
+																		<form ng-submit="doneEditing(module)" ng-show="module.editName">
+																			<input ng-model="module.moName" 
+																					ng-blur="doneEditing(module)" 
+																					name="moduleName"
+																					ng-dbl-click-focus="module == editedItem"
+																					ng-show="module.editName"
+																					ng-class="{errorFocus:module.moName.length == 0}"
+																					class="moduleNames">
+																		</form>
+																	</span>
+																	
+																	<div class="btn-group moduleControls">
+																		<button type="button" 
+																				ng-click="addModuleFolder(module,$index)" 
+																				title="click to add a new module folder" 
+																				class="btn btn-default moduleOperations">
+																		  <i class="icon-plus-sign-alt"></i>
+																		</button>
+																		<button type="button" 
+																				ng-click="removeModule($index)" 
+																				class="btn btn-default moduleOperations">
+																		  <i class="delete-icon"></i>
+																		</button>
+																	</div>
+																</h4>
+																</div>
+																<div id="{{'module'+$index}}" class="panel-collapse collapse">
+																  <div class="panel-body">
+																	<span ng-repeat="moFolder in module.moFolders" ng-include="'partials/module_renderer.html'" class="moduleFolders">
+																		
+																	</span>
+																  </div>
+																</div>
+														</div>
+													</div>
+												</div>
+												</div>
+												<div id="modulesControl">
+													<span class="add-arrow"></span>
+													<button type="button" id="newModuleAdder" class="moduleControls" ng-click="addNewModule()">
+														<i class="icon-plus-sign-alt"></i> 
+													</button>
+                                                   <span class="modulestext">Add module</span>
+													<span id="puppetMaster">
+														<label for="puppetMasterSelector">Puppet Master: </label>
+														<select id="puppetMasterSelector" 
+															ng-model="selectedPuppetMaster" 
+															ng-options="box.vagrantID for box in boxesData"
+															>
+															
+														</select>
+													</span>
+												</div>
+									</div>
+									<div class="tab-pane fade" id="manifests">
+										<span class="manifestFolders" >
+												<span class="moduleFolder manifests"  >
+													<span class="folderExpand">
+														<a data-toggle="collapse" ng-click="manifestFolder.expanded = !manifestFolder.expanded" 
+															ng-init="manifestFolder.expanded = false" 
+															class="manifestFolderViewControl">
+															<i ng-class="{'icon-folder-close-alt':manifestFolder.expanded,'icon-folder-open-alt':!manifestFolder.expanded}" ></i> 
+														</a>
+													</span>
+													<span class="manifestsFolderName">
+														<label class="folderNames">manifests</label>
+													</span>
+																			
+													<div class="btn-group manifestControls">
+														<button type="button" 
+															ng-click="addManifestsFolderFile()" 
+															title="click to add a new file within module folder" 
+															class="btn btn-default moduleOperations">
+															<i class="icon-file"></i>
+														</button>
+													</div>
+															<span ng-hide="manifestFolder.expanded" ng-repeat="manifestFile in puppet.manifests">
+														<span class="manifestFileName" ng-class-odd="'odd'" ng-class-even="'even'">
+															<a class="fileIcon">
+																<i class="icon-file"></i>
+															</a>
+														<label ng-bind="manifestFile.moFileName" 
+																						ng-hide="manifestFile.editName"
+																						ng-dblclick="startEditing(manifestFile)"
+																						ng-click="selectManifestFile(manifestFile)"
+																						class="fileNames"></label>
+																					<form ng-submit="doneEditing(manifestFile)" ng-show="manifestFile.editName">
+																						<input ng-model="manifestFile.moFileName" 
+																										ng-blur="doneEditing(manifestFile)" 
+																											ng-dbl-click-focus="manifestFile == editedItem"
+																											ng-show="manifestFile.editName"
+																											ng-class="{errorFocus:manifestFile.moFileName.length == 0}"
+																											name="manifestFileName"
+																											class="manifestFolderFileNames">
+																							</form>
+																							<a ng-click="removeManifestFile($index)" class="manifestFileOperations" ng-show="checkManifestVisibility(manifestFile.moFileName)">
+																								<i class="delete-icon"></i>
+																							</a>
+																					</span>
+																																																									
+																				</span>
+												</span>
+										</span>
+									</div>
+									<div class="tab-pane fade" id="files" style="padding-left:20px;padding-top:10px;">
+										<!--<a href="#" ng-click="setUploadSettings('files',null)">Upload Files</a>-->
+										<span class="folderExpand">
+														<a data-toggle="collapse" class="manifestFolderViewControl ng-binding">
+															<i ng-class="{'icon-folder-open-alt':true}" class="icon-folder-open-alt"></i> 
+														</a>
+										</span>
+										<span class="manifestsFolderName">
+												<label class="folderNames">files</label>
+										</span>
+										<div class="btn-group manifestControls">
+												<button type="button" 
+														ng-click="setUploadSettings('files',null)" 
+														title="click to upload new files" 
+														class="btn btn-default moduleOperations"
+														style="display:block">
+													<i class="icon-upload"></i>
+												</button>
+										</div>
+										<span ng-repeat="moFolderFile in puppet.files">
+												<span class="moduleFolderFileName" ng-class-odd="'odd'" ng-class-even="'even'">
+													<a class="fileIcon">
+														<i class="icon-file"></i>
+													</a>
+													<label ng-bind="moFolderFile.moFileName"													
+														class="fileNames">
+													</label>
+													<a ng-click="removeModuleFile(puppet.files,$index)" class="moduleFileOperations">
+														<i class="delete-icon"></i>
+													</a>
+												</span>
+																																																								
+										</span>
+									</div>
+								</div> </div>
+								
+							</div>
+							
+							<div id="puppetEditor" ng-class="{'maximized':zoomEditor,'maximizedValidation':customPositioning}" ng-init="zoomEditor = false">
+								<div class="sBoxHeading">
+									<div class="sBoxTitle">
+										<span class="puppetEditorTitle left">Puppet Editor</span>
+										<span class="puppetEditorTitle right">
+											<i class="icon-zoom-in" ng-click="changeEditorPositioning()" ng-hide="zoomEditor"></i>
+											<i class="icon-zoom-out" ng-click="changeEditorPositioning()" ng-hide="!zoomEditor"></i>
+										</span>
+									</div>
+								</div>
+								<div id="puppetEditorConsole">
+									<div class="input-group">
+										<input class="form-control" type="text" 
+											ng-model="activeModuleFile.moFileName" 
+											ng-disabled="activeModuleFile === null"
+											ng-class="{errorFocus:activeModuleFile.moFileName.length == 0}" id="activeModuleFileName" name="moduleActiveName">
+									</div>
+									<div class="input-group">
+										<div class="form-control" 
+											ui-codemirror="scriptEditorOptions"
+											id="puppetEditorSource" 
+											ng-model="activeModuleFile.moFileSource" 
+											ng-disabled="activeModuleFile === null">
+										</div>
+									</div>
+									<input type="button" 
+										class="btn btn-primary" 
+										name="Verify" 
+										ng-click="checkManifest()"
+										value="Verify"
+										ng-disabled="activeModuleFile === null">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="provisioningConsoleSection" style="display:none"></div>
+					<div class="provisioningConsoleSection" style="display:none"></div>
+				</div>

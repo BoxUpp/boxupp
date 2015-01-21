@@ -1,0 +1,46 @@
+<div class="modal fade" id="fileImportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-width">
+    <div class="modal-content left-radius">
+     
+      <div class="modal-body">
+        <div ng-controller="VagrantFileUpload">
+			<ul class="nav nav-tabs nav-tabs-top ">
+			  <li class="active"><a  class="nav-color" href="#manifest" data-toggle="tab">VM Config(Defaults)</a></li>
+			  <!--<li><a class="nav-color" href="#profile" data-toggle="tab">Profile</a></li>-->
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+			  <div class="tab-pane  top-paddiing active" id="manifest"  style="height:200px;">
+				<div class="ddBox">
+                      <div class="ddBoxHeading">
+                        <div class="ddBoxTitle">Machine Details</div>
+                      </div>
+                      <div class="ddBoxBody hasmenu ddBoxBody-hight">
+                        						
+                        <div class='container-fluid input-group input-group-sm'>
+							
+							<form enctype="multipart/form-data" method="post" id="vagrantForm" name="vagrantFUpload">
+								<input type="file" id="vagrantFileSelector" name="dataFile">
+								<button type="button" id="startVagrantFileUpload" ng-click="startUpload()">Upload file</button>
+							</form> 
+							
+							
+						</div>	
+					  </div>
+                    </div>
+                    
+			  </div>
+			  <div class="tab-pane tab-pane-padding" id="profile">Profile Content</div>
+			</div>
+		</div>
+		<!--<div class="alert alert-success ">
+			<strong>Warning!</strong> Better check yourself, you're not looking too good.
+		</div>-->
+      </div>
+      <div class="modal-footer top-boder">
+        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

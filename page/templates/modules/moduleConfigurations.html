@@ -1,0 +1,66 @@
+<div ng-show="projectData.modules.length === 0">
+	<span class="messageTitle">No Modules found</span>
+</div>
+<div ng-show="projectData.modules.length >0 && activeModule === null">
+	<span class="messageTitle">Select a module to manage</span>
+</div>
+
+<div class="boxDetails" ng-show="projectData.modules.length>0 && activeModule !== null">
+	<table class="table table-striped configurations" >
+		<thead>
+			<tr>
+				<td>Module Name</td>
+				<td>Creation Time</td>
+				<td>Downloads</td>
+				<td>Author</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeModule.moduleName"></span></td>
+				<td><span ng-bind="activeModule.created_at"></span></td>
+				<td><span ng-bind="activeModule.downloads"></span></td>
+				<td><span ng-bind="activeModule.author"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-striped configurations">
+		<thead>
+			<tr>
+				<td>Version</td>
+				<td>Updation Time</td>
+				<td>Supported</td>
+				<td>MetaData Name</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeModule.version"></span></td>
+				<td><span ng-bind="activeModule.updated_at"></span></td>
+				<td><span ng-bind="activeModule.supported"></span></td>
+				<td><span ng-bind="activeModule.metaData_name"></span></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-striped configurations">
+		<thead>
+			<tr>
+				<td>File Size</td>
+				<td>License</td>
+				<td>Summary</td>
+				<td>Owner Name</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeModule.file_size"></span></td>
+				<td><span ng-bind="activeModule.license"></span></td>
+				<td><span ng-bind="activeModule.summary"></span></td>
+				<td><span ng-bind="activeModule.owner_username"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="moduleMapping"></div>
+	
+</div>

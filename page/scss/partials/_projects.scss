@@ -1,0 +1,75 @@
+div.project-container{
+	position : absolute;
+	top:100px;
+
+
+	
+
+	span.titleText{
+		
+		font-family: 'Roboto', sans-serif;		
+		font-size: 22px;
+		line-height: 11px;	
+		font-weight : 100;
+		color : #FFF;
+	}
+	a.titleTextAction{
+		font-family: 'Roboto', sans-serif;		
+		font-size: 22px;
+		line-height: 11px;	
+		font-weight : 300;	
+	}
+
+	ul.projectsList{
+		list-style : none;
+		color : #FFF;
+		li{
+			margin-bottom : 10px;
+			a{
+				display:block;
+				overflow : auto;
+				text-decoration: none;
+				cursor : pointer;
+				padding : 10px;
+				background : none ;
+				border : 1px solid grey;
+				color:#FFF;
+
+				div.projectLogo{
+					font-size : 35px;
+					float : left;
+				}
+				div.projectTitle{
+					position : absolute;
+					left : 94px;
+					font-family: 'Open Sans', sans-serif;
+					text-transform: uppercase;
+					font-weight: 700;
+					font-size: 11px;
+
+					span{
+						color:#71B1D1;
+					}
+				}
+				div.projectDesc{
+					overflow:hidden;
+					position : absolute;
+					top : 32px;
+					left : 94px;
+					width : 66%;
+					font-family: 'Open Sans', sans-serif;
+					font-size: 12px;
+				}
+			}
+			a:hover{
+				background : #71B1D1;
+				color : #FFF;
+				div.projectTitle{
+					span{
+						color:#FFF;
+					}
+				}
+			}
+		}
+	}
+}

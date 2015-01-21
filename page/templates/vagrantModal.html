@@ -1,0 +1,74 @@
+<!-- <div class="modal fade" id="vagrantFileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Vagrant File</h4>
+      </div>
+      <div class="modal-body">
+			<span class="fileMarker"># -*- mode: ruby -*-</span>
+			<span class="fileMarker"># vi: set ft=ruby :</span>
+			<span class="fileMarker">Vagrant.configure("2") do |config|</span><br>
+
+				<span class="machineBlock" ng-repeat="box in boxesData">
+					<span class="boxConfig">config.vm.define :<input ng-model="box.vagrantID"> do |{{getVagrantBlockID($index)}}|
+						<span class="boxProp">{{getVagrantBlockID($index)}}.vm.hostname = "<input ng-model="box.hostName">"</span>
+						<span class="boxProp">{{getVagrantBlockID($index)}}.vm.box = "<input ng-model="box.boxType">"</span>
+						<span class="boxProp">{{getVagrantBlockID($index)}}.vm.box_url = "<input ng-model="box.boxUrl">"</span>
+						<span class="boxProp">{{getVagrantBlockID($index)}}.vm.boot_timeout = "<input ng-model="box.bootTimeout">"</span>
+						<span class="boxProp">{{getVagrantBlockID($index)}}.vm.network :private_network, ip: "<input ng-model="box.networkIP">"</span>
+					<span ng-repeat="portMap in box.portMappings">
+						<span class="boxProp">{{getVagrantBlockID($parent.$index)}}.vm.network "forwarded_port", guest:<input ng-model="portMap.hostPort">,host:<input ng-model="portMap.vmPort">,auto_correct: true</span>
+					</span>
+					<span ng-repeat="syncMap in box.syncFolders">
+						<span class="boxProp">{{getVagrantBlockID($parent.$index)}}.vm.synced_folder "<input ng-model="syncMap.hostFolder">","<input ng-model="syncMap.vmFolder">"</span>
+					</span>
+					<br>
+					<span ng-if="box.isPuppetMaster" class="puppetMasterSync">
+						{{getVagrantBlockID($index)}}.vm.synced_folder "manifests", "/etc/puppetlabs/puppet/manifests"
+						{{getVagrantBlockID($index)}}.vm.synced_folder "modules", "/etc/puppetlabs/puppet/modules"
+						{{getVagrantBlockID($index)}}.vm.synced_folder "files", "/etc/puppetlabs/puppet/files"
+						<br>
+						<span>
+							config.vm.provision "puppet" do |{{getVagrantBlockID($index)}}|
+						</span>
+						<span class="masterConfigData">
+							{{getVagrantBlockID($index)}}.manifests_path = "manifests"
+						</span>
+						<span class="masterConfigData">
+							{{getVagrantBlockID($index)}}.manifest_file  = "site.pp"
+						</span>
+						<span class="masterConfigData">
+							{{getVagrantBlockID($index)}}.module_path = "modules"
+						</span>
+						<span>end</span>
+					</span>
+					
+					<span ng-if="box.isPuppetMaster" class="puppetMasterConfig">
+						
+					</span>
+					
+						<span class="providerConfig">{{getVagrantBlockID($index)}}.vm.provider "<input ng-model="box.providerType">" do |prov|
+							<span class="providerProp">prov.customize ["modifyvm", :id, "--memory", "<input ng-model="box.memory">"]</span>
+							<span class="providerProp">prov.customize ["modifyvm", :id, "--cpuexecutioncap", "<input ng-model="box.cpuExecCap">"]</span>
+							<span class="providerProp">prov.gui=<input ng-model="box.guiMode">"</span>
+							<span class="providerProp">prov.name="<input ng-model="box.provisionerName">"</span>
+							<span class="providerBlockMarker">end</span>
+						</span><br>
+						<span ng-if="box.isShellMapped" class="shellMappings">
+							<span ng-repeat="shellMapping in box.linkedScripts">
+								{{getVagrantBlockID($parent.$index)}}.vm.provision "shell", path:"./scripts/<input ng-model="shellMapping" disabled>, privileged:"true"
+							</span>
+						</span>
+					</span>
+					<span class="machineBlockMarker">end<br></span>
+					<span class="configSpacers"><br><br></span>
+				</span>
+			<span class="fileBlockMarker">end<br></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div> -->

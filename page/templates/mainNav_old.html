@@ -1,0 +1,126 @@
+
+<div class="mainNavElements col-md-2" style="position:absolute; top:51px; bottom:0px; ">
+
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		  	<div class="panel-heading">
+		  		<!--<h4 class="panel-title">-->
+			        <a data-target="#dashboardList , #dashboardPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true" ng-nit="$parent.collapseSecNav = true">
+						<div class="main-nav-icon"><i class="fa fa-desktop"></i></div>
+						<div class="main-nav-label">Dashboard</div>
+						<div class="main-nav-description"></div>
+					</a>
+		      	<!--</h4>-->
+		  	</div>
+		  </div>	
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" data-target="#manageCollapse">
+		          Manage
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="manageCollapse" class="panel-collapse collapse">
+		      <div class="panel-body">
+				<ul class="nav nav-pills nav-stacked mainNavList">
+				  	<!--<li class="active">
+						<a data-target="#dashboardList , #dashboardPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true" ng-nit="$parent.collapseSecNav = true">
+							<div class="main-nav-icon"><i class="fa fa-th"></i></div>
+							<div class="main-nav-label">All Items</div>
+							<div class="main-nav-description"></div>
+						</a>
+					</li>-->
+				  	<li>
+				  		<a data-target="#boxesList , #boxesPlayArea, #newBox" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false">
+				  			<div class="main-nav-icon">
+				  				  <i class="fa fa-cubes"></i>
+				  			</div>
+							<div class="main-nav-label">Boxes</div>
+							<div class="main-nav-description"></div>
+						</a>
+					</li>
+				  	<li>
+				  		<a data-target="#scriptsList , #scriptsPlayArea, #newScript" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false">
+				  			<div class="main-nav-icon">
+				  				  <i class="fa fa-file-code-o"></i>
+				  			</div>
+							<div class="main-nav-label">Scripts</div>
+							<div class="main-nav-description"></div>
+						</a>
+					</li>
+				  	<li>
+				  		<a data-target="#modulesList , #modulesPlayArea, #newModule" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false">
+				  			<div class="main-nav-icon">
+				  				  <i class="fa fa-gears"></i>
+				  			</div>
+							<div class="main-nav-label">Modules</div>
+							<div class="main-nav-description"></div>
+						</a>
+					</li>
+				</ul>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" data-target="#provisionCollapse">
+						Provision
+					</a>
+				</h4>
+			</div>
+			<div id="provisionCollapse" class="panel-collapse collapse">
+				<div class="panel-body">
+					<ul class="nav nav-pills nav-stacked mainNavList">
+					  	<li class="active">
+							<a data-target="#shellProvPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
+								<div class="main-nav-icon"><i class="fa fa-th"></i></div>
+								<div class="main-nav-label">Shell Scripts</div>
+								<div class="main-nav-description"></div>
+							</a>
+						</li>
+						<li>
+							<a data-target="#puppetProvPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
+								<div class="main-nav-icon"><i class="fa fa-th"></i></div>
+								<div class="main-nav-label">Puppet Modules</div>
+								<div class="main-nav-description"></div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		  </div>
+
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" data-target="#shareCollapse">
+						Share
+					</a>
+				</h4>
+			</div>
+			<div id="shareCollapse" class="panel-collapse collapse">
+				<div class="panel-body">
+					<ul class="nav nav-pills nav-stacked mainNavList">
+					  	<li class="active">
+							<a data-target="#githubPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
+								<div class="main-nav-icon"><i class="fa fa-th"></i></div>
+								<div class="main-nav-label">Github</div>
+								<div class="main-nav-description"></div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		  </div>
+
+
+		</div>
+
+		
+
+
+
+</div>
