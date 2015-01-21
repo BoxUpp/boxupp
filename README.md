@@ -5,7 +5,7 @@ Boxupp is built over Vagrant and exposes all the functionalities offered by Vagr
 
 Vagrant is an awesome tool to manage the development environments and we want to enhance the experience even further.
 
-### Boxupp offers the following features:<hr>
+### Features:<hr>
 
 #### 1) Inbuilt Vagrant Intelligence
 You do not need to learn Vagrant syntax. Boxupp knows what vagrant commands to run to bring your dashboard box 
