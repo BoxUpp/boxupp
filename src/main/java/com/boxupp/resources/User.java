@@ -64,4 +64,9 @@ public class User {
 		return UserDAOManager.getInstance().checkForExistingUser(userId);
 	}
 	
+	/*
+	@DELETE
+	@Path("/signout")
+	public
+	*/
 }

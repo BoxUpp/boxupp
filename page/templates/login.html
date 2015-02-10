@@ -23,7 +23,7 @@
                           <i class="fa fa-unlock-alt loginInput"></i>
                         </div>
                         <div class="field col-sm-11">
-                          <input type="password" ng-model="loginCredentials.password" class="form-control loginInput" placeholder="Enter your password" required>
+                          <input type="password" ng-model="loginCredentials.password" class="form-control loginInput" placeholder="Enter your password" ng-keyup="$event.keyCode == 13 ? checkUserLogin() : null" required>
                         </div>
                       
                     </div>
