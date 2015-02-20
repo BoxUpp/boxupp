@@ -57,8 +57,6 @@ public class User {
 	@Path("/getProjects/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProjectBean> getAllProjectsList(@PathParam("id") String userId){
-		//HttpSession session = request.getSession();
-		//System.out.print("In projects:"+session.isNew());
 		return ProjectDAOManager.getInstance().retireveProjectsForUser(userId);
 	}
 	
