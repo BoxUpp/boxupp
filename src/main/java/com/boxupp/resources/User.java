@@ -17,11 +17,14 @@ package com.boxupp.resources;
 
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonNode;
@@ -39,8 +42,8 @@ public class User {
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserAuthenticationResponse getLoginUserId(JsonNode loginCredentials){
-		return LoginDAOManager.getInstance().loginAuthorization(loginCredentials);
+	public UserAuthenticationResponse getLoginUserId(JsonNode loginCredentials,@Context HttpServletRequest request){
+		return LoginDAOManager.getInstance().loginAuthorization(loginCredentials,request);
 	}
 	
 	@POST
@@ -54,6 +57,8 @@ public class User {
 	@Path("/getProjects/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProjectBean> getAllProjectsList(@PathParam("id") String userId){
+		//HttpSession session = request.getSession();
+		//System.out.print("In projects:"+session.isNew());
 		return ProjectDAOManager.getInstance().retireveProjectsForUser(userId);
 	}
 	
@@ -64,5 +69,17 @@ public class User {
 		return UserDAOManager.getInstance().checkForExistingUser(userId);
 	}
 	
+	@GET
+	@Path("/signout")
+	public void deleteSession(@Context HttpServletRequest request){
+		SessionTracker.getInstance().destroySession(request);
+	}
+
+	@GET
+	@Path("/checkSession")
+	public Boolean checkSession(@Context HttpServletRequest request){
+		return SessionTracker.getInstance().isSessionActive(request);
+	}
 	
+
 }
