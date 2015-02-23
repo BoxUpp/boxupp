@@ -14,42 +14,67 @@
  *  limitations under the License.
  *******************************************************************************/
 angular.module('boxuppApp',['ui.codemirror','app','ngAnimate', 'ngLoadScript','ngRoute','ngResource','ui.ace','ngMessages']).
-	controller('boxuppAppController',function($scope,$http,$rootScope,$timeout,vagrantStatus,executeCommand){
-	
+	controller('boxuppAppController',function($scope,$http,$rootScope,$timeout,vagrantStatus,executeCommand,$q,$location,User){
+		
 	$scope.vagrantOutput = [{"type":"normal","output":"C:\\Users\\Paxcel Techn…second","dataEnd":false,"vagrantFileExists":true}];
-	
-	}).config(['$routeProvider',
-  		function($routeProvider) {
-  		
-		    $routeProvider.when('/login/',{
-		    	templateUrl: 'templates/login.html',
-		    	controller: 'loginController'
-		      }).when('/:userID/projects/', {
-		        templateUrl: 'templates/projects.html',
-		        controller: 'projectController'
-		      }).when('/projects/:userID/:projectID/:providerType/',{
-		      	templateUrl: 'templates/projectInit.html',
-		      	controller: 'projectInitController'
-		      }).when('/projects/:userID/:projectID/:providerType/docker/',{
-		      	templateUrl: 'templates/dockerDashboard.html',
-		      	controller: 'vboxController',
-		      	resolve : {
-		      		provider : function(){
-		      			return 'docker';
-		      		}
-		      	}
-		      }).when('/projects/:userID/:projectID/:providerType/virtualbox/',{
-		      	templateUrl: 'templates/vboxDashboard.html',
-		      	controller: 'vboxController',
-		      	resolve : {
-		      		provider : function(){
-		      			return 'virtualbox';
-		      		}
-		      	}
-		      }).otherwise({
-		      	redirectTo : '/login/'
-		      });
- 	 	}
- 	 ]);
+	}).config(['$routeProvider','$httpProvider',
+	           function($routeProvider,$httpProvider) {
 
-	
+		$routeProvider.when('/login/',{
+			templateUrl: 'templates/login.html',
+			controller: 'loginController'
+		}).when('/:userID/projects/', {
+			templateUrl: 'templates/projects.html',
+			controller: 'projectController',
+			resolve: {
+				success: function (User) {
+					return User.checkSession();
+				}
+			}
+		}).when('/projects/:userID/:projectID/:providerType/',{
+			templateUrl: 'templates/projectInit.html',
+			controller: 'projectInitController',
+			resolve:{ 
+				success: function (User) {
+					return User.checkSession();
+				}
+			}
+		}).when('/projects/:userID/:projectID/:providerType/docker/',{
+			templateUrl: 'templates/dockerDashboard.html',
+			controller: 'vboxController',
+			resolve : {
+				provider : function(){
+					return 'docker';
+				},
+				success: function (User) {
+					return User.checkSession();
+				}
+			}
+		}).when('/projects/:userID/:projectID/:providerType/virtualbox/',{
+			templateUrl: 'templates/vboxDashboard.html',
+			controller: 'vboxController',
+			resolve : {
+				provider : function(){
+					return 'virtualbox';
+				},
+				success: function (User) {
+					return User.checkSession();
+				}
+			}
+		}).otherwise({
+			redirectTo : '/login/'
+		});
+
+		$httpProvider.interceptors.push(function ($q,$location) {
+			return {
+				'responseError': function (rejection) {
+					if (rejection.status === 401) {
+						$location.path('/login/');
+					}
+					return $q.reject(rejection);
+				}
+			};
+		});
+
+	}
+	])

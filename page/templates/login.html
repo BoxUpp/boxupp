@@ -1,170 +1,192 @@
 <!--<div class="container">
     <div class="row">-->
-      <div class="login-container col-sm-offset-4 col-sm-4" ng-show="showLogin" ng-init="showLogin = true">
-            <div class="container-fluid">
-              <div class="row rowShadow">
-                  <div class="logo col-sm-12">
-                    <img src="img/logo.png" title="boxupp" alt="logo">
-                  </div>
-                  
-                  <form name="user-registration"> 
-                    <div class="form-field">
-                        <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-envelope loginInput iconStyle"></i> 
-                        </div>
-                        <div class="field col-sm-11">
-                          <input type="text" ng-model="loginCredentials.loginID" class="form-control loginInput" placeholder="Enter your loginID" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-field">
-                      
-                        <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-unlock-alt loginInput"></i>
-                        </div>
-                        <div class="field col-sm-11">
-                          <input type="password" ng-model="loginCredentials.password" class="form-control loginInput" placeholder="Enter your password" required>
-                        </div>
-                      
-                    </div>
-                    <div class="form-field">
-                      
-                        <div class="fieldIcon col-sm-12">
-                          <a ng-click="checkUserLogin()" class="btn btn-primary">
-                            Sign in
-                          </a>
-                          <span class="loginSpinner" ng-show="checkLogin" ng-init="checkLogin = false">
-                              <i class="fa fa-cog fa-spin"></i>
-                          </span>
-                        </div>
-                      
-                    </div>
-                  
-                  <div class="member-registration col-sm-offset-2" >
-                    <div class="registrationMessage">
-                      <div class="registrationAction col-sm-offset-5 col-sm-5 pull-right">
-                          <a ng-click="showLogin = !showLogin" class="pull-right">Sign up now <i class="fa fa-arrow-right"></i> </a> 
-                      </div>
-                    </div>  
-                  </div>
-                </form>
-            </div>
-            <div class="row">
-                <div class="message-container">
-                    <div class="alert alert-danger" role="alert" ng-show="authError" ng-init="authError = false">
-                      <strong>Error!</strong> <span ng-bind="errorMessage"></span>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
+<div class="login-container col-sm-offset-4 col-sm-4"
+	ng-show="showLogin" ng-init="showLogin = true">
+	<div class="container-fluid">
+		<div class="row rowShadow">
+			<div class="logo col-sm-12">
+				<img src="img/logo.png" title="boxupp" alt="logo">
+			</div>
 
-        <div class="registration-container col-sm-offset-4 col-sm-4" ng-show="!showLogin">
-            <div class="container-fluid">
-              <div class="row rowShadow">
-                  <div class="logo col-sm-12">
-                    <img src="img/logo.png" title="boxupp" alt="logo">
-                  </div>
-                  
-                  <form name="registrationForm" ng-hide="showRegInfo">      
-                    <div class="form-field">
-                        <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-envelope loginInput iconStyle"></i> 
-                        </div>
-                        <div class="field col-sm-11">
-                          <input type="email" ng-focus="emailValidate=false;" ng-blur="emailValidate=true;"
-                          ng-model="newUserDetail.mailID" 
-                          name="emailID"
-                          placeholder="Enter Email ID here"
-                          ng-pattern ='/^(([^<>()[\]\\.,=%;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
-                          class="form-control loginInput" 
-                          required>
-                          <div ng-show="registrationForm.emailID.$dirty &&  registrationForm.emailID.$invalid && emailValidate">
-                            <div class="errorMessage">Invalid email address</div>
-                          </div>
-                        </div>
-                    </div>
+			<iframe src="" id="emptyPageForLogin" name="emptyPageForLogin"
+				style="display: none"></iframe>
 
-                    <div class="form-field">
-                        <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-unlock-alt loginInput"></i> 
-                        </div>
-                        <div class="field col-sm-11">
-                          <input type="password" ng-model="newUserDetail.password" placeholder="Enter password here" class="form-control loginInput" required>
-                        </div>
-                    </div>
+			<form name="user-registration" method="POST" action="#"
+				target="emptyPageForLogin" ng-submit="checkUserLogin()">
+				<div class="form-field">
+					<div class="fieldIcon col-sm-1">
+						<i class="fa fa-envelope loginInput iconStyle"></i>
+					</div>
+					<div class="field col-sm-11">
+						<input type="text" name="loginID" id="login"
+							ng-model="loginCredentials.loginID"
+							class="form-control loginInput" placeholder="Enter your loginID"
+							required>
+					</div>
+				</div>
 
-                    <div class="form-field">
-                        <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-user loginInput"></i> 
-                        </div>
-                        <div class="field col-sm-11">
-                          <input type="text" ng-model="newUserDetail.firstName" placeholder="Enter first name here" class="form-control loginInput" required>
-                        </div>
-                    </div>
+				<div class="form-field">
 
-                    <div class="form-field">
-                        <div class="fieldIcon col-sm-1">
-                          <!--<i class="fa fa-user"></i> -->
-                        </div>
-                        <div class="field col-sm-11">
-                          <input type="text" ng-model="newUserDetail.lastName" placeholder="Enter last name here" class="form-control loginInput" required>
-                        </div>
-                    </div>
-                    <div class="form-field">
-                      
-                        <div class="fieldIcon col-sm-12">
-                          <a ng-click="registerNewUser()" class="btn btn-primary" ng-disabled="disableUserReg || registrationForm.$invalid">
-                            Register
-                          </a>
-                          <span class="newRegLoader" ng-show="startRegistration" ng-init="startRegistration = false">
-                              <i class="fa fa-cog fa-spin"></i>
-                          </span>
-                        </div>
-                      
-                    </div>
-                  </form>
-                    <div class=" col-sm-4"  ng-hide="showRegInfo">
-                    
-                      <div class="registrationAction pull-left">
-                          <a ng-click="showLogin = !showLogin" class="pull-left"><i class="fa fa-arrow-left" ng-click="proceedToLogin()"></i>Back </a> 
-                      </div>
-                    
-                  </div>
+					<div class="fieldIcon col-sm-1">
+						<i class="fa fa-unlock-alt loginInput"></i>
+					</div>
+					<div class="field col-sm-11">
+						<!-- <input type="password" id="password" ng-model="loginCredentials.password" class="form-control loginInput" placeholder="Enter your password" ng-keyup="$event.keyCode == 13 ? checkUserLogin() : null" required> -->
+						<input type="password" name="password"
+							ng-model="loginCredentials.password"
+							class="form-control loginInput" placeholder="Enter your password"
+							required>
+					</div>
 
-                    <div class="form-field" ng-show="showRegInfo" ng-init="showRegInfo = false">
-                      
-                        <div class="fieldIcon col-sm-12 pull-left " style="font-size:15px; color:black;">
-                          <!--<a ng-click="showLogin = !showLogin" style="cursor:pointer;">-->
-                          Thanks for registering. A confirmation mail has been sent on your registered email address. Sometimes emails misbehave, so please check your SPAM folder also.<br>
-                            <a ng-click="proceedToLogin()" style="cursor:pointer;">
-                              Click here to login
-                            </a>
-                        </div>
-                      
-                    </div>
+				</div>
 
-                    <div class="form-field" ng-show="showRegError" ng-init="showRegError = false">
-                        <div class="fieldIcon col-sm-12 pull-left" >
-                          <span class="error">
-                            Could not register
-                          </span>
-                        </div>
-                    </div>
-                    
+				<div class="form-field">
 
-                    
-              </div>
-            </div>
-            <div class="row">
-                <div class="message-container">
-                    <div class="alert alert-danger" role="alert" ng-show="regError" ng-init="regError = false">
-                      <strong>Error!</strong> <span ng-bind="regErrorMessage"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="fieldIcon col-sm-12">
+						<button type="submit" class="btn btn-info btn-block">
+							Sign in</button>
+						<span class="loginSpinner" ng-show="checkLogin"
+							ng-init="checkLogin = false"> <i class="fa fa-cog fa-spin"></i>
+						</span>
+					</div>
 
-        
-    <!--</div>
-</div>-->
+				</div>
+
+				<div class="member-registration col-sm-offset-2">
+					<div class="registrationMessage">
+						<div
+							class="registrationAction col-sm-offset-5 col-sm-5 pull-right">
+							<a ng-click="showLogin = !showLogin" class="pull-right">Sign
+								up now <i class="fa fa-arrow-right"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="message-container">
+				<div class="alert alert-danger" role="alert" ng-show="authError"
+					ng-init="authError = false">
+					<strong>Error!</strong> <span ng-bind="errorMessage"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="registration-container col-sm-offset-4 col-sm-4"
+	ng-show="!showLogin">
+	<div class="container-fluid">
+		<div class="row rowShadow">
+			<div class="logo col-sm-12">
+				<img src="img/logo.png" title="boxupp" alt="logo">
+			</div>
+
+			<form name="registrationForm" ng-hide="showRegInfo">
+				<div class="form-field">
+					<div class="fieldIcon col-sm-1">
+						<i class="fa fa-envelope loginInput iconStyle"></i>
+					</div>
+					<div class="field col-sm-11">
+						<input type="email" ng-focus="emailValidate=false;"
+							ng-blur="emailValidate=true;" ng-model="newUserDetail.mailID"
+							name="emailID" placeholder="Enter Email ID here"
+							ng-pattern='/^(([^<>()[\]\\.,=%;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+							class="form-control loginInput" required>
+						<div
+							ng-show="registrationForm.emailID.$dirty &&  registrationForm.emailID.$invalid && emailValidate">
+							<div class="errorMessage">Invalid email address</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-field">
+					<div class="fieldIcon col-sm-1">
+						<i class="fa fa-unlock-alt loginInput"></i>
+					</div>
+					<div class="field col-sm-11">
+						<input type="password" ng-model="newUserDetail.password"
+							placeholder="Enter password here" class="form-control loginInput"
+							required>
+					</div>
+				</div>
+
+				<div class="form-field">
+					<div class="fieldIcon col-sm-1">
+						<i class="fa fa-user loginInput"></i>
+					</div>
+					<div class="field col-sm-11">
+						<input type="text" ng-model="newUserDetail.firstName"
+							placeholder="Enter first name here"
+							class="form-control loginInput" required>
+					</div>
+				</div>
+
+				<div class="form-field">
+					<div class="fieldIcon col-sm-1">
+						<!--<i class="fa fa-user"></i> -->
+					</div>
+					<div class="field col-sm-11">
+						<input type="text" ng-model="newUserDetail.lastName"
+							placeholder="Enter last name here"
+							class="form-control loginInput" required>
+					</div>
+				</div>
+				<div class="form-field">
+
+					<div class="fieldIcon col-sm-12">
+						<a ng-click="registerNewUser()" class="btn btn-primary"
+							ng-disabled="disableUserReg || registrationForm.$invalid">
+							Register </a> <span class="newRegLoader" ng-show="startRegistration"
+							ng-init="startRegistration = false"> <i
+							class="fa fa-cog fa-spin"></i>
+						</span>
+					</div>
+
+				</div>
+			</form>
+			<div class=" col-sm-4" ng-hide="showRegInfo">
+
+				<div class="registrationAction pull-left">
+					<a ng-click="showLogin = !showLogin" class="pull-left"><i
+						class="fa fa-arrow-left" ng-click="proceedToLogin()"></i>Back </a>
+				</div>
+
+			</div>
+
+			<div class="form-field" ng-show="showRegInfo"
+				ng-init="showRegInfo = false">
+
+				<div class="fieldIcon col-sm-12 pull-left "
+					style="font-size: 15px; color: black;">
+					<!--<a ng-click="showLogin = !showLogin" style="cursor:pointer;">-->
+					Thanks for registering. A confirmation mail has been sent on your
+					registered email address. Sometimes emails misbehave, so please
+					check your SPAM folder also.<br> <a
+						ng-click="proceedToLogin()" style="cursor: pointer;"> Click
+						here to login </a>
+				</div>
+
+			</div>
+
+			<div class="form-field" ng-show="showRegError"
+				ng-init="showRegError = false">
+				<div class="fieldIcon col-sm-12 pull-left">
+					<span class="error"> Could not register </span>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="message-container">
+			<div class="alert alert-danger" role="alert" ng-show="regError"
+				ng-init="regError = false">
+				<strong>Error!</strong> <span ng-bind="regErrorMessage"></span>
+			</div>
+		</div>
+	</div>
+</div>

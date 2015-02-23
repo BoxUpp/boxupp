@@ -15,8 +15,12 @@
  *******************************************************************************/
 package com.boxupp.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +30,7 @@ import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.UserCredentials;
 import com.boxupp.db.beans.UserDetailBean;
 import com.boxupp.db.beans.UserProjectMapping;
+import com.boxupp.resources.SessionTracker;
 import com.boxupp.responseBeans.UserAuthenticationResponse;
 import com.google.gson.Gson;
 import com.j256.ormlite.dao.Dao;
@@ -49,7 +54,7 @@ public class LoginDAOManager {
 		userDetailDao = DAOProvider.getInstance().fetchDao(UserDetailBean.class);
 	}
 	
-	public UserAuthenticationResponse loginAuthorization(JsonNode loginCredentials){
+	public UserAuthenticationResponse loginAuthorization(JsonNode loginCredentials,HttpServletRequest request) {
 		UserAuthenticationResponse authResponse = new UserAuthenticationResponse();
 		UserCredentials loginBean = null;
 		Gson loginParam = new Gson();
@@ -60,7 +65,14 @@ public class LoginDAOManager {
 				authResponse.setStatusCode(0);
 				authResponse.setUserID(userData.get(0).getUserID());
 				authResponse.setStatusMessage("User authenticated successfully");
-				
+				// create session 
+				try {
+					SessionTracker.getInstance().createSession(request,(String)loginBean.getLoginID());
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (ServletException e) {
+					e.printStackTrace();
+				}
 			}else{
 				authResponse.setStatusCode(1);
 				authResponse.setStatusMessage("User could not be authenticated");
