@@ -44,12 +44,11 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User,$r
 	}
 
 	$scope.checkUserLogin = function(){
-
+				
 		$scope.checkLogin = true;
 		$scope.authError = false;
 		try{
 			var lc = $scope.loginCredentials;
-
 			if( angular.isUndefined(lc && lc.loginID && lc.password)){
 				throw "Empty Username/Password !";	
 			} 
