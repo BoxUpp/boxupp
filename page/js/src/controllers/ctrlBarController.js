@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *******************************************************************************/
-angular.module('boxuppApp').controller('ctrlBarController',function($scope,shellScript,$routeParams,miscUtil,MachineConfig){
+angular.module('boxuppApp').controller('ctrlBarController',function($scope,shellScript,$routeParams,miscUtil,MachineConfig,HostName){
 
 	
 
@@ -88,6 +88,46 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.quickBoxCommitLoader = false;
 		$scope.modals.close.box();
 	}
+	
+	$scope.createAwsBoxes= function(boxData){
+		$('#boxModal').modal('hide');
+		$scope.quickBoxCommitLoader = true;	
+		$scope.toBeCreatedBox = angular.copy(boxData);
+		
+		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.providerType = $scope.providerType;
+		$scope.toBeCreatedBox.isDisabled = false;
+		MachineConfig.save($scope.toBeCreatedBox,function(data){
+			$scope.boxesData.push(data.beanData);
+			$scope.quickBox = {};
+			$scope.quickBoxForm.$setPristine();
+			$scope.deployBox(data.beanData);
+		});
+		$scope.quickBoxForm.$setPristine();
+		$scope.quickBoxCommitLoader = false;	
+		$scope.resetAwsBoxFields();
+	}
+	
+
+	
+	$scope.resetAwsBoxFields = function(){
+		$scope.rawBox.vagrantID="";
+		$scope.rawBox.hostName="";
+		$scope.rawBox.machineAmi=""
+		$scope.rawBox.instanceCategory=""
+		$scope.rawBox.instanceType=""
+		$scope.rawBox.instanceRegion="";
+		$scope.rawBox.sshUserName="";
+		
+	}
+	
+	$scope.closeModal=function(){
+		$('#boxModal').modal('hide');
+		$scope.projectData.boxesState.update=false;
+		$scope.resetAwsBoxFields();
+	}
+	
 	$scope.createContainerBoxes = function(boxData){
 		$('#boxModal').modal('hide');
 		$scope.quickContainerBoxCommitLoader = true;
@@ -113,6 +153,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.modals.close.containerBox();
 	}
 	
+	
 	$scope.createQuickBox = function(boxData){
 		
 		$scope.toBeCreatedBox = angular.copy(boxData);
@@ -131,6 +172,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		});
 		$scope.quickBoxCommitLoader = false;	
 	}
+	
 	$scope.createContainerQuickBox = function(boxData){
 		
 		$scope.toBeCreatedBox = angular.copy(boxData);
@@ -175,6 +217,21 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.rawBoxForm.basicSettings.hostName.$render();
 
 	}
+
+	$scope.cloneAwsBoxData = function(cloneBox){
+		$('#boxModal').modal('show');
+
+		$scope.toBeClonedBox = angular.copy(cloneBox);
+		if($scope.toBeClonedBox.networkIP != null){
+			$scope.toBeClonedBox.networkIP = null;
+		}
+		$scope.toBeClonedBox.vagrantID = null;
+		$scope.toBeClonedBox.hostName = null;
+		angular.extend($scope.rawBox,$scope.toBeClonedBox);
+		
+	}
+
+	
 	$scope.cloneContainerBoxData = function(cloneBox){
 
 		$('#boxModal').modal('show');

@@ -31,7 +31,17 @@ ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Prov
             $timeout(function(){
                 $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/docker/");
             },3000);
-        }else{
+        }
+        else if(newVal.name === 'AWS') {
+            //$location.path("#/projects/{{$routeParams.projectID}}/docker");
+            var userID = $routeParams.userID;
+            var projectID = $routeParams.projectID;
+            var providerID = $routeParams.providerType;
+            $timeout(function(){
+                $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/AWS/");
+            },3000);
+        }
+        else{
 
             var userID = $routeParams.userID;
             var projectID = $routeParams.projectID;
@@ -40,7 +50,6 @@ ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Prov
             $timeout(function(){
                 $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/virtualbox/");    
             },3000);
-            
         }
     },true);
     /*

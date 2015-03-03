@@ -45,6 +45,9 @@ public class VelocityInit {
 		}else if(provider.equalsIgnoreCase("docker")){
 			template = ve.getTemplate("docker.vm");
 		}
+		else if(provider.equalsIgnoreCase("AWS")){
+			template = ve.getTemplate("awsMachine.vm");
+		}
 		return template;
 	}
 	

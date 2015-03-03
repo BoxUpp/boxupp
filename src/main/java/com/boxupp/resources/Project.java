@@ -22,6 +22,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.boxupp.dao.AwsProjectDAOManager;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
@@ -81,6 +83,7 @@ public class Project {
 	public List<MachineConfigurationBean> getAllMachinConfigsList(@PathParam("id") String projectID){
 		return  MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);
 	}
+
 	@GET
 	@Path("/getAllModules/")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -111,5 +114,15 @@ public class Project {
 		String userID = VagrantFileData.get("userID").getTextValue();
 		return Utilities.getInstance().saveVagrantFile(projectID, userID);
 	}
+		
+	@POST
+	@Path("/authenticateCred")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json")
+	public StatusBean authenticateAwsCredentials(JsonNode awsCredentials){
+		return AwsProjectDAOManager.getInstance().authenticateAwsCredentials(awsCredentials);
+	}
+
+	
 	
 }

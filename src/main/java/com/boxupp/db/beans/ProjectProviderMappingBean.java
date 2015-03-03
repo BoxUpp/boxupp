@@ -38,8 +38,6 @@ public class ProjectProviderMappingBean {
 	@DatabaseField(canBeNull = false, useGetSet = true)
 	private Integer providerID;
 
-	
-
 	public Integer getID() {
 		return ID;
 	}

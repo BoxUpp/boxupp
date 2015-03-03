@@ -20,8 +20,10 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
+import com.boxupp.db.beans.ProjectAwsCredentialsMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProviderBean;
 import com.boxupp.db.beans.ShellScriptBean;
@@ -114,4 +116,28 @@ public class DAOProvider {
 		}
 		return shellScriptMappingDao;
 	}
+	
+	// Aws Credential Dao's
+	public Dao<AwsProjectCredentialsBean,Integer> fetchAwsCredentialsDao(){
+		Dao<AwsProjectCredentialsBean,Integer> awsCredentialsDao = null;
+		try{
+			awsCredentialsDao=DaoManager.createDao(DBConnectionManager.getInstance().fetchDBConnection(),AwsProjectCredentialsBean.class);
+		}
+		catch(SQLException e){
+			logger.error("Error initializing DAO access object for AwsProjectCredentials.class : "+e.getMessage());
+		}
+		return awsCredentialsDao;
+	}
+
+	public Dao<ProjectAwsCredentialsMapping,Integer> fetchProjectAwsCredentialsMappingDao(){
+		Dao<ProjectAwsCredentialsMapping,Integer> projectAwsCredentialsMappingDao = null;
+		try{
+			projectAwsCredentialsMappingDao=DaoManager.createDao(DBConnectionManager.getInstance().fetchDBConnection(),ProjectAwsCredentialsMapping.class);
+		}
+		catch(SQLException e){
+			logger.error("Error initializing DAO access object for ProjectAwsCredentialsMapping.class : "+e.getMessage());
+		}
+		return projectAwsCredentialsMappingDao;
+	}
+
 }
