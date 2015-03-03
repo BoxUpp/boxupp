@@ -1,4 +1,4 @@
-# boxupp
+# boxupp  ![Travis status](https://api.travis-ci.org/BoxUpp/boxupp.svg)
 <b> Browser based interface to manage your Vagrant environments </b>
 
 Boxupp is built over Vagrant and exposes all the functionalities offered by Vagrant and much more inside your web-browser.
