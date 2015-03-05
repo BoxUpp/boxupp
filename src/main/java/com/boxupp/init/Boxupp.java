@@ -90,5 +90,6 @@ public class Boxupp {
 			}
 		};
 		EventQueue.invokeLater(runner);
+		System.out.println("Boxupp Server is up at \"http://localhost:" + jettyPort);
 	}
 }
