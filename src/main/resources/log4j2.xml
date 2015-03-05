@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="1800">
 	<Properties>
-		<Property name="loggingLevel">TRACE</Property>
+		<Property name="loggingLevel">ERROR</Property>
 	</Properties>
 	 <Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
