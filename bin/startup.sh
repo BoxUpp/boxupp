@@ -15,6 +15,7 @@
 #*******************************************************************************
 #!/bin/bash
 #Get os Details
+
 os=""
 ls /proc/version > /dev/null 2>&1 
 if [ $? = '0' ];then
@@ -264,6 +265,13 @@ GC_OPTS="-verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDetails"
 GC_MEM="-XX:NewSize=384m -XX:MaxNewSize=384m -XX:SurvivorRatio=4 -Xms512m -Xmx512m"
 
 nohup java $CG_OPTS $GC_MEM -XX:+UseConcMarkSweepGC -XX:+UseParNewGC  -cp $CLASSPATH  com.boxupp.init.Boxupp >> logs/BoxUpp.log  2>&1 &
+for tag in portNumber
+do
+ port=`grep  $tag config/config.xml | tr -d '\t' | sed 's/^<.*>\([^<].*\)<.*>$/\1/' `
+ host="http://localhost:"
+ url="$host $port"
+ echo Boxupp is up at $url !
+done
 echo "Starting Boxupp"
 
 if [ $? -ne 0 ]; then
