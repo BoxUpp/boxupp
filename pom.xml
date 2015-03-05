@@ -345,6 +345,7 @@
           <filtering>true</filtering>
            <excludes>
              <exclude>config.properties</exclude>
+             <exclude>config.xml</exclude>
              <exclude>LICENSE.txt</exclude>
              <exclude>log4j2.xml</exclude>
              <exclude>README.txt</exclude>
