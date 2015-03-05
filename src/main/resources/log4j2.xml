@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="ALL">
+	<Properties>
+		<Property name="loggingLevel">TRACE</Property>
+	</Properties>
 	 <Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
 		</Console>
-		<File name="FileLogs" fileName="logs/boxupp.log">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-		</File>
+		<RollingFile name="RollingFile" fileName="logs/boxupp.log" append="true"
+                 filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			  <PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			  </PatternLayout>
+			  <Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1 MB"/>
+			  </Policies>
+		</RollingFile>
 	 </Appenders>
 	 <Loggers>
-		 <Logger level="error">
+		<Logger name="com.boxupp" level="${loggingLevel}" additivity="true">
 			<AppenderRef ref="Console"/>
-		 </Logger>
-		 <Root level="trace">
-			<AppenderRef ref="FileLogs"/>
-		 </Root>
+		</Logger>
+		<Logger name="com.j256.ormlite" level="${loggingLevel}" additivity="true">
+			<AppenderRef ref="Console"/>
+		</Logger>
+		<Logger name="com.sun.jersey" level="${loggingLevel}" additivity="true">
+			<AppenderRef ref="Console"/>
+		</Logger>
+		<Logger name="org.eclipse.jetty" level="${loggingLevel}" additivity="true">
+			<AppenderRef ref="Console"/>
+		</Logger>
+		<Root level="TRACE">
+			<AppenderRef ref="RollingFile"/>
+		</Root>
 	 </Loggers>
 </Configuration>

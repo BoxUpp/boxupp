@@ -25,6 +25,7 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.boxupp.AppContextBuilder;
 import com.boxupp.JettyServer;
@@ -39,6 +40,9 @@ public class Boxupp {
 	private static Logger logger = LogManager.getLogger(Boxupp.class.getName());
 
 	public static void main(String[] args) throws Exception {
+		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.Log4jLogger");
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
 		
 		Utilities.getInstance().createRequiredFoldersIfNotExists();
 		ToolConfigurationReader toolConfig = new ToolConfigurationReader();
