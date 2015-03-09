@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -344,3 +345,363 @@
   
 </project>
 
+=======
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.paxcel</groupId>
+  <artifactId>boxupp</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>vagrant</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+  	
+  	<dependency>
+		<groupId>javax.persistence</groupId>
+		<artifactId>persistence-api</artifactId>
+		<version>1.0</version>
+	</dependency>
+	<dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-compress</artifactId>
+		  <version>1.8.1</version>
+ 	</dependency>
+  	<!-- <dependency>
+		<groupId>org.jruby</groupId>
+		<artifactId>jrubyparser</artifactId>
+		<version>0.5.3</version>
+	</dependency>--> 
+  	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-api</artifactId>
+	    <version>2.1</version>
+  	</dependency>
+  	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-core</artifactId>
+	    <version>2.1</version>
+  	</dependency>
+  	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-slf4j-impl</artifactId>
+	    <version>2.1</version>
+  	</dependency>
+  	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>1.7.10</version>
+	</dependency>
+  	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jul-to-slf4j</artifactId>
+		<version>1.7.10</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.velocity</groupId>
+		<artifactId>velocity</artifactId>
+		<version>1.7</version>
+	</dependency>
+		
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.2.4</version>
+	</dependency>
+    
+    <dependency>
+		<groupId>org.eclipse.jetty.websocket</groupId>
+		<artifactId>websocket-servlet</artifactId>
+		<version>9.1.3.v20140225</version>
+	</dependency>
+            
+    <dependency>
+		<groupId>com.sun.jersey</groupId>
+		<artifactId>jersey-json</artifactId>
+		<version>1.18</version>
+	</dependency>
+	        
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!--<dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>7.2.0.v20101020</version>
+    </dependency> -->
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-core</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-bundle</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-servlet</artifactId>
+      <version>1.15</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey.contribs</groupId>
+      <artifactId>jersey-multipart</artifactId>
+      <version>1.8</version>
+      	<exclusions>
+	 		<exclusion>
+			    <groupId>org.jvnet</groupId>
+			    <artifactId>mimepull</artifactId>
+	 		</exclusion>
+   		</exclusions>
+    </dependency>
+    <dependency>
+		 <groupId>org.jvnet.mimepull</groupId>
+		 <artifactId>mimepull</artifactId>
+		 <version>1.9</version>
+	</dependency> 
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20090211</version>
+    </dependency>
+
+    <!--  <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>compile</scope>
+    </dependency>-->
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <!--  <version>9.1.3.v20140225</version>  -->
+      <version>9.1.4.v20140401</version>
+    </dependency>
+    
+    <dependency>
+		<groupId>org.apache.derby</groupId>
+		<artifactId>derby</artifactId>
+		<version>10.11.1.1</version>
+	</dependency>
+    
+    <dependency>
+		<groupId>com.j256.ormlite</groupId>
+		<artifactId>ormlite-jdbc</artifactId>
+		<version>4.48</version>
+	</dependency>
+    
+    
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>9.1.4.v20140401</version>
+    </dependency>
+    
+    <!-- <dependency>
+		<groupId>org.eclipse.jetty.websocket</groupId>
+		<artifactId>websocket-core</artifactId>
+		<version>9.0.0.M2</version>
+	</dependency>-->
+	
+	<dependency>
+		<groupId>org.eclipse.jetty.websocket</groupId>
+		<artifactId>websocket-server</artifactId>
+		<version>9.1.4.v20140401</version>
+	</dependency>
+            
+            
+    <!-- jetty-servlets is used to implement CORS functionality for frequent testing -->
+    <dependency>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-servlets</artifactId>
+		<version>9.1.4.v20140401</version>
+	</dependency>
+            
+            
+
+  </dependencies>
+  
+  <build>
+<pluginManagement>
+<plugins>
+    <!-- Ignore/Execute plugin execution -->
+    <plugin>
+        <groupId>org.eclipse.m2e</groupId>
+        <artifactId>lifecycle-mapping</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+            <lifecycleMappingMetadata>
+                <pluginExecutions>
+                    <!-- copy-dependency plugin -->
+                    <pluginExecution>
+                        <pluginExecutionFilter>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-dependency-plugin</artifactId>
+                            <versionRange>[1.0.0,)</versionRange>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                        </pluginExecutionFilter>
+                        <action>
+                            <ignore />
+                        </action>
+                    </pluginExecution>
+                </pluginExecutions>
+            </lifecycleMappingMetadata>
+        </configuration>
+    </plugin>
+   </plugins></pluginManagement>
+   
+   <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <classpathPrefix>lib/</classpathPrefix>
+                        <mainClass>com.paxcel.boxupp.Boxupp</mainClass>
+                    </manifest>
+                </archive>
+            </configuration> 
+            
+        </plugin>
+        
+        <plugin> 
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/boxuppzipdir/lib</outputDirectory>                       
+                        <overWriteReleases>false</overWriteReleases>
+                        <overWriteSnapshots>false</overWriteSnapshots>
+                        <overWriteIfNewer>true</overWriteIfNewer>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-antrun-plugin</artifactId>
+			    <version>1.7</version>
+			    <executions>
+			      <execution>
+			        <id>repack</id>
+			        <phase>package</phase>
+			        <inherited>false</inherited>
+			        <goals>
+			          <goal>run</goal>
+			        </goals>
+			        <configuration>
+			          <target>
+			          		<copy todir="${project.build.directory}/boxuppzipdir/page" > 
+								<fileset dir="${project.build.directory}/../page">
+							  	</fileset>
+							</copy>
+							<delete dir="${project.build.directory}/boxuppzipdir/page/scss"></delete>
+							<delete file="${project.build.directory}/boxuppzipdir/page/desktop.ini"></delete>
+				          	<!-- <copy todir="${project.build.directory}/boxuppzipdir/page/css" >  
+								<fileset dir="${project.build.directory}/${project.artifactId}-${project.version}/page/css">
+							  	</fileset> 
+							</copy>  -->
+							<copy todir="${project.build.directory}/boxuppzipdir/bin" >  
+								<fileset dir="${project.build.directory}/../bin" >
+							  	</fileset> 
+							</copy>
+							
+							<copy todir="${project.build.directory}/boxuppzipdir/WEB-INF" >  
+								<fileset dir="${project.build.directory}/../WEB-INF" >
+							  	</fileset> 
+							</copy>
+							<mkdir dir="${project.build.directory}/boxuppzipdir/logs"/>
+							<copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar" tofile="${project.build.directory}/boxuppzipdir/lib/${project.artifactId}-${project.version}.jar"/>
+							<copy file="${project.build.directory}/../src/main/resources/log4j2.xml" tofile="${project.build.directory}/boxuppzipdir/config/log4j2.xml"/>
+							<copy file="${project.build.directory}/../src/main/resources/LICENSE.txt" tofile="${project.build.directory}/boxuppzipdir/LICENSE.txt"/>
+							<copy file="${project.build.directory}/../src/main/resources/README.txt" tofile="${project.build.directory}/boxuppzipdir/README.txt"/>
+							<copy file="${project.build.directory}/../src/main/resources/User Manual_v1.0.0.pdf" tofile="${project.build.directory}/boxuppzipdir/User Manual_v1.0.0.pdf"/>
+							<copy file="${project.build.directory}/../src/main/resources/config.xml" tofile="${project.build.directory}/boxuppzipdir/config/config.xml"/>
+							<zip basedir="${project.build.directory}/boxuppzipdir/" destfile="${project.build.directory}/${project.artifactId}-v${project.version}.zip"/>
+			          </target>
+			          
+			          </configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+          <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-resources-plugin</artifactId>
+               <version>2.5</version>
+               <configuration>
+               <encoding>UTF-8</encoding>
+               </configuration>
+            </plugin>
+
+      </plugins>
+
+	<resources>
+      <resource>
+        <directory>src/main/resources</directory>
+          <filtering>true</filtering>
+           <excludes>
+             <exclude>config.properties</exclude>
+             <exclude>config.xml</exclude>
+             <exclude>LICENSE.txt</exclude>
+             <exclude>log4j2.xml</exclude>
+             <exclude>README.txt</exclude>
+           </excludes>
+      </resource>
+    </resources>
+</build>
+  
+</project>
+
+>>>>>>> bd016040cebe93d9744a40c2c455c85b700392ce

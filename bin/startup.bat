@@ -60,18 +60,29 @@ SET "BASEDIR="%cd%""
 
 start java -Dfile.encoding=UTF-8 -cp %BASEDIR%;%BASEDIR%\lib\*;%BASEDIR%\config; com.boxupp.init.Boxupp
 
-FOR /F "tokens=1,2 delims==" %%G IN (config\config.properties) DO (set %%G=%%H)
+@echo OFF
+for /f "delims=" %%i in ('findstr /i /c:"<portNumber>" config\config.xml') do call     :job "%%i"
+goto :eof
+
+:job
+
+set port=%1
+
+set port=%port:/=%
+set port=%port:<=+%
+set port=%port:>=+%
+set port=%port:*+portNumber+=%
+set port=%port:+=&rem.%
 Setlocal EnableDelayedExpansion
 set "host=http://localhost:" 
-set "port=%port%" 
 set "url=%host%%port%"
 echo Boxupp is up at %url% !
 endlocal
 
 pause
 
-goto end
 
+:eof
 :virtualboxbend
 echo Error downloading Oracle VirtualBox Please Check Your Network
 pause
