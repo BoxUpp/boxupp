@@ -4,7 +4,7 @@
 
   <groupId>com.paxcel</groupId>
   <artifactId>boxupp</artifactId>
-  <version>1.0.0</version>
+  <version>0.1.1</version>
   <packaging>jar</packaging>
 
   <name>vagrant</name>
@@ -295,7 +295,7 @@
 							<copy file="${project.build.directory}/../src/main/resources/log4j2.xml" tofile="${project.build.directory}/boxuppzipdir/config/log4j2.xml"/>
 							<copy file="${project.build.directory}/../src/main/resources/LICENSE.txt" tofile="${project.build.directory}/boxuppzipdir/LICENSE.txt"/>
 							<copy file="${project.build.directory}/../src/main/resources/README.txt" tofile="${project.build.directory}/boxuppzipdir/README.txt"/>
-							<copy file="${project.build.directory}/../src/main/resources/User Manual_v1.0.0.pdf" tofile="${project.build.directory}/boxuppzipdir/User Manual_v1.0.0.pdf"/>
+							<copy file="${project.build.directory}/../src/main/resources/User Manual_v1.0.0.pdf" tofile="${project.build.directory}/boxuppzipdir/User Manual_v0.1.1.pdf"/>
 							<copy file="${project.build.directory}/../src/main/resources/config.xml" tofile="${project.build.directory}/boxuppzipdir/config/config.xml"/>
 							<zip basedir="${project.build.directory}/boxuppzipdir/" destfile="${project.build.directory}/${project.artifactId}-v${project.version}.zip"/>
 			          </target>
