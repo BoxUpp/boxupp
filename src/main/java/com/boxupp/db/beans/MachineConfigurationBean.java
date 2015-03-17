@@ -54,37 +54,6 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String networkIP;
 
-	@DatabaseField(useGetSet=true)
-	private String machineAmi;
-	
-	@DatabaseField(useGetSet=true)
-	private String instanceType;
-	
-	@DatabaseField(useGetSet=true)
-	private String instanceRegion;
-	
-	@DatabaseField(useGetSet=true)
-	private String sshUserName;
-	
-	@DatabaseField(useGetSet=true)
-	private String instanceCategory;
-
-	
-	@ForeignCollectionField(eager = true, maxEagerLevel =1)
-	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
-	
-	private ArrayList<ForwardedPortsBean> portMappings;
-	
-	@ForeignCollectionField(eager = true, maxEagerLevel =1)
-	private ForeignCollection<SyncFoldersBean> ormSyncFolders;
-	
-	private ArrayList<SyncFoldersBean> syncFolders;
-	
-	@ForeignCollectionField(eager = true, maxEagerLevel =1)
-	private ForeignCollection<DockerLinkBean> ormDockerLinks;
-
-	private ArrayList<DockerLinkBean> dockerLinks;
-	
 	@DatabaseField(useGetSet = true)
 	private String provisionerName;
 
@@ -135,6 +104,36 @@ public class MachineConfigurationBean {
 	
 	@DatabaseField(useGetSet = true, defaultValue="0")
 	private Integer moduleChangeFlag;
+
+	@DatabaseField(useGetSet=true,columnName="MACHINEAMI")
+	private String machineAmi;
+	
+	@DatabaseField(useGetSet=true,columnName="INSTANCETYPE")
+	private String instanceType;
+	
+	@DatabaseField(useGetSet=true,columnName="INSTANCEREGION")
+	private String instanceRegion;
+	
+	@DatabaseField(useGetSet=true,columnName="SSHUSERNAME")
+	private String sshUserName;
+	
+	@DatabaseField(useGetSet=true,columnName="INSTANCECATEGORY")
+	private String instanceCategory;
+
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
+	
+	private ArrayList<ForwardedPortsBean> portMappings;
+	
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<SyncFoldersBean> ormSyncFolders;
+	
+	private ArrayList<SyncFoldersBean> syncFolders;
+	
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<DockerLinkBean> ormDockerLinks;
+
+	private ArrayList<DockerLinkBean> dockerLinks;
 	
 	public void setMachineAmi(String machineAmi){
 		this.machineAmi=machineAmi;

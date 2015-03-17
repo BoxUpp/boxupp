@@ -33,9 +33,12 @@
 						            </div>
 								<div class="boxConfig">
 									<span class="boxConfigTitles">Aws Machine Identity<sup>*</sup></span> <input
-										name="machineAmi" type="text" ng-model="rawBox.machineAmi"
+										name="machineAmi" type="text" ng-model="rawBox.machineAmi"  ng-maxlength="12" ng-minlength="12"
 										class="form-control" required ng-disabled="projectData.boxesState.update" />
-								</div>
+										<div ng-messages="quickBoxForm.machineAmi.$error" >
+						            		<div ng-message="maxlength" class="errorMessage">Id length should be 12 chars</div>
+						            		<div ng-message="minlength" class="errorMessage">Id length should be 12 chars</div>
+						            	</div>								</div>
 								<div class="boxConfig">
 									<span class="boxConfigTitles">Instance Category<sup>*</sup></span>
 									<select name="instanceCategory" ng-model="rawBox.instanceCategory" ng-change="onCategoryChange(rawBox.instanceCategory)"  
@@ -44,7 +47,7 @@
 								</div>
 								<div class="boxConfig">
 									<span class="boxConfigTitles">Instance Type<sup>*</sup></span> <select
-										name="instanceType" ng-model="rawBox.instanceType" ng-options="key for (key,value) in instanceTypes"
+										name="instanceType" ng-model="rawBox.instanceType" ng-options="key for (key,value) in instanceTypes" 
 										class="form-control" required ng-disabled="projectData.boxesState.update" ></select>
 								</div>
 								<div class="boxConfig">

@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProviderDAOManager;
 import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.DockerLinkBean;
@@ -81,7 +82,6 @@ public class DBConnectionManager {
 	private static boolean createDatabases(){
 		
 		//************* CREATE TABLES **************//
-
 			ArrayList<Class> classList = new ArrayList<Class>();
 			classList.add(ProviderBean.class);
 			classList.add(UserDetailBean.class);
@@ -115,9 +115,10 @@ public class DBConnectionManager {
 		try {
 			TableUtils.createTable(connectionSource, className);
 		} catch (SQLException e) {
-				
+			if(className.getSimpleName().equals("MachineConfigurationBean")){
+				UpdateDbSchema.getInstance().checkRequiredColumnsExists(connectionSource);
+			}
 		}
-
 	}
 		
 	public boolean checkForProviderEntries(){

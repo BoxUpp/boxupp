@@ -54,9 +54,9 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 	}
 	
 	$scope.checkAwsCredentialsInput = function(){
-		if($scope.newProject.providerType==3){
-			return $scope.newProjectData.awsAccessKeyId.$valid && $scope.newProjectData.awsSecretAccessKey.$valid &&
-			$scope.newProjectData.awsKeyPair.$valid && $scope.newProjectData.privateKeyPath.$valid ;
+		providerName = $scope.getProviderName($scope.newProject.providerType);
+		if(providerName=="AWS"){
+			return $scope.checkAwsCredentialsStatus();
 		}
 		else{
 			$scope.authenticatCred = true;
@@ -64,13 +64,19 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 		}
 	}
 	
+	$scope.checkAwsCredentialsStatus = function(){
+		return $scope.newProjectData.awsAccessKeyId.$valid && $scope.newProjectData.awsSecretAccessKey.$valid &&
+		$scope.newProjectData.awsKeyPair.$valid && $scope.newProjectData.privateKeyPath.$valid ;
+	}
+	
 	$scope.authenticateAwsCredentials = function(){
 		if($scope.checkAwsCredentialsInput()){
-			$scope.authenticatCred = false;
+			$scope.authenticatCred=false;
 			$scope.awsCred ={};
 			$scope.awsCred.awsAccessKeyId = $scope.newProject.awsAccessKeyId;
 			$scope.awsCred.awsSecretAccessKey = $scope.newProject.awsSecretAccessKey;
 			$scope.awsCred.awsKeyPair =	$scope.newProject.awsKeyPair; 	
+			$scope.awsCred.privateKeyPath = $scope.newProject.privateKeyPath;
 			AuthenticateAwsCred.save($scope.awsCred,function(data){
 				$scope.authenticatCred=!data.statusCode;
 				$scope.awsAuthenticationStatus=true;
@@ -101,10 +107,19 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 	}
 	
 	$scope.checkProviderType = function(providerType){
-		if(providerType==3){
+		providerName = $scope.getProviderName(providerType);
+		if(providerName=="AWS"){
 			$scope.showAwsCredDiv=true;
 		}else{
 			$scope.showAwsCredDiv=false;
+		}
+	}
+	
+	$scope.getProviderName=function(providerType){
+		for(e in $scope.providers){
+			if($scope.providers[e].providerID==providerType){
+				return $scope.providers[e].name;
+			}
 		}
 	}
 

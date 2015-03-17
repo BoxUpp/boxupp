@@ -24,7 +24,6 @@ import com.amazonaws.services.ec2.model.KeyPairInfo;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectAwsCredentialsMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.responseBeans.StatusBean;
@@ -66,10 +65,10 @@ public class AwsProjectDAOManager {
 				String newPrivateKeyPath = AwsProjectDAOManager.getInstance().resetPrivateKeyPath(awsProjectCredBean.getPrivateKeyPath());
 				awsProjectCredBean.setPrivateKeyPath(newPrivateKeyPath);
 			}
-			int rowsUpdated = DAOProvider.getInstance().fetchAwsCredentialsDao().create(awsProjectCredBean);
+			int rowsUpdated = awsCredentialsDao.create(awsProjectCredBean);
 
 			ProjectAwsCredentialsMapping projectAwsCredMapBean = new ProjectAwsCredentialsMapping(projectBean,awsProjectCredBean);
-			rowsUpdated = DAOProvider.getInstance().fetchProjectAwsCredentialsMappingDao().create(projectAwsCredMapBean);
+			rowsUpdated = projectAwsCredentialsMappingDao.create(projectAwsCredMapBean);
 		}
 		catch(SQLException exception){
 			logger.error("Error while saving project credentials "+exception.getMessage());
@@ -97,20 +96,27 @@ public class AwsProjectDAOManager {
 
 		AwsProjectCredentialsBean awsProjectCredentialsBean = null;
 		String instanceID = AwsProjectDAOManager.getInstance().getInstanceId(path);
-		awsProjectCredentialsBean = AwsProjectDAOManager.getInstance().read(newData.get("projectID").asText());
-		String privateHostName =AwsProjectDAOManager.getInstance().getPrivateHostName(instanceID, awsProjectCredentialsBean.getAwsAccessKeyId(), awsProjectCredentialsBean.getAwsSecretAccessKey(),machineConfigBean.getInstanceRegion()); ;
+		if(instanceID!=null){
+			awsProjectCredentialsBean = AwsProjectDAOManager.getInstance().read(newData.get("projectID").asText());
+			String privateHostName =AwsProjectDAOManager.getInstance().getPrivateHostName(instanceID, awsProjectCredentialsBean.getAwsAccessKeyId(), awsProjectCredentialsBean.getAwsSecretAccessKey(),machineConfigBean.getInstanceRegion()); ;
 
-		machineConfigBean.setHostName(privateHostName);
-		machineConfigBean.setConfigChangeFlag(0);
+			machineConfigBean.setHostName(privateHostName);
+			machineConfigBean.setConfigChangeFlag(0);
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode json = objectMapper.valueToTree(machineConfigBean);
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode json = objectMapper.valueToTree(machineConfigBean);
 
-		MachineConfigDAOManager.getInstance().update(json);
+			MachineConfigDAOManager.getInstance().update(json);
+			statusBean.setData(machineConfigBean);
+			statusBean.setStatusCode(0);
+			statusBean.setStatusMessage("Host Name Set");
+		}
+		else{
+			statusBean.setData(machineConfigBean);
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Unable to set Host Name");
+		}
 
-		statusBean.setData(machineConfigBean);
-		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("Host Name Set");
 		return statusBean;
 	}
 
@@ -128,7 +134,10 @@ public class AwsProjectDAOManager {
 			Instance instance = result.getReservations().get(0).getInstances().get(0);
 			privateHostName=instance.getPrivateDnsName();
 		}
-		catch(AmazonServiceException exception){
+		catch(AmazonServiceException amazonServiceException){
+			logger.error("Error while fecthing instance info from aws "+amazonServiceException.getMessage());
+		}
+		catch(Exception exception){
 			logger.error("Error while fecthing instance info from aws "+exception.getMessage());
 		}
 		return privateHostName;
@@ -151,19 +160,39 @@ public class AwsProjectDAOManager {
 	public StatusBean authenticateAwsCredentials(JsonNode awsCredentials){
 		StatusBean statusBean = new StatusBean();
 		String keyPair = awsCredentials.get("awsKeyPair").asText();
+		String privateKeyPath = awsCredentials.get("privateKeyPath").asText();
 		BasicAWSCredentials cred = new BasicAWSCredentials(awsCredentials.get("awsAccessKeyId").asText(),awsCredentials.get("awsSecretAccessKey").asText());
 		AmazonEC2Client ec2Client = new AmazonEC2Client(cred);
 		try{
 			statusBean = validateKeyPair(ec2Client, keyPair);
+			if(statusBean.getStatusCode()==0){
+				checkIfPrivateFileExists(privateKeyPath);
+			}
 		}
-		catch(AmazonServiceException exception){
+		catch(AmazonServiceException amazonServiceException){
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error while authenticating aws credentials");
+			logger.info("invalid aws credentials "+amazonServiceException.getMessage());
+		}
+		catch(FileNotFoundException fileNotFoundException){
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Private Key file not found at entered path");
+			logger.info("Private Key file not found at entered path "+fileNotFoundException.getMessage());
+		}
+		catch(Exception exception){
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error while authenticating aws credentials");
 			logger.info("invalid aws credentials "+exception.getMessage());
 		}
 		return statusBean;
 	}
-	
+
+	private void checkIfPrivateFileExists(String privatekeyPath)throws FileNotFoundException{
+		File file = new File(privatekeyPath);
+		Scanner fileReader = new Scanner(file);
+		fileReader.close();
+	}
+
 	private StatusBean validateKeyPair(AmazonEC2Client ec2Client,String keyPair)throws AmazonServiceException{
 		StatusBean statusBean = new StatusBean();
 		List<com.amazonaws.services.ec2.model.Region> regions = ec2Client.describeRegions().getRegions();

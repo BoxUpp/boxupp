@@ -93,7 +93,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$('#boxModal').modal('hide');
 		$scope.quickBoxCommitLoader = true;	
 		$scope.toBeCreatedBox = angular.copy(boxData);
-		
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;

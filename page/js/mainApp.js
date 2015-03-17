@@ -786,34 +786,32 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			$scope.moduleProvMappings = $scope.convertPuppetMappingsStructure(mappings);
 		});
 	}
-
-	$scope.setInstanceCategory = function(){
-		$scope.instanceCategory = {
-				"General Purpose":"General Purpose",
-				"M3":"M3",
-				"Compute Optimized C4":"Compute Optimized C4",
-				"C3":"C3",
-				"Memory Optimized R3":"Memory Optimized R3",
-				"GPU G2":"GPU G2",
-				"Storage Optimized I2":"Storage Optimized I2",
-				"HS1":"HS1",
-		};
-		$scope.instanceCategoryTypes = {
-				"General Purpose":{"Micro":"t2.micro","Small":"t2.small","Medium":"t2.medium"},
-				"M3":{"Medium":"m3.medium","Large":"m3.large","xLarge":"m3.xlarge","2xLarge":"m3.2xlarge"},
-				"Compute Optimized C4":{"Large":"c4.large","xLarge":"c4.xlarge","2xLarge":"c4.2xlarge","4xLarge":"c4.4xlarge","8xLarge":"c4.8xlarge"},
-				"C3":{"Large":"c3.large","xLarge":"c3.xlarge","2xLarge":"c3.2xlarge","4xLarge":"c3.4xlarge","8xLarge":"c3.8xlarge"},
-				"Memory Optimized R3":{"Large":"r3.large","xLarge":"r3.xlarge","2xLarge":"r3.2xlarge","4xLarge":"r3.4xlarge","8xLarge":"r3.8xlarge"},
-				"GPU G2":{"2xLarge":"g2.2xlarge"},
-				"Storage Optimized I2":{"xLarge":"i2.xlarge","2xLarge":"i2.2xlarge","4xLarge":"i2.4xlarge","8xLarge":"i2.8xlarge"},
-				"HS1":{"8xLarge":"hs1.8xlarge"},
-		};
-
-	}
+	
+	$scope.instanceCategory = {
+			"General Purpose":"General Purpose",
+			"M3":"M3",
+			"Compute Optimized C4":"Compute Optimized C4",
+			"C3":"C3",
+			"Memory Optimized R3":"Memory Optimized R3",
+			"GPU G2":"GPU G2",
+			"Storage Optimized I2":"Storage Optimized I2",
+			"HS1":"HS1",
+	};
+	$scope.instanceCategoryTypes = {
+			"General Purpose":{"Micro":"t2.micro","Small":"t2.small","Medium":"t2.medium"},
+			"M3":{"Medium":"m3.medium","Large":"m3.large","xLarge":"m3.xlarge","2xLarge":"m3.2xlarge"},
+			"Compute Optimized C4":{"Large":"c4.large","xLarge":"c4.xlarge","2xLarge":"c4.2xlarge","4xLarge":"c4.4xlarge","8xLarge":"c4.8xlarge"},
+			"C3":{"Large":"c3.large","xLarge":"c3.xlarge","2xLarge":"c3.2xlarge","4xLarge":"c3.4xlarge","8xLarge":"c3.8xlarge"},
+			"Memory Optimized R3":{"Large":"r3.large","xLarge":"r3.xlarge","2xLarge":"r3.2xlarge","4xLarge":"r3.4xlarge","8xLarge":"r3.8xlarge"},
+			"GPU G2":{"2xLarge":"g2.2xlarge"},
+			"Storage Optimized I2":{"xLarge":"i2.xlarge","2xLarge":"i2.2xlarge","4xLarge":"i2.4xlarge","8xLarge":"i2.8xlarge"},
+			"HS1":{"8xLarge":"hs1.8xlarge"},
+	};
 	
 	$scope.onCategoryChange=function(data){
 		$scope.instanceTypes = $scope.instanceCategoryTypes[data];
 	}
+
 
 	$scope.fetchBoxList();
 	$scope.fetchScriptList();
@@ -821,7 +819,6 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.markActiveProject();
 	$scope.fetchShellScriptMappings();
 	$scope.fetchPuppetMappings();
-	$scope.setInstanceCategory();
 	
 	
 	/*$scope.server = {

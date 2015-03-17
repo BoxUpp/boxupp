@@ -116,28 +116,4 @@ public class DAOProvider {
 		}
 		return shellScriptMappingDao;
 	}
-	
-	// Aws Credential Dao's
-	public Dao<AwsProjectCredentialsBean,Integer> fetchAwsCredentialsDao(){
-		Dao<AwsProjectCredentialsBean,Integer> awsCredentialsDao = null;
-		try{
-			awsCredentialsDao=DaoManager.createDao(DBConnectionManager.getInstance().fetchDBConnection(),AwsProjectCredentialsBean.class);
-		}
-		catch(SQLException e){
-			logger.error("Error initializing DAO access object for AwsProjectCredentials.class : "+e.getMessage());
-		}
-		return awsCredentialsDao;
-	}
-
-	public Dao<ProjectAwsCredentialsMapping,Integer> fetchProjectAwsCredentialsMappingDao(){
-		Dao<ProjectAwsCredentialsMapping,Integer> projectAwsCredentialsMappingDao = null;
-		try{
-			projectAwsCredentialsMappingDao=DaoManager.createDao(DBConnectionManager.getInstance().fetchDBConnection(),ProjectAwsCredentialsMapping.class);
-		}
-		catch(SQLException e){
-			logger.error("Error initializing DAO access object for ProjectAwsCredentialsMapping.class : "+e.getMessage());
-		}
-		return projectAwsCredentialsMappingDao;
-	}
-
 }
