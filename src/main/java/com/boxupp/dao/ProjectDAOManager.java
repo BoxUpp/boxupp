@@ -114,7 +114,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			if(providerName.equalsIgnoreCase(CommonProperties.getInstance().getDockerProvider())){
 				Utilities.getInstance().initializeDockerVagrantFile(projectBean.getProjectID());
 			}
-			else if(providerName.equalsIgnoreCase("AWS")){
+			else if(providerName.equalsIgnoreCase(AwsProjectDAOManager.PROVIDER_NAME)){
 				AwsProjectDAOManager.getInstance().create(newData,projectBean);
 			}
 		} catch (SQLException e) {

@@ -1,3 +1,20 @@
+/*******************************************************************************
+ *  Copyright 2014 Paxcel Technologies
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *******************************************************************************/
+
+
 package com.boxupp.dao;
 
 import java.io.File;
@@ -28,6 +45,7 @@ import com.boxupp.db.beans.ProjectAwsCredentialsMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
+import com.boxupp.vagrant.VagrantCommandExecutor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
@@ -41,6 +59,9 @@ public class AwsProjectDAOManager {
 	private static AwsProjectDAOManager awsProjectDAOManager;
 	private static Dao<AwsProjectCredentialsBean,Integer> awsCredentialsDao = null;
 	Dao<ProjectAwsCredentialsMapping,Integer> projectAwsCredentialsMappingDao = null;
+	
+	public static final String PROVIDER_NAME = "AWS";
+
 
 	public static AwsProjectDAOManager getInstance(){
 		if(awsProjectDAOManager==null){
@@ -71,7 +92,7 @@ public class AwsProjectDAOManager {
 			rowsUpdated = projectAwsCredentialsMappingDao.create(projectAwsCredMapBean);
 		}
 		catch(SQLException exception){
-			logger.error("Error while saving project credentials "+exception.getMessage());
+			logger.info("Error while saving project credentials "+exception.getMessage());
 		}
 		return statusBean;
 	}
@@ -135,10 +156,10 @@ public class AwsProjectDAOManager {
 			privateHostName=instance.getPrivateDnsName();
 		}
 		catch(AmazonServiceException amazonServiceException){
-			logger.error("Error while fecthing instance info from aws "+amazonServiceException.getMessage());
+			logger.info("Error while fecthing instance info from aws "+amazonServiceException.getMessage());
 		}
 		catch(Exception exception){
-			logger.error("Error while fecthing instance info from aws "+exception.getMessage());
+			logger.info("Error while fecthing instance info from aws "+exception.getMessage());
 		}
 		return privateHostName;
 
@@ -152,7 +173,7 @@ public class AwsProjectDAOManager {
 			fileReader.close();
 		}
 		catch(FileNotFoundException exception){
-			logger.error("Error  while reading instance id file "+exception.getMessage());	    	
+			logger.info("Error  while reading instance id file "+exception.getMessage());	    	
 		}
 		return instanceID; 
 
@@ -239,9 +260,9 @@ public class AwsProjectDAOManager {
 			}
 		}
 		catch (NumberFormatException e) {
-			logger.error("Error in retireveing boxes for project : "+e.getMessage());
+			logger.info("Error in retireveing aws credentials for project : "+e.getMessage());
 		} catch (SQLException e) {
-			logger.error("Error in retireveing boxes for project : "+e.getMessage());
+			logger.info("Error in retireveing aws credentials for project : "+e.getMessage());
 		}
 		return credentialsList.get(0);
 	}

@@ -19,6 +19,8 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
 		
 	});*/
+
+	$scope.awsProviderName = "AWS";
 	 
 	$scope.bodyStyle.applyDashBoardStyling = false;
 	
@@ -55,7 +57,7 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 	
 	$scope.checkAwsCredentialsInput = function(){
 		providerName = $scope.getProviderName($scope.newProject.providerType);
-		if(providerName=="AWS"){
+		if(providerName==$scope.awsProviderName){
 			return $scope.checkAwsCredentialsStatus();
 		}
 		else{
@@ -108,7 +110,7 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 	
 	$scope.checkProviderType = function(providerType){
 		providerName = $scope.getProviderName(providerType);
-		if(providerName=="AWS"){
+		if(providerName==$scope.awsProviderName){
 			$scope.showAwsCredDiv=true;
 		}else{
 			$scope.showAwsCredDiv=false;
