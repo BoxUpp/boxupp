@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *******************************************************************************/
-angular.module('boxuppApp').controller('ctrlBarController',function($scope,shellScript,$routeParams,miscUtil,MachineConfig,HostName){
+angular.module('boxuppApp').controller('ctrlBarController',function($scope,shellScript,$routeParams,miscUtil,MachineConfig,HostName,ValidateAmiId){
 
 	
 
@@ -107,10 +107,21 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.quickBoxCommitLoader = false;	
 		$scope.resetAwsBoxFields();
 	}
-	
 
+	$scope.validateMachineAmi = function(machineData){
+		$scope.validateData = {};
+		$scope.validationStatus=false;
+		$scope.validateData.projectID = $routeParams.projectID;
+		$scope.validateData.machineAMI = machineData.machineAmi.$modelValue;
+		$scope.validateData.machineRegion = machineData.instanceRegion.$modelValue;
+		ValidateAmiId.save($scope.validateData,function(data){
+			$scope.amiStatus=!data.statusCode;
+			machineData.machineAmi.$setValidity('validationMessage',!data.statusCode);
+		});
+	}
 	
 	$scope.resetAwsBoxFields = function(){
+		$scope.amiStatus=false;
 		$scope.rawBox.vagrantID="";
 		$scope.rawBox.hostName="";
 		$scope.rawBox.machineAmi=""
@@ -118,7 +129,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.rawBox.instanceType=""
 		$scope.rawBox.instanceRegion="";
 		$scope.rawBox.sshUserName="";
-		
 	}
 	
 	$scope.closeModal=function(){

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,6 +35,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.ec2.AmazonEC2Client;
+import com.amazonaws.services.ec2.model.DescribeImagesRequest;
+import com.amazonaws.services.ec2.model.DescribeImagesResult;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Instance;
@@ -182,13 +185,11 @@ public class AwsProjectDAOManager {
 		StatusBean statusBean = new StatusBean();
 		String keyPair = awsCredentials.get("awsKeyPair").asText();
 		String privateKeyPath = awsCredentials.get("privateKeyPath").asText();
-		BasicAWSCredentials cred = new BasicAWSCredentials(awsCredentials.get("awsAccessKeyId").asText(),awsCredentials.get("awsSecretAccessKey").asText());
-		AmazonEC2Client ec2Client = new AmazonEC2Client(cred);
 		try{
+			checkIfPrivateFileExists(privateKeyPath);
+			BasicAWSCredentials cred = new BasicAWSCredentials(awsCredentials.get("awsAccessKeyId").asText(),awsCredentials.get("awsSecretAccessKey").asText());
+			AmazonEC2Client ec2Client = new AmazonEC2Client(cred);
 			statusBean = validateKeyPair(ec2Client, keyPair);
-			if(statusBean.getStatusCode()==0){
-				checkIfPrivateFileExists(privateKeyPath);
-			}
 		}
 		catch(AmazonServiceException amazonServiceException){
 			statusBean.setStatusCode(1);
@@ -277,5 +278,31 @@ public class AwsProjectDAOManager {
 		return awsCredQb.prepare();
 	}
 	
-
+	public StatusBean validateMachineAmi(JsonNode machineInfo){
+		StatusBean statusBean = new StatusBean();
+		String projectID = machineInfo.get("projectID").asText();
+		String machineAMI = machineInfo.get("machineAMI").asText();
+		String machineRegion = machineInfo.get("machineRegion").asText();
+		AwsProjectCredentialsBean awsCredentials = retireveAwsProjectCredentials(projectID);
+		BasicAWSCredentials cred = new BasicAWSCredentials(awsCredentials.getAwsAccessKeyId(),awsCredentials.getAwsSecretAccessKey());
+		AmazonEC2Client ec2Client = new AmazonEC2Client(cred);
+		try{
+			DescribeImagesRequest imageRequest = new DescribeImagesRequest();
+			Collection<String> imageID = new ArrayList<String>();
+			imageID.add(machineAMI);
+			imageRequest.withImageIds(imageID);
+    		ec2Client.setRegion(com.amazonaws.regions.Region.getRegion(Regions.fromName(machineRegion)));
+    		DescribeImagesResult imagesResult = ec2Client.describeImages(imageRequest);
+			statusBean.setData(null);
+			statusBean.setStatusCode(0);
+			statusBean.setStatusMessage("AMI Id Validated");
+		}
+		catch(Exception exception){
+			statusBean.setData(null);
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Ami Id "+machineAMI+" doesnot exists in "+machineRegion+" region ");
+		}
+		
+		return statusBean;
+	}
 }

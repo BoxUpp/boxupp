@@ -276,13 +276,15 @@
                 </execution>
             </executions>
         </plugin>
-        
+                
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-antrun-plugin</artifactId>
-			    <version>1.7</version>
+			    <version>1.8</version>
 			    <executions>
+			    
 			      <execution>
+			      
 			        <id>repack</id>
 			        <phase>package</phase>
 			        <inherited>false</inherited>
@@ -290,7 +292,10 @@
 			          <goal>run</goal>
 			        </goals>
 			        <configuration>
+
+
 			          <target>
+								          	
 			          		<copy todir="${project.build.directory}/boxuppzipdir/page" > 
 								<fileset dir="${project.build.directory}/../page">
 							  	</fileset>
@@ -301,15 +306,19 @@
 								<fileset dir="${project.build.directory}/${project.artifactId}-${project.version}/page/css">
 							  	</fileset> 
 							</copy>  -->
+
 							<copy todir="${project.build.directory}/boxuppzipdir/bin" >  
 								<fileset dir="${project.build.directory}/../bin" >
-							  	</fileset> 
+							  	</fileset>
 							</copy>
-							
+
+
+
 							<copy todir="${project.build.directory}/boxuppzipdir/WEB-INF" >  
 								<fileset dir="${project.build.directory}/../WEB-INF" >
 							  	</fileset> 
 							</copy>
+							
 							<mkdir dir="${project.build.directory}/boxuppzipdir/logs"/>
 							<copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar" tofile="${project.build.directory}/boxuppzipdir/lib/${project.artifactId}-${project.version}.jar"/>
 							<copy file="${project.build.directory}/../src/main/resources/log4j2.xml" tofile="${project.build.directory}/boxuppzipdir/config/log4j2.xml"/>
@@ -318,10 +327,12 @@
 							<copy file="${project.build.directory}/../src/main/resources/User Manual_v1.0.0.pdf" tofile="${project.build.directory}/boxuppzipdir/User Manual_v1.0.0.pdf"/>
 							<copy file="${project.build.directory}/../src/main/resources/config.xml" tofile="${project.build.directory}/boxuppzipdir/config/config.xml"/>
 							<zip basedir="${project.build.directory}/boxuppzipdir/" destfile="${project.build.directory}/${project.artifactId}-v${project.version}.zip"/>
+
 			          </target>
-			          
+				
 			          </configuration>
 					</execution>
+					
 				</executions>
 			</plugin>
 			
@@ -356,7 +367,6 @@
                <encoding>UTF-8</encoding>
                </configuration>
             </plugin>
-
       </plugins>
 
 	<resources>
@@ -373,5 +383,5 @@
       </resource>
     </resources>
 </build>
-  
+
 </project>

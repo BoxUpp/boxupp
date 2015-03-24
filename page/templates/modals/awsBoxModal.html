@@ -1,12 +1,12 @@
 <div class="modal fade" id="boxModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-lg" >
 		    <div class="modal-content">
 		    	<div class="modal-header">
 					<h4 class="modal-title">Create/update your box configurations</h4>
 		        </div>
-		        <div class="modal-body">
+		        <div class="modal-body" >
 		        	
-					<div class="boxConfigs">
+					<div class="boxConfigs" >
 						<ul id="boxConfigTabs" class="nav nav-tabs" role="tablist">
 						    <li class="active"><a data-target="#machine" role="tab" data-toggle="tab">Box Settings</a></li>
 							<li class=""><a data-target="#folders" role="tab" data-toggle="tab">Folders</a></li>
@@ -30,26 +30,7 @@
 						            		<div ng-message="pattern" class="errorMessage">Invalid pattern</div>
 						            		<div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
 						            	</div>
-						            </div>
-								<div class="boxConfig">
-									<span class="boxConfigTitles">Aws Machine Identity<sup>*</sup></span> <input
-										name="machineAmi" type="text" ng-model="rawBox.machineAmi"  ng-maxlength="12" ng-minlength="12"
-										class="form-control" required ng-disabled="projectData.boxesState.update" />
-										<div ng-messages="quickBoxForm.machineAmi.$error" >
-						            		<div ng-message="maxlength" class="errorMessage">Id length should be 12 chars</div>
-						            		<div ng-message="minlength" class="errorMessage">Id length should be 12 chars</div>
-						            	</div>								</div>
-								<div class="boxConfig">
-									<span class="boxConfigTitles">Instance Category<sup>*</sup></span>
-									<select name="instanceCategory" ng-model="rawBox.instanceCategory" ng-change="onCategoryChange(rawBox.instanceCategory)"  
-											ng-options="value for (key,value) in instanceCategory" class="form-control" required ng-disabled="projectData.boxesState.update">
-									</select>
-								</div>
-								<div class="boxConfig">
-									<span class="boxConfigTitles">Instance Type<sup>*</sup></span> <select
-										name="instanceType" ng-model="rawBox.instanceType" ng-options="key for (key,value) in instanceTypes" 
-										class="form-control" required ng-disabled="projectData.boxesState.update" ></select>
-								</div>
+						            							            </div>
 								<div class="boxConfig">
 									<span class="boxConfigTitles">Aws Region<sup>*</sup></span>
 									<select name="instanceRegion" ng-model="rawBox.instanceRegion" class="form-control" required  ng-disabled="projectData.boxesState.update">
@@ -64,9 +45,41 @@
 										<option value="us-west-2">US West (Oregon)</option>
 									</select>
 								</div>
+								<div class="boxConfig"><span class="boxConfigTitles">Aws Machine Identity<sup>*</sup></span>
+									<div class="row" >
+										<div class="col-md-10" >
+											 <input
+												name="machineAmi" type="text" ng-model="rawBox.machineAmi" 
+												class="form-control" required ng-disabled="projectData.boxesState.update"
+												ng-pattern="/^(ami-)[a-zA-Z0-9]{8}$/" />
+											<div ng-messages="quickBoxForm.machineAmi.$error" >
+							            		<div ng-message="pattern" class="errorMessage">Invalid pattern example ami-********</div>
+						            			<div ng-message="validationMessage" class="errorMessage">Enter valid ami id</div>						            		
+						            		</div>
+						            			<div ng-show="amiStatus" >
+							            		<div class="errorMessage">Ami id validated</div>
+						            		</div>
+						            	</div>
+						            	<div class="col-md-2">
+											<button class="btn btn-success" ng-click="validateMachineAmi(quickBoxForm)" 
+											ng-disabled=" quickBoxForm.instanceRegion.$invalid || projectData.boxesState.update || quickBoxForm.machineAmi.$error.pattern || quickBoxForm.machineAmi.$error.required" >validate</button>
+										</div>
+									</div>
+							     </div>
+								<div class="boxConfig" >
+									<span class="boxConfigTitles">Instance Category<sup>*</sup></span>
+									<select name="instanceCategory" ng-model="rawBox.instanceCategory" ng-change="onCategoryChange(rawBox.instanceCategory)"  
+											ng-options="value for (key,value) in instanceCategory" class="form-control" required >
+									</select>
+								</div>
+								<div class="boxConfig" >
+									<span class="boxConfigTitles">Instance Type<sup>*</sup></span> <select
+										name="instanceType" ng-model="rawBox.instanceType" ng-options="key for (key,value) in instanceTypes" 
+										class="form-control" required  ></select>
+								</div>
   								<div class="boxConfig">
 									<span class="boxConfigTitles">SSH User Name<sup>*</sup></span> <input
-										name="sshUserName" type="text" ng-model="rawBox.sshUserName" 
+										name="sshUserName" type="text" ng-model="rawBox.sshUserName"
 										class="form-control" required />
 								</div> 
 							</form>
@@ -116,7 +129,7 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-link" ng-click="closeModal(rowBox)">Close</button>
-					<button class="btn btn-success" ng-disabled="quickBoxForm.$invalid" ng-click="createAwsBoxes(rawBox)" ng-hide="projectData.boxesState.update" ><span
+					<button class="btn btn-success" ng-disabled="quickBoxForm.$invalid " ng-click="createAwsBoxes(rawBox)" ng-hide="projectData.boxesState.update" ><span
 									ng-show="quickBoxCommitLoader"
 									ng-init="quickBoxCommitLoader = false"><i
 										class="fa fa-spin fa-refresh"></i></span> <span

@@ -17,9 +17,6 @@
 				<SizeBasedTriggeringPolicy size="1 MB"/>
 			  </Policies>
 		</RollingFile>
-<!--    		<Socket name="socket" host="localhost" port="6000" protocol="tcp">
-        		<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/> 
-    	</Socket> -->
 	 </Appenders>
 	 <Loggers>
 		<Logger name="com.boxupp" level="${loggingLevel}" additivity="true">
@@ -36,7 +33,6 @@
 		</Logger>
 		<Root level="TRACE">
 			<AppenderRef ref="RollingFile"/>
-<!--  			<AppenderRef ref="socket"/> -->
 		</Root>
 	 </Loggers>
 </Configuration>
