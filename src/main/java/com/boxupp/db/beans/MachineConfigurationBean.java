@@ -54,21 +54,6 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String networkIP;
 
-	@ForeignCollectionField(eager = true, maxEagerLevel =1)
-	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
-	
-	private ArrayList<ForwardedPortsBean> portMappings;
-	
-	@ForeignCollectionField(eager = true, maxEagerLevel =1)
-	private ForeignCollection<SyncFoldersBean> ormSyncFolders;
-	
-	private ArrayList<SyncFoldersBean> syncFolders;
-	
-	@ForeignCollectionField(eager = true, maxEagerLevel =1)
-	private ForeignCollection<DockerLinkBean> ormDockerLinks;
-
-	private ArrayList<DockerLinkBean> dockerLinks;
-	
 	@DatabaseField(useGetSet = true)
 	private String provisionerName;
 
@@ -119,7 +104,77 @@ public class MachineConfigurationBean {
 	
 	@DatabaseField(useGetSet = true, defaultValue="0")
 	private Integer moduleChangeFlag;
+
+	@DatabaseField(useGetSet=true,columnName="MACHINEAMI")
+	private String machineAmi;
 	
+	@DatabaseField(useGetSet=true,columnName="INSTANCETYPE")
+	private String instanceType;
+	
+	@DatabaseField(useGetSet=true,columnName="INSTANCEREGION")
+	private String instanceRegion;
+	
+	@DatabaseField(useGetSet=true,columnName="SSHUSERNAME")
+	private String sshUserName;
+	
+	@DatabaseField(useGetSet=true,columnName="INSTANCECATEGORY")
+	private String instanceCategory;
+
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
+	
+	private ArrayList<ForwardedPortsBean> portMappings;
+	
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<SyncFoldersBean> ormSyncFolders;
+	
+	private ArrayList<SyncFoldersBean> syncFolders;
+	
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<DockerLinkBean> ormDockerLinks;
+
+	private ArrayList<DockerLinkBean> dockerLinks;
+	
+	public void setMachineAmi(String machineAmi){
+		this.machineAmi=machineAmi;
+	}
+	
+	public String getMachineAmi(){
+		return machineAmi;
+	}
+
+	public void setInstanceType(String instanceType){
+		this.instanceType=instanceType;
+	}
+	
+	public String getInstanceType(){
+		return instanceType;
+	}
+	
+	public void setInstanceRegion(String instanceRegion){
+		this.instanceRegion=instanceRegion;
+	}
+
+	public String getInstanceRegion(){
+		return instanceRegion;
+	}
+	
+	public void setSshUserName(String sshUserName){
+		this.sshUserName=sshUserName;
+	}
+	
+	public String getSshUserName(){
+		return sshUserName;
+	}
+	
+	public void setInstanceCategory(String instanceCategory){
+		this.instanceCategory=instanceCategory;
+	}
+	
+	public String getInstanceCategory(){
+		return instanceCategory;
+	}
+
 	public Integer getMachineID() {
 		return machineID;
 	}

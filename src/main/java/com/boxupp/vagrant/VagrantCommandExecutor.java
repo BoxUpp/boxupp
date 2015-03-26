@@ -219,6 +219,7 @@ public class VagrantCommandExecutor {
 		}
 		return commandOutput;
 	}
+		
 	public  String getCurrentTime()
     {
         return new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime());

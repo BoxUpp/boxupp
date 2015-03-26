@@ -40,7 +40,7 @@ public class Boxupp {
 	private static Logger logger = LogManager.getLogger(Boxupp.class.getName());
 
 	public static void main(String[] args) throws Exception {
-		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.Log4jLogger");
+		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.Log4JLogger");
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 		

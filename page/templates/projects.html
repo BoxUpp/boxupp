@@ -24,9 +24,7 @@
 			  <div class="modal-dialog modal-lg">
 			    <div class="modal-content">
 			    	<div class="modal-header">
-						
-						<h4 class="modal-title">Create your new workspace</h4>
-			        </div>
+									        </div>
 			        <div class="modal-body">
 			        	<form name="newProjectData">
 			        		<div class="container-fluid">
@@ -44,10 +42,38 @@
 					            	</div>
 					            	<div class="boxConfig col-sm-10"> 
 					            		<div class="boxConfigTitles">Select a provider type for your workspace<sup>*</sup></div>
-						            	<select name="providerNames" ng-model="newProject.providerType" ng-options="provider.providerID as provider.name for provider in providers" class="form-control">
+						            	<select name="providerNames"  ng-model="newProject.providerType" ng-change="checkProviderType(newProject.providerType)" ng-options="provider.providerID as provider.name for provider in providers" class="form-control">
 		    								<option value="" >Select a provider</option>
 										</select>
 					            	</div>
+			          			<div  id="awsCredentials"  ng-init="showAwsCredDiv=false;authenticatCred=false" ng-show="showAwsCredDiv" class="col-md-10 col-md-push-2">
+					            	<div class="boxConfig"> 
+					            		<div class="boxConfigTitles">Enter Aws Access Key Id <sup>*</sup></div>
+						            	<input name="awsAccessKeyId" type="text" ng-model="newProject.awsAccessKeyId" class="form-control"
+						            		ng-minlength="16" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9]*$/"  required >
+						            		<div ng-messages="newProjectData.awsAccessKeyId.$error" >
+								        	<div ng-message="pattern" class="errorMessage">Invalid pattern.It should only contain alphanumeric chars</div>
+								        	<div ng-message="maxlength" class="errorMessage">Maximum of 32 chars</div>
+								        	<div ng-message="minlength" class="errorMessage">Minimum  of 16 chars</div>
+						            	</div>
+						            	
+					            	</div>
+					            	<div class="boxConfig"> 
+					            		<div class="boxConfigTitles">Enter Aws Secret Access Key <sup>*</sup></div>
+						            	<input name="awsSecretAccessKey" type="text" ng-model="newProject.awsSecretAccessKey" class="form-control"
+						            	 required >
+					            	</div>
+					            	<div class="boxConfig"> 
+					            		<div class="boxConfigTitles">Enter Key Pair Name <sup>*</sup></div>
+						            	<input name="awsKeyPair" type="text" ng-model="newProject.awsKeyPair" class="form-control"
+						            	 required >
+					            	</div>
+					            	<div class="boxConfig"> 
+					            		<div class="boxConfigTitles">Enter Private Key Path <sup>*</sup></div>
+						            	<input name="privateKeyPath" type="text" ng-model="newProject.privateKeyPath" class="form-control"
+						            	 required>
+					            	</div>
+			        			</div>
 			        			</div>
 			        		</div>
 						</form>
@@ -56,12 +82,17 @@
 			        	<div class="row">
 			        		<div class="col-md-8 statusMessage" >
 			        			<div ng-if="newProjectCreated" style="transition-property:all; transition-duration:2.0s"ng-init="newProjectCreated = false">
-			        				<span><i class="fa fa-thumbs-up"></i> Your new workspace has been created!</span>
+			        				<span><i class="fa fa-thumbs-up"></i> Your new workspace has been created! </span>
+			        			</div>
+			        			<div ng-if=awsAuthenticationStatus style="transition-property:all; transition-duration:2.0s"ng-init="awsAuthenticationStatus = false">
+			        				<span><i class="fa fa-thumbs-up"></i> {{awsAuthenticationMessage}}</span>
 			        			</div>
 			        		</div>
 				        	<!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
 				        	<div class="modalClose col-md-4">
 				        		<a data-dismiss="modal" >Close</a>
+				        		<button class="btn btn-success" ng-click="authenticateAwsCredentials()" ng-show="showAwsCredDiv"
+				        		ng-disabled="!checkAwsCredentialsStatus()">Verify </button>
 				        		<button class="btn btn-success" ng-click="submitNewProjectData()" ng-disabled="checkProjectInput()">Create</button>
 				        	</div>
 				        	

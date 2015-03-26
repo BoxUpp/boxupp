@@ -13,68 +13,57 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *******************************************************************************/
-angular.module('boxuppApp',['ui.codemirror','app','ngAnimate', 'ngLoadScript','ngRoute','ngResource','ui.ace','ngMessages']).
-	controller('boxuppAppController',function($scope,$http,$rootScope,$timeout,vagrantStatus,executeCommand,$q,$location,User){
-		
-	$scope.vagrantOutput = [{"type":"normal","output":"C:\\Users\\Paxcel Techn…second","dataEnd":false,"vagrantFileExists":true}];
-	}).config(['$routeProvider','$httpProvider',
-	           function($routeProvider,$httpProvider) {
+angular.module(
+		'boxuppApp',
+		[ 'ui.codemirror', 'app', 'ngAnimate', 'ngLoadScript', 'ngRoute',
+				'ngResource', 'ui.ace', 'ngMessages' ]).controller(
+		'boxuppAppController',
+		function($scope, $http, $rootScope, $timeout, vagrantStatus,
+				executeCommand) {
 
-		$routeProvider.when('/login/',{
-			templateUrl: 'templates/login.html',
-			controller: 'loginController'
-		}).when('/:userID/projects/', {
-			templateUrl: 'templates/projects.html',
-			controller: 'projectController',
-			resolve: {
-				success: function (User) {
-					return User.checkSession();
-				}
-			}
-		}).when('/projects/:userID/:projectID/:providerType/',{
-			templateUrl: 'templates/projectInit.html',
-			controller: 'projectInitController',
-			resolve:{ 
-				success: function (User) {
-					return User.checkSession();
-				}
-			}
-		}).when('/projects/:userID/:projectID/:providerType/docker/',{
-			templateUrl: 'templates/dockerDashboard.html',
-			controller: 'vboxController',
-			resolve : {
-				provider : function(){
-					return 'docker';
-				},
-				success: function (User) {
-					return User.checkSession();
-				}
-			}
-		}).when('/projects/:userID/:projectID/:providerType/virtualbox/',{
-			templateUrl: 'templates/vboxDashboard.html',
-			controller: 'vboxController',
-			resolve : {
-				provider : function(){
-					return 'virtualbox';
-				},
-				success: function (User) {
-					return User.checkSession();
-				}
-			}
-		}).otherwise({
-			redirectTo : '/login/'
-		});
+			$scope.vagrantOutput = [ {
+				"type" : "normal",
+				"output" : "C:\\Users\\Paxcel Techn…second",
+				"dataEnd" : false,
+				"vagrantFileExists" : true
+			} ];
 
-		$httpProvider.interceptors.push(function ($q,$location) {
-			return {
-				'responseError': function (rejection) {
-					if (rejection.status === 401) {
-						$location.path('/login/');
-					}
-					return $q.reject(rejection);
-				}
-			};
-		});
+		}).config([ '$routeProvider', function($routeProvider) {
 
-	}
-	])
+	$routeProvider.when('/login/', {
+		templateUrl : 'templates/login.html',
+		controller : 'loginController'
+	}).when('/:userID/projects/', {
+		templateUrl : 'templates/projects.html',
+		controller : 'projectController'
+	}).when('/projects/:userID/:projectID/:providerType/', {
+		templateUrl : 'templates/projectInit.html',
+		controller : 'projectInitController'
+	}).when('/projects/:userID/:projectID/:providerType/docker/', {
+		templateUrl : 'templates/dockerDashboard.html',
+		controller : 'vboxController',
+		resolve : {
+			provider : function() {
+				return 'docker';
+			}
+		}
+	}).when('/projects/:userID/:projectID/:providerType/virtualbox/', {
+		templateUrl : 'templates/vboxDashboard.html',
+		controller : 'vboxController',
+		resolve : {
+			provider : function() {
+				return 'virtualbox';
+			}
+		}
+	}).when('/projects/:userID/:projectID/:providerType/AWS/', {
+		templateUrl : 'templates/awsWorkspace.html',
+		controller : 'vboxController',
+		resolve : {
+			provider : function() {
+				return 'AWS';
+			}
+		}
+	}).otherwise({
+		redirectTo : '/login/'
+	});
+} ]);

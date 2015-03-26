@@ -16,6 +16,7 @@
 package com.boxupp;
 
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,20 +29,22 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
+import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
+import com.boxupp.db.beans.SyncFoldersBean;
 import com.boxupp.velocity.VelocityInit;
 
 
 public class ConfigurationGenerator {	
-	
+
 	private static Logger logger = LogManager.getLogger(ConfigurationGenerator.class.getName());
 	private static boolean configurationGenerated;
 	private static String velocityFinalTemplate = "";
-		
+
 	public static boolean isConfigurationGenerated() {
 		return configurationGenerated;
 	}
@@ -59,12 +62,12 @@ public class ConfigurationGenerator {
 	}
 
 	//Note: The output after template merger can also be redirected to a file on disk //
-	 public static boolean generateConfig(List<MachineConfigurationBean> machineConfigList,
+	public static boolean generateConfig(List<MachineConfigurationBean> machineConfigList,
 			List<PuppetModuleBean> puppetModules,
 			List<ShellScriptBean> shellScripts,
 			List<ShellScriptMapping> scriptMappings,
-			List<PuppetModuleMapping> moduleMappings, String provider, String projectID){
-		
+			List<PuppetModuleMapping> moduleMappings, String provider, String projectID,AwsProjectCredentialsBean awsProjectCred){
+
 		VelocityEngine ve = VelocityInit.getVelocityInstance();
 		Template template = VelocityInit.getTemplate(ve, provider);
 		VelocityContext context = new VelocityContext();
@@ -74,7 +77,7 @@ public class ConfigurationGenerator {
 		context.put("moduleMappings", moduleMappings);
 		context.put("scriptMappings", scriptMappings);
 		context.put("nodeFile", projectID+".pp");
-		
+		context.put("accessKeyAndId",awsProjectCred);
 		try{
 			StringWriter stringWriter = new StringWriter();
 			template.merge(context, stringWriter);
@@ -91,26 +94,28 @@ public class ConfigurationGenerator {
 		}
 		return configurationGenerated;
 	}
-	 public static boolean generateNodeConfig(HashMap<String, ArrayList<String>> nodeConfigList){
-			VelocityEngine ve = VelocityInit.getVelocityInstance();
-			Template template = VelocityInit.getNodeTemplate(ve);
-			VelocityContext context = new VelocityContext();
-			context.put("puppetModules", nodeConfigList);
-			try{
-				StringWriter stringWriter = new StringWriter();
-				template.merge(context, stringWriter);
-				velocityFinalTemplate = stringWriter.toString();
-				setConfigurationGenerated(true);
-			}
-			catch(ResourceNotFoundException e){
-				logger.error("Node Template not found");
-				setConfigurationGenerated(false);
-			} 
-			catch(ParseErrorException e){
-				logger.error("Error parsing Node template");
-				setConfigurationGenerated(false);
-			}
-			return configurationGenerated;
+
+
+	public static boolean generateNodeConfig(HashMap<String, ArrayList<String>> nodeConfigList){
+		VelocityEngine ve = VelocityInit.getVelocityInstance();
+		Template template = VelocityInit.getNodeTemplate(ve);
+		VelocityContext context = new VelocityContext();
+		context.put("puppetModules", nodeConfigList);
+		try{
+			StringWriter stringWriter = new StringWriter();
+			template.merge(context, stringWriter);
+			velocityFinalTemplate = stringWriter.toString();
+			setConfigurationGenerated(true);
 		}
-	
+		catch(ResourceNotFoundException e){
+			logger.error("Node Template not found");
+			setConfigurationGenerated(false);
+		} 
+		catch(ParseErrorException e){
+			logger.error("Error parsing Node template");
+			setConfigurationGenerated(false);
+		}
+		return configurationGenerated;
+	}
+
 }

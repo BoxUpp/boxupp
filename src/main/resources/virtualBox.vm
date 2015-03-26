@@ -21,7 +21,9 @@ Vagrant.configure("2") do |config|
 #foreach ($childBean in $childStructures)
 	#set ($folderMappings = $childBean.getSyncFolders())
 	#set ($portMappings = $childBean.getPortMappings())	
-	#if($childBean.isPuppetMaster())#set($identifier="master")
+
+
+#if($childBean.isPuppetMaster())#set($identifier="master")
 	#{else}
 	#set($identifier=$childBean.vagrantID)
 	#end 
@@ -45,8 +47,8 @@ Vagrant.configure("2") do |config|
 		#end
 		
 		$identifier$shellProvisionMarker "puppet" do |$identifier|
-		$identifier$manifestsPathMarker = "../manifests"
-		$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+		$identifier$manifestsPathMarker = "manifests"
+		$identifier$manifestFilePathMarker = "site.pp"
 		$identifier$modulePathMarker = "../modules"
 		end		
 		

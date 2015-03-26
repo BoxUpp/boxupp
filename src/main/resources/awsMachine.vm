@@ -1,0 +1,66 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+
+#set ($identifier="machine")
+#set ($childStructures=$boxuppConfig)
+#set ($userAccountConfig=$accessKeyAndId)
+#set ($providerMarker=".vm.provider")
+#set ($boxMarker = ".vm.box")
+#set ($boxUrl = ".vm.box_url")
+#set ($providerMarker = ".vm.provider")
+#set ($shellProvisionMarker = ".vm.provision")
+#set ($manifestsPathMarker = ".manifests_path")
+#set ($manifestFilePathMarker = ".manifest_file")
+#set ($modulePathMarker = ".module_path")
+#set ($syncFolderMarker = ".vm.synced_folder")
+#set ($optionMarker=".options")
+#set ($hostnameMarker = ".vm.hostname")
+	
+#foreach ($childBean in $childStructures)
+	#set ($folderMappings = $childBean.getSyncFolders())
+	#set($identifier=$childBean.vagrantID)
+	config.vm.define :$childBean.vagrantID do |$identifier|
+		$identifier$boxMarker = "dummy"
+		$identifier$boxUrl	= "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+							  
+		$identifier$providerMarker :aws do |aws,override|
+			aws.access_key_id = "$userAccountConfig.awsAccessKeyId"
+			aws.secret_access_key = "$userAccountConfig.awsSecretAccessKey"
+			aws.keypair_name = "$userAccountConfig.awsKeyPair"
+
+			aws.ami = "$childBean.machineAmi"
+			aws.instance_type="$childBean.instanceType"
+			aws.region="$childBean.instanceRegion"
+
+			override.ssh.username = "$childBean.sshUserName"
+			override.ssh.private_key_path = "$userAccountConfig.privateKeyPath"
+		end
+
+		$identifier$shellProvisionMarker "shell" , path: "./scripts/puppet.sh"		
+
+		#foreach ($syncMapping in $folderMappings)
+		#if(!($syncMapping.hostFolder.isEmpty() && $syncMapping.vmFolder.isEmpty()))
+		$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
+		#end
+		#end
+
+		$identifier$shellProvisionMarker "puppet" do |$identifier|
+		$identifier$manifestsPathMarker = "manifests"
+		$identifier$manifestFilePathMarker = "site.pp"
+		$identifier$modulePathMarker = "../modules"
+		end
+
+		#foreach ($scriptMapping in $scriptMappings)
+		#if($scriptMapping.machineConfig.vagrantID == $identifier)
+		#foreach($script in $scripts)
+		#if($script.scriptName == $scriptMapping.script.scriptName)
+		$identifier$shellProvisionMarker "shell", path: "./scripts/$script.scriptName", privileged:"true"
+		#end
+		#end
+		#end
+		#end
+
+	end
+#end
+end

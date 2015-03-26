@@ -46,50 +46,52 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	protected static Dao<MachineProjectMapping, Integer> machineMappingDao = null;
 	private static MachineConfigDAOManager machineConfigDBManager = null;
 	private PreparedQuery<MachineConfigurationBean> queryForBoxesOfProject = null;
-	
+
 	public static MachineConfigDAOManager getInstance(){
 		if(machineConfigDao == null){
 			machineConfigDBManager = new MachineConfigDAOManager();
 		}
 		return machineConfigDBManager;
-		
+
 	}
-	
+
 	private  MachineConfigDAOManager() {
 		machineConfigDao = (Dao<MachineConfigurationBean, Integer>) DAOProvider.getInstance().fetchDao(MachineConfigurationBean.class);
 		machineMappingDao = (Dao<MachineProjectMapping, Integer>) DAOProvider.getInstance().fetchDao(MachineProjectMapping.class);
-		
+
 	}
 
 	@Override
 	public StatusBean create(JsonNode newData) {
-		MachineConfigurationBean machineConfigBean  = null;
+		String provider = newData.get("providerType").getTextValue();
 		Gson machineConfigData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		StatusBean statusBean = new StatusBean();
 		JsonNode syncFolderMappings = newData.get("syncFolders");
 		JsonNode portForwardingMappings = newData.get("portMappings");
 		JsonNode dockerLinkContainerMappings = newData.get("dockerLinks");
-		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
-		StatusBean statusBean = new StatusBean();
-		try {
-			machineConfigDao.create(machineConfigBean);
-			if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().save(machineConfigBean, portForwardingMappings);
-			if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().save(machineConfigBean, syncFolderMappings);
-			if(dockerLinkContainerMappings!=null && dockerLinkContainerMappings.size()>0){
-				DockerLinkDAOManager.getInstance().save(machineConfigBean, dockerLinkContainerMappings);
-			}
-			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
-			MachineProjectMapping machineProjectMApping = new MachineProjectMapping(project, machineConfigBean);
-			machineMappingDao.create(machineProjectMApping);
-			machineConfigDao.refresh(machineConfigBean);
-			statusBean.setData(machineConfigBean);
-		} catch (SQLException e) {
+
+		try{
+				MachineConfigurationBean machineConfigBean  = null;
+				machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
+				machineConfigDao.create(machineConfigBean);
+				if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().save(machineConfigBean, portForwardingMappings);
+				if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().save(machineConfigBean, syncFolderMappings);
+				if(dockerLinkContainerMappings!=null && dockerLinkContainerMappings.size()>0){
+					DockerLinkDAOManager.getInstance().save(machineConfigBean, dockerLinkContainerMappings);
+				}
+				ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
+				MachineProjectMapping machineProjectMApping = new MachineProjectMapping(project, machineConfigBean);
+				machineMappingDao.create(machineProjectMApping);
+				machineConfigDao.refresh(machineConfigBean);
+				statusBean.setData(machineConfigBean);
+				statusBean.setStatusCode(0);
+				statusBean.setStatusMessage("Machine Congifuration saved successfully");
+		}catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error saving machine configuration : "+e.getMessage());
 			e.printStackTrace();
 		}
-		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("Machine Congifuration saved successfully");
 		return statusBean;
 	}
 
@@ -161,7 +163,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	}
 	@Override
 	public <T>T read(String machineID) {
-		
 		MachineConfigurationBean machineConfig = null;
 		try{
 			machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineID));
@@ -170,7 +171,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		}
 		return (T) machineConfig;
 	}
-	
+
 	public <E> List<E> retireveBoxesForProject(String projectID) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
@@ -190,9 +191,9 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		if(machineList == null)return null;
 		return (List<E>)machineList;
 	}
-	
+
 	private PreparedQuery<MachineConfigurationBean> makeQueryForBoxesOfProject() throws SQLException {
-		
+
 		QueryBuilder<MachineProjectMapping, Integer> machineProjectQb = machineMappingDao.queryBuilder();
 		machineProjectQb.selectColumns(MachineProjectMapping.MACHINE_ID_FIELD_NAME);
 		SelectArg userSelectArg = new SelectArg();
@@ -200,12 +201,12 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		QueryBuilder<MachineConfigurationBean, Integer> machineConfigQb = machineConfigDao.queryBuilder();
 		machineConfigQb.where().eq("isDisabled", false).and().in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
 		return machineConfigQb.prepare();
-		
+
 	}
 
 	public StatusBean stop(String machineID) {
 
-		
+
 		StatusBean statusBean = new StatusBean();
 		ProjectBean project;
 		try {
@@ -233,10 +234,10 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		statusBean.setStatusMessage("Machine stop successfully");
 		return statusBean;
 	}
-	
+
 	public StatusBean reload(String machineID) {
 
-		
+
 		StatusBean statusBean = new StatusBean();
 		ProjectBean project;
 		try {

@@ -36,11 +36,12 @@ get contributions from your team members or peer groups which will help in seaml
     mvn package
 4) Run the Boxupp program
 
-    cd target\boxuppzipdir
-    java -cp lib\* config\* com.boxupp.init.Boxupp
+    cd target\boxuppzipdir\bin
+    startup.bat OR ./startup.sh
+    
 5) Start boxupp in your browser at 
 
-    http://localhost:8585
+    http://localhost:<<PORT_NUMBER configured in config.xml>> (By Default 8585)
 
 
 

@@ -21,11 +21,19 @@
 		<artifactId>persistence-api</artifactId>
 		<version>1.0</version>
 	</dependency>
+	
 	<dependency>
 		  <groupId>org.apache.commons</groupId>
 		  <artifactId>commons-compress</artifactId>
 		  <version>1.8.1</version>
  	</dependency>
+ 	
+ 	<dependency>
+	<groupId>org.apache.derby</groupId>
+	<artifactId>derbyclient</artifactId>
+	<version>10.11.1.1</version>
+</dependency>
+ 	
   	<!-- <dependency>
 		<groupId>org.jruby</groupId>
 		<artifactId>jrubyparser</artifactId>
@@ -41,6 +49,7 @@
 	    <artifactId>log4j-core</artifactId>
 	    <version>2.1</version>
   	</dependency>
+
   	<dependency>
 	    <groupId>org.apache.logging.log4j</groupId>
 	    <artifactId>log4j-slf4j-impl</artifactId>
@@ -56,6 +65,13 @@
 		<artifactId>jul-to-slf4j</artifactId>
 		<version>1.7.10</version>
 	</dependency>
+
+ 	<dependency>
+	  <groupId>org.apache.logging.log4j</groupId>
+	  <artifactId>log4j-jcl</artifactId>
+  		<version>2.1</version>
+	</dependency>
+
 	<dependency>
 		<groupId>org.apache.velocity</groupId>
 		<artifactId>velocity</artifactId>
@@ -186,7 +202,11 @@
 		<version>9.1.4.v20140401</version>
 	</dependency>
             
-            
+            <dependency>
+	<groupId>com.amazonaws</groupId>
+	<artifactId>aws-java-sdk-ec2</artifactId>
+	<version>1.9.22</version>
+</dependency>
 
   </dependencies>
   
@@ -345,7 +365,7 @@
           <filtering>true</filtering>
            <excludes>
              <exclude>config.properties</exclude>
-             <exclude>config.xml</exclude>
+<!--               <exclude>config.xml</exclude> -->
              <exclude>LICENSE.txt</exclude>
              <exclude>log4j2.xml</exclude>
              <exclude>README.txt</exclude>
@@ -355,4 +375,3 @@
 </build>
   
 </project>
-

@@ -13,12 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *******************************************************************************/
-angular.module("boxuppApp").controller('projectController',function($scope,$rootScope, Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http,$timeout){
+angular.module("boxuppApp").controller('projectController',function($scope,$rootScope, Projects,AuthenticateAwsCred,Providers,User,$routeParams,$filter,$location,miscUtil,$http,$timeout){
 
 	/*$scope.projects = Projects.query(function(){
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
 		
 	});*/
+
+	$scope.awsProviderName = "AWS";
 	 
 	$scope.bodyStyle.applyDashBoardStyling = false;
 	
@@ -50,7 +52,39 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 		     return !(!$scope.newProjectData.providerNames.$pristine && $scope.newProjectData.providerNames.$valid
 		     		  && !$scope.newProjectData.projectTitle.$pristine && $scope.newProjectData.projectTitle.$valid
 		     		  && !$scope.newProjectData.projectDesc.$pristine && $scope.newProjectData.projectDesc.$valid
-		     		  && ($scope.newProject.providerType > 0));
+		     		  && ($scope.newProject.providerType > 0) && $scope.checkAwsCredentialsInput() && $scope.authenticatCred );
+	}
+	
+	$scope.checkAwsCredentialsInput = function(){
+		providerName = $scope.getProviderName($scope.newProject.providerType);
+		if(providerName==$scope.awsProviderName){
+			return $scope.checkAwsCredentialsStatus();
+		}
+		else{
+			$scope.authenticatCred = true;
+			return true;
+		}
+	}
+	
+	$scope.checkAwsCredentialsStatus = function(){
+		return $scope.newProjectData.awsAccessKeyId.$valid && $scope.newProjectData.awsSecretAccessKey.$valid &&
+		$scope.newProjectData.awsKeyPair.$valid && $scope.newProjectData.privateKeyPath.$valid ;
+	}
+	
+	$scope.authenticateAwsCredentials = function(){
+		if($scope.checkAwsCredentialsInput()){
+			$scope.authenticatCred=false;
+			$scope.awsCred ={};
+			$scope.awsCred.awsAccessKeyId = $scope.newProject.awsAccessKeyId;
+			$scope.awsCred.awsSecretAccessKey = $scope.newProject.awsSecretAccessKey;
+			$scope.awsCred.awsKeyPair =	$scope.newProject.awsKeyPair; 	
+			$scope.awsCred.privateKeyPath = $scope.newProject.privateKeyPath;
+			AuthenticateAwsCred.save($scope.awsCred,function(data){
+				$scope.authenticatCred=!data.statusCode;
+				$scope.awsAuthenticationStatus=true;
+				$scope.awsAuthenticationMessage = data.statusMessage;
+			});
+		}
 	}
 
 	$scope.submitNewProjectData = function(){
@@ -64,15 +98,31 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 				$scope.newProject = {};
 				//Reset form pristine state
 				$scope.newProjectData.$setPristine();
+				$scope.awsAuthenticationStatus=false;
 				$scope.newProjectCreated = true;
 				$timeout(function(){
 					$scope.newProjectCreated = false;
 				},3000);
 			});
-
-			//$scope.newProject = {};
 			
 			
+	}
+	
+	$scope.checkProviderType = function(providerType){
+		providerName = $scope.getProviderName(providerType);
+		if(providerName==$scope.awsProviderName){
+			$scope.showAwsCredDiv=true;
+		}else{
+			$scope.showAwsCredDiv=false;
+		}
+	}
+	
+	$scope.getProviderName=function(providerType){
+		for(e in $scope.providers){
+			if($scope.providers[e].providerID==providerType){
+				return $scope.providers[e].name;
+			}
+		}
 	}
 
 });

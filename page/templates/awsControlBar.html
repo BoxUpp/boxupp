@@ -1,0 +1,256 @@
+<div id="controlBar" ng-controller="ctrlBarController"
+	class="col-md-8 col-md-offset-4"
+	style="position: absolute; bottom: 0px; background: #3c454f; color: #FFF;"
+	ng-class="{collapseCtrlBar:collapseSecNav, normalCtrlBar:!collapseSecNav, expandCtrlBar:$root.expandedCtrlBar}">
+	<div id="controlBarNav">
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-md-4">
+					<a data-target="#" class="pull-left"
+						style="font-size: 26px; color: #FFF;"
+						ng-click="$root.expandedCtrlBar = true;"> <span
+						ng-hide="$root.expandedCtrlBar"> <i class="fa fa-plus"></i>
+					</span>
+					</a>
+				</div>
+				<div class="col-md-4 text-center">
+					<div class="tab-content">
+						<div class="editIcon tab-pane fade" id="boxEdit">
+							<a ng-click="editActiveBox()" ng-hide="activeVM === null"> <span
+								ng-hide="$root.expandedCtrlBar"> <i class="fa fa-edit"></i>
+							</span>
+							</a>
+						</div>
+						<div class="editIcon tab-pane fade" id="scriptEdit">
+							<a ng-click="editActiveScript()" ng-hide="activeScript === null">
+								<span ng-hide="$root.expandedCtrlBar"> <i
+									class="fa fa-edit"></i>
+							</span>
+							</a>
+						</div>
+						<div class="editIcon tab-pane fade" id="moduleEdit">
+							<!-- EMPTY -->
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+
+					<div class="tab-content">
+						<div class="trashIcon tab-pane fade" id="boxTrash">
+							<a class="pull-right" ng-click="deleteActiveBox()"
+								ng-hide="activeVM === null"> <span
+								ng-hide="$root.expandedCtrlBar"> <i class="fa fa-trash-o"></i>
+							</span>
+							</a> <a class="pull-right"> <span ng-show="$root.expandedCtrlBar">
+									<i class="fa fa-minus-circle"
+									ng-click="$root.expandedCtrlBar = false;"></i>
+							</span>
+							</a>
+						</div>
+						<div class="trashIcon tab-pane fade" id="scriptTrash">
+							<a class="pull-right" ng-click="deleteActiveScript()"
+								ng-hide="activeScript === null"> <span
+								ng-hide="$root.expandedCtrlBar"> <i class="fa fa-trash-o"></i>
+							</span>
+							</a> <a class="pull-right"> <span ng-show="$root.expandedCtrlBar">
+									<i class="fa fa-minus-circle"
+									ng-click="$root.expandedCtrlBar = false;"></i>
+							</span>
+							</a>
+						</div>
+						<div class="trashIcon tab-pane fade" id="moduleTrash">
+							<a class="pull-right" ng-click="deleteActiveModule()"
+								ng-hide="activeModule === null"> <span
+								ng-hide="$root.expandedCtrlBar"> <i class="fa fa-trash-o"></i>
+							</span>
+							</a> <a class="pull-right"> <span ng-show="$root.expandedCtrlBar">
+									<i class="fa fa-minus-circle"
+									ng-click="$root.expandedCtrlBar = false;"></i>
+							</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="controlBarBody">
+		<!--<div class="tab-content" id="ctrlBarPlayArea">-->
+		<!--<div class="tab-pane fade active in" id="newBox">-->
+		<div id="ctrlBarPlayArea">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12 sub-section-header" style="color: #ECE8E8;">
+						Choose an option below:</div>
+					<div class="col-md-3 ctrl-bar-main-nav">
+						<ul class="nav nav-pills nav-stacked ctrl-bar-main-list">
+							<li class="active liForBox"><a
+								data-target="#ctrl-bar-box-sec-nav, #ctrl-bar-empty-play-area"
+								ng-click="resetCtrlBarSecNav()" role="tab" data-toggle="tab">
+									<div class="main-nav-icon">
+										<i class="fa fa-cube"></i>
+									</div>
+									<div class="main-nav-label">Box</div>
+									<div class="main-nav-description"></div>
+							</a></li>
+							<li class="liForScript"><a
+								data-target="#ctrl-bar-script-sec-nav, #ctrl-bar-empty-play-area"
+								ng-click="resetCtrlBarSecNav()" role="tab" data-toggle="tab">
+									<div class="main-nav-icon">
+										<i class="fa fa-code"></i>
+									</div>
+									<div class="main-nav-label">Script</div>
+									<div class="main-nav-description"></div>
+							</a></li>
+							<li class="liForModule"><a
+								data-target="#ctrl-bar-module-sec-nav, #ctrl-bar-empty-play-area"
+								ng-click="resetCtrlBarSecNav()" role="tab" data-toggle="tab">
+									<div class="main-nav-icon">
+										<i class="fa fa-gear"></i>
+									</div>
+									<div class="main-nav-label">Module</div>
+									<div class="main-nav-description"></div>
+							</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 tab-content ctrl-bar-sec-nav">
+						<div class="tab-pane fade active in" id="ctrl-bar-box-sec-nav">
+							<ul class="nav nav-pills nav-stacked ctrl-bar-sec-list">
+								<li><a data-toggle="modal" data-target="#boxModal">
+										<div class="main-nav-icon">
+											<i class="fa fa-pencil"></i>
+										</div>
+										<div class="main-nav-label">Create from scratch</div>
+										<div class="main-nav-description"></div>
+								</a></li>
+								<li><a data-target="#box-clone" role="tab"
+									data-toggle="tab">
+										<div class="main-nav-icon">
+											<i class="fa fa-copy"></i>
+										</div>
+										<div class="main-nav-label">Clone Existing</div>
+										<div class="main-nav-description"></div>
+								</a></li>
+							</ul>
+						</div>
+						<div class="tab-pane fade" id="ctrl-bar-script-sec-nav">
+							<ul class="nav nav-pills nav-stacked ctrl-bar-sec-list">
+								<li><a data-toggle="modal" data-target="#scriptModal">
+										<div class="main-nav-icon">
+											<i class="fa fa-pencil"></i>
+										</div>
+										<div class="main-nav-label">Create from scratch</div>
+										<div class="main-nav-description"></div>
+								</a></li>
+							</ul>
+						</div>
+						<div class="tab-pane fade" id="ctrl-bar-module-sec-nav">
+							<ul class="nav nav-pills nav-stacked ctrl-bar-sec-list">
+								<li><a data-toggle="modal" data-target="#moduleModal">
+										<div class="main-nav-icon">
+											<i class="fa fa-search"></i>
+										</div>
+										<div class="main-nav-label">Search for modules</div>
+										<div class="main-nav-description"></div>
+								</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 tab-content" id="ctrl-bar-box-play-area">
+						<div class="tab-pane fade" id="box-quick">
+							<!--ng-maxlength="9"
+									ng-pattern="/^[a-z0-9]{1,13}$/"-->
+							<form name="quickBoxForm">
+
+						  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
+						              <input name="vagrantID"
+						              		 type="text" 
+						              		 ng-pattern="/^[a-z]{1,10}$/"
+						              		 ng-change="checkValidity.vagrantID(quickBoxForm)"
+											 ng-model="quickBox.vagrantID"
+											 class="form-control" 
+											 ng-maxlength="8"
+											 required/>
+										<div ng-messages="quickBoxForm.vagrantID.$error" >
+						            		<div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+						            		<div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+						            		<div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
+						            	</div>
+						            </div>
+								<div class="boxConfig">
+									<span class="boxConfigTitles">Aws Machine Identity<sup>*</sup></span> <input
+										name="machineAmi" type="text" ng-model="quickBox.machineAmi"
+										class="form-control" required />
+								</div>
+								<div class="boxConfig">
+									<span class="boxConfigTitles">Instance Type<sup>*</sup></span> <input
+										name="instanceType" type="text" ng-model="quickBox.instanceType"
+										class="form-control" required />
+								</div>
+								<div class="boxConfig">
+									<span class="boxConfigTitles">Aws Region<sup>*</sup></span>
+									<select name="instanceRegion" ng-model="quickBox.instanceRegion" class="form-control" required >
+										<option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
+										<option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+										<option value="ap-southeast-2">Asia Pacific (Sydney)</option>
+										<option value="eu-central-1">EU (Frankfurt)</option>
+										<option value="eu-west-1">EU (Ireland)</option>
+										<option value="sa-east-1">South America (Sao Paulo)</option>
+										<option value="us-east-1">US East (N. Virginia)</option>
+										<option value="us-west-1">US West (N. California)</option>
+										<option value="us-west-2">US West (Oregon)</option>
+									</select>
+								</div>
+<!--  								<div class="boxConfig">
+									<span class="boxConfigTitles">SSH User Name<sup>*</sup></span> <input
+										name="instanceRegion" type="text" ng-model="quickBox.sshUserName"
+										class="form-control" required />
+								</div> -->
+							</form>
+							<div class="boxConfig">
+
+								<a class="btn btn-success" ng-disabled="quickBoxForm.$invalid"
+									ng-click="createQuickBox(quickBox)"> <span
+									ng-show="quickBoxCommitLoader"
+									ng-init="quickBoxCommitLoader = false"><i
+										class="fa fa-spin fa-refresh"></i></span> <span
+									ng-show="!quickBoxCommitLoader"> Create Box </span>
+								</a>
+								<!--<a class="btn btn-success" ng-disabled="checkFormStates.vmQuickBox()" ng-click="createQuickBox(quickBox)">
+								       		<span ng-show="quickBoxCommitLoader" ng-init="quickBoxCommitLoader = false"><i class="fa fa-spin fa-refresh"></i></span>
+								       		<span ng-show="!quickBoxCommitLoader">
+								       			Create Box
+								       		</span>
+								       	</a>-->
+							</div>
+						</div>
+						<div class="tab-pane fade" id="box-clone">
+							<div class="boxConfig">
+								<span class="boxConfigTitles">Select existing box<sup>*</sup></span>
+								<select name="boxNames" ng-model="cloneBox"
+									ng-options="box.vagrantID for box in boxesData"
+									class="form-control">
+								</select>
+							</div>
+							<div class="boxConfig">
+								<a class="btn btn-success" ng-click="cloneAwsBoxData(cloneBox)"
+									data-toggle="modal" data-target="#boxModal">Clone Box</a>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="ctrl-bar-empty-play-area"></div>
+					</div>
+				</div>
+			</div>
+			<!--</div>-->
+			<!--</div>-->
+		</div>
+	</div>
+
+	<div ng-include="'templates/modals/awsBoxModal.html'"></div>
+
+	<div ng-include="'templates/modals/scriptModal.html'"></div>
+
+	<div ng-include="'templates/modals/moduleModal.html'"></div>
+
+</div>
