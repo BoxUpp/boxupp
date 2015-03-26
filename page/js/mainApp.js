@@ -14,7 +14,7 @@
  *  limitations under the License.
  *******************************************************************************/
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$interval,$q,$http,$rootScope,$routeParams,$filter,$timeout,MachineConfig,HostName,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality){
+angular.module('boxuppApp').controller('vboxController',function($scope,$interval,$q,$http,$rootScope,$routeParams,$filter,$timeout,MachineConfig,HostName,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality,ValidateAmiId){
 
 	$scope.projectData = {
 		boxesState : {
@@ -457,6 +457,9 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	}
 
 	$scope.editActiveBox = function(){
+		if($scope.activeVM.providerType=="AWS"){
+			$scope.onCategoryChange($scope.activeVM.instanceCategory);
+		}
 		var toBeEditedBox = angular.copy($scope.activeVM);
 		$scope.rawBox = toBeEditedBox;
 		$('#boxModal').modal('show');

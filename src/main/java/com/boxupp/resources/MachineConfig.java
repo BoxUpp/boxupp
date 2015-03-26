@@ -83,4 +83,13 @@ public class MachineConfig {
 	public StatusBean setHostName(JsonNode machineData){
 		return AwsProjectDAOManager.getInstance().setHostName(machineData);
 	}
+	
+	@POST
+	@Path("/validateAMIID")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json")
+	public StatusBean validateAMIID(JsonNode machineData){
+		return AwsProjectDAOManager.getInstance().validateMachineAmi(machineData);
+	}
+
 }	

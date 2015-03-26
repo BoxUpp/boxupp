@@ -84,7 +84,7 @@
 			        			<div ng-if="newProjectCreated" style="transition-property:all; transition-duration:2.0s"ng-init="newProjectCreated = false">
 			        				<span><i class="fa fa-thumbs-up"></i> Your new workspace has been created! </span>
 			        			</div>
-			        			<div ng-if=awsAuthenticationStatus style="transition-property:all; transition-duration:2.0s"ng-init="awsAuthenticationStatus = false">
+			        			<div ng-if=awsAuthenticationStatus style="transition-property:all; transition-duration:2.0s" ng-init="awsAuthenticationStatus = false">
 			        				<span><i class="fa fa-thumbs-up"></i> {{awsAuthenticationMessage}}</span>
 			        			</div>
 			        		</div>
@@ -109,6 +109,7 @@
 							<a ng-click="selectProject(project)">
 								<div class="projectLogo">
 									<i class="glyphicon glyphicon-folder-open"></i>
+	
 								</div>
 								<div class="projectTitle" >
 									<strong><span ng-bind="project.name"></span></strong>

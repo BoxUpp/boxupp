@@ -99,6 +99,7 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 				//Reset form pristine state
 				$scope.newProjectData.$setPristine();
 				$scope.awsAuthenticationStatus=false;
+				$scope.authenticatCred = false;
 				$scope.newProjectCreated = true;
 				$timeout(function(){
 					$scope.newProjectCreated = false;
@@ -118,9 +119,9 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 	}
 	
 	$scope.getProviderName=function(providerType){
-		for(e in $scope.providers){
-			if($scope.providers[e].providerID==providerType){
-				return $scope.providers[e].name;
+		for(index in $scope.providers){
+			if($scope.providers[index].providerID==providerType){
+				return $scope.providers[index].name;
 			}
 		}
 	}
