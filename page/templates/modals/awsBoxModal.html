@@ -33,7 +33,7 @@
 						            							            </div>
 								<div class="boxConfig">
 									<span class="boxConfigTitles">Aws Region<sup>*</sup></span>
-									<select name="instanceRegion" ng-model="rawBox.instanceRegion" class="form-control" required  ng-disabled="projectData.boxesState.update">
+									<select name="instanceRegion" ng-model="rawBox.instanceRegion" class="form-control" required ng-change="validateMachineAmi(quickBoxForm)" ng-disabled="projectData.boxesState.update">
 										<option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
 										<option value="ap-southeast-1">Asia Pacific (Singapore)</option>
 										<option value="ap-southeast-2">Asia Pacific (Sydney)</option>
@@ -46,10 +46,8 @@
 									</select>
 								</div>
 								<div class="boxConfig"><span class="boxConfigTitles">Aws Machine Identity<sup>*</sup></span>
-									<div class="row" >
-										<div class="col-md-10" >
 											 <input
-												name="machineAmi" type="text" ng-model="rawBox.machineAmi" 
+												name="machineAmi" type="text" ng-model="rawBox.machineAmi" ng-change="validateMachineAmi(quickBoxForm)"
 												class="form-control" required ng-disabled="projectData.boxesState.update"
 												ng-pattern="/^(ami-)[a-zA-Z0-9]{8}$/" />
 											<div ng-messages="quickBoxForm.machineAmi.$error" >
@@ -59,12 +57,6 @@
 						            			<div ng-show="amiStatus" >
 							            		<div class="errorMessage">Ami id validated</div>
 						            		</div>
-						            	</div>
-						            	<div class="col-md-2">
-											<button class="btn btn-success" ng-click="validateMachineAmi(quickBoxForm)" 
-											ng-disabled=" quickBoxForm.instanceRegion.$invalid || projectData.boxesState.update || quickBoxForm.machineAmi.$error.pattern || quickBoxForm.machineAmi.$error.required" >validate</button>
-										</div>
-									</div>
 							     </div>
 								<div class="boxConfig" >
 									<span class="boxConfigTitles">Instance Category<sup>*</sup></span>
