@@ -126,7 +126,7 @@
 									ng-init="quickBoxCommitLoader = false"><i
 										class="fa fa-spin fa-refresh"></i></span> <span
 									ng-show="!quickBoxCommitLoader"> Create Box </span></button>
-					<button class="btn btn-success" ng-click="updateBox()" ng-show="projectData.boxesState.update">Update</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawBoxUpdate()" ng-click="updateBox()" ng-show="projectData.boxesState.update">Update</button>
 
 				</div>
 			</div>
