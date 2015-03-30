@@ -109,15 +109,22 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 	}
 
 	$scope.validateMachineAmi = function(machineData){
-		$scope.validateData = {};
-		$scope.validationStatus=false;
-		$scope.validateData.projectID = $routeParams.projectID;
-		$scope.validateData.machineAMI = machineData.machineAmi.$modelValue;
-		$scope.validateData.machineRegion = machineData.instanceRegion.$modelValue;
-		ValidateAmiId.save($scope.validateData,function(data){
-			$scope.amiStatus=!data.statusCode;
-			machineData.machineAmi.$setValidity('validationMessage',!data.statusCode);
-		});
+		if( !machineData.instanceRegion.$invalid && !machineData.machineAmi.$error.pattern && !machineData.machineAmi.$error.required){
+			machineData.machineAmi.$setValidity('dummy',false);
+			$scope.validateData = {};
+			$scope.validationStatus=false;
+			$scope.validateData.projectID = $routeParams.projectID;
+			$scope.validateData.machineAMI = machineData.machineAmi.$modelValue;
+			$scope.validateData.machineRegion = machineData.instanceRegion.$modelValue;
+			ValidateAmiId.save($scope.validateData,function(data){
+				$scope.amiStatus=!data.statusCode;
+				machineData.machineAmi.$setValidity('validationMessage',!data.statusCode);
+				machineData.machineAmi.$setValidity('dummy',true);
+			});
+		}
+		else{
+			$scope.amiStatus=false;
+		}
 	}
 	
 	$scope.resetAwsBoxFields = function(){

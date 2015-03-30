@@ -73,6 +73,9 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 	
 	$scope.authenticateAwsCredentials = function(){
 		if($scope.checkAwsCredentialsInput()){
+			$scope.loader.loading=true;
+			$scope.awsAuthenticationSuccess=false;
+			$scope.awsAuthenticationFailure=false;
 			$scope.authenticatCred=false;
 			$scope.awsCred ={};
 			$scope.awsCred.awsAccessKeyId = $scope.newProject.awsAccessKeyId;
@@ -80,8 +83,14 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 			$scope.awsCred.awsKeyPair =	$scope.newProject.awsKeyPair; 	
 			$scope.awsCred.privateKeyPath = $scope.newProject.privateKeyPath;
 			AuthenticateAwsCred.save($scope.awsCred,function(data){
+				$scope.loader.loading=false;
 				$scope.authenticatCred=!data.statusCode;
-				$scope.awsAuthenticationStatus=true;
+				if(data.statusCode){
+					$scope.awsAuthenticationFailure=true;
+				}
+				else{
+					$scope.awsAuthenticationSuccess=true;
+				}
 				$scope.awsAuthenticationMessage = data.statusMessage;
 			});
 		}
@@ -98,7 +107,8 @@ angular.module("boxuppApp").controller('projectController',function($scope,$root
 				$scope.newProject = {};
 				//Reset form pristine state
 				$scope.newProjectData.$setPristine();
-				$scope.awsAuthenticationStatus=false;
+				$scope.awsAuthenticationSuccess=false;
+				$scope.awsAuthenticationFailure=false;
 				$scope.authenticatCred = false;
 				$scope.newProjectCreated = true;
 				$timeout(function(){

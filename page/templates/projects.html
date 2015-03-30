@@ -46,7 +46,7 @@
 		    								<option value="" >Select a provider</option>
 										</select>
 					            	</div>
-			          			<div  id="awsCredentials"  ng-init="showAwsCredDiv=false;authenticatCred=false" ng-show="showAwsCredDiv" class="col-md-10 col-md-push-2">
+			          			<div  id="awsCredentials"  ng-init="showAwsCredDiv=false;authenticatCred=false;loader.loading=false" ng-show="showAwsCredDiv" class="col-md-10 col-md-push-2">
 					            	<div class="boxConfig"> 
 					            		<div class="boxConfigTitles">Enter Aws Access Key Id <sup>*</sup></div>
 						            	<input name="awsAccessKeyId" type="text" ng-model="newProject.awsAccessKeyId" class="form-control"
@@ -81,11 +81,17 @@
 			        <div class="modal-footer">
 			        	<div class="row">
 			        		<div class="col-md-8 statusMessage" >
+			        			<div class="cancel" ng-if="loader.loading">
+        							Validating Credentials	<i class="fa fa-spinner fa-spin"></i>
+ 							   </div>
 			        			<div ng-if="newProjectCreated" style="transition-property:all; transition-duration:2.0s"ng-init="newProjectCreated = false">
 			        				<span><i class="fa fa-thumbs-up"></i> Your new workspace has been created! </span>
 			        			</div>
-			        			<div ng-if=awsAuthenticationStatus style="transition-property:all; transition-duration:2.0s" ng-init="awsAuthenticationStatus = false">
+			        			<div ng-if=awsAuthenticationSuccess style="transition-property:all; transition-duration:2.0s" ng-init="awsAuthenticationSuccess = false">
 			        				<span><i class="fa fa-thumbs-up"></i> {{awsAuthenticationMessage}}</span>
+			        			</div>
+			        			<div ng-if=awsAuthenticationFailure style="transition-property:all; transition-duration:2.0s" ng-init="awsAuthenticationFailure = false">
+			        				<span><i class="fa fa-thumbs-down"></i> {{awsAuthenticationMessage}}</span>
 			        			</div>
 			        		</div>
 				        	<!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
