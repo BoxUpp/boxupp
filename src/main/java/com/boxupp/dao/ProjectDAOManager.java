@@ -16,25 +16,23 @@
 package com.boxupp.dao;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ObjectNode;
 
 import com.boxupp.VagrantOutputStream;
 import com.boxupp.db.DAOProvider;
-import com.boxupp.db.DerbyConfig;
-import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.ProjectAwsCredentialsMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.PuppetModuleBean;
@@ -45,7 +43,6 @@ import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.CommonProperties;
 import com.boxupp.utilities.OSProperties;
-import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.google.gson.Gson;
@@ -101,8 +98,14 @@ public class ProjectDAOManager implements DAOImplInterface {
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
 			String scriptDir  = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getScriptsDirName()+OSProperties.getInstance().getOSFileSeparator();
 			Utilities.getInstance().checkIfDirExists(new File (scriptDir));
-			File puppetScriptFile = new File(getClass().getResource("/puppet.sh").toURI());
-			Utilities.getInstance().copyFile(puppetScriptFile, new File(scriptDir+"puppet.sh"));
+//			File puppetScriptFile = new File(getClass().getResource("/puppet.sh").toURI());
+			InputStream puppetScriptStream = getClass().getResourceAsStream("/puppet.sh");
+			File puppetFile = new File("puppet.sh");
+			OutputStream outputStream = new FileOutputStream(puppetFile);
+			IOUtils.copy(puppetScriptStream, outputStream);
+			
+			
+			Utilities.getInstance().copyFile(puppetFile, new File(scriptDir+"puppet.sh"));
 			
 			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+"site.pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
@@ -123,8 +126,6 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 			
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		return statusBean;
