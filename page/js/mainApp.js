@@ -1435,7 +1435,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
                 return;
             } else {
                 console.log("waiting for connection...")
-                waitForSocketConnection(callback);
+                waitForWSConnection(callback);
             }
         }, 500);
 	}
